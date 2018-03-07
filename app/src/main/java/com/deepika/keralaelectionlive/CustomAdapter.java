@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -23,9 +25,11 @@ public class CustomAdapter extends BaseAdapter {
     ArrayList<String> const_names;
     TabDomains tabDomains;
     LayoutInflater layoutInflater=null;
+    DbHelper dbHelper;
 
     public CustomAdapter(TabDomains tabDomains, ArrayList<String> const_names){
         activity= tabDomains.getActivity();
+        dbHelper=new DbHelper(activity);
         this.const_names=const_names;
         this.tabDomains = tabDomains;
         layoutInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,13 +50,34 @@ public class CustomAdapter extends BaseAdapter {
         return position;
     }
 
+    String domain;
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, final ViewGroup parent) {
+        domain=const_names.get(position);
         View rowView=layoutInflater.inflate(R.layout.list_tab_domains,null);
         TextView textView=(TextView)rowView.findViewById(R.id.result_text);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
-        textView.setText(const_names.get(position));
-        String firstLetter =String.valueOf(const_names.get(position).charAt(0));
+        ImageButton imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
+        if(dbHelper.getFavStatus(domain)){
+            imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
+        }
+        else {
+            imageButton.setImageResource(R.drawable.ic_star_outline_gray_24dp);
+        }
+        textView.setText(domain);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dbHelper.getFavStatus(domain)){
+                    dbHelper.removeFromFavourite(domain);
+                }
+                else {
+                    dbHelper.addToFavourite(domain);
+                }
+            }
+          //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+        });
+        String firstLetter =String.valueOf(domain.charAt(0));
         ColorGenerator generator = ColorGenerator.DEFAULT; // or use DEFAULT
         // generate random color
         int color = generator.getColor(getItem(position));
@@ -62,4 +87,5 @@ public class CustomAdapter extends BaseAdapter {
         imageView.setImageDrawable(drawable);
         return rowView;
     }
+
 }

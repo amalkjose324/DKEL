@@ -126,4 +126,27 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return const_names;
     }
+
+    //To check favorite status
+    public boolean getFavStatus(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_constituencies` WHERE `const_fav_status`=1 AND (`const_name_mal`='"+name+"' OR `const_name_eng`='"+name+"')", null);
+        if (cur.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //Adding domain to favorite
+    public void addToFavourite(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE `dkel_constituencies` SET `const_fav_status`=1 WHERE `const_name_mal`='"+name+"' OR `const_name_eng`='"+name+"'");
+    }
+
+    //Remove domain from favorite
+    public void removeFromFavourite(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE `dkel_constituencies` SET `const_fav_status`=0 WHERE `const_name_mal`='"+name+"' OR `const_name_eng`='"+name+"'");
+    }
 }

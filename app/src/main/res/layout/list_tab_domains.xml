@@ -22,7 +22,6 @@
         android:layout_height="52dp"
         android:paddingLeft="55dp"
         android:id="@+id/result_text"
-        android:text="sdasd"
         android:textColor="@color/dark_blue"
         android:textSize="20sp"/>
 
@@ -36,8 +35,8 @@
 
         <ImageButton
             android:id="@+id/imgStar"
+            android:focusable="false"
             android:layout_width="24dp"
-
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_star_outline_gray_24dp"
