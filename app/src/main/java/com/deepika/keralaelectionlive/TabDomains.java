@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,8 +34,9 @@ public class TabDomains extends Fragment {
         listView.setAdapter(new CustomAdapter(this,const_names));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(getContext(),String.valueOf(listView.getItemAtPosition(position)),Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView) view.findViewById(R.id.result_text);
+                Toast.makeText(getContext(),tv.getText().toString(),Toast.LENGTH_SHORT).show();
             }
         });
         editText.addTextChangedListener(new TextWatcher() {
