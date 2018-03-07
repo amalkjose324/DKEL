@@ -2,6 +2,9 @@ package com.deepika.keralaelectionlive;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mail on 06-03-2018.
@@ -49,7 +53,7 @@ public class CustomAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
+    ImageButton imageButton;
     String domain;
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
@@ -57,7 +61,7 @@ public class CustomAdapter extends BaseAdapter {
         View rowView=layoutInflater.inflate(R.layout.list_tab_domains,null);
         TextView textView=(TextView)rowView.findViewById(R.id.result_text);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
-        ImageButton imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
+        imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
         if(dbHelper.getFavStatus(domain)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
@@ -68,11 +72,13 @@ public class CustomAdapter extends BaseAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getFavStatus(domain)){
-                    dbHelper.removeFromFavourite(domain);
+                if(dbHelper.getFavStatus(const_names.get(position))){
+                    dbHelper.removeFromFavourite(const_names.get(position));
+                    ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
-                    dbHelper.addToFavourite(domain);
+                    dbHelper.addToFavourite(const_names.get(position));
+                    ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }
           //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
@@ -87,5 +93,13 @@ public class CustomAdapter extends BaseAdapter {
         imageView.setImageDrawable(drawable);
         return rowView;
     }
-
+    public Fragment getVisibleFragment(){
+        FragmentManager fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for(Fragment fragment : fragments){
+            if(fragment != null && fragment.getUserVisibleHint())
+                return (Fragment) fragment;
+        }
+        return null;
+    }
 }

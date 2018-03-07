@@ -1,5 +1,6 @@
 package com.deepika.keralaelectionlive;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -32,6 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_config(config_id INTEGER PRIMARY KEY AUTOINCREMENT, config_key VARCHAR, config_value VARCHAR);");
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('sync_date','1111-11-11 11:11:11')");
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('pref_language',null)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_name VARCHAR)");
     }
 
     @Override
@@ -120,7 +122,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<String> getConstNames(String language) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<String> const_names=new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_constituencies`", null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`", null);
         while (cur.moveToNext()){
             const_names.add(cur.getString(language.equals("eng") ? 1 : 2));
         }
@@ -128,9 +130,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //To check favorite status
-    public boolean getFavStatus(String name){
+    public boolean getFavStatus(String domain_name){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_constituencies` WHERE `const_fav_status`=1 AND (`const_name_mal`='"+name+"' OR `const_name_eng`='"+name+"')", null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'", null);
         if (cur.getCount() > 0) {
             return true;
         } else {
@@ -139,14 +141,14 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //Adding domain to favorite
-    public void addToFavourite(String name){
+    public void addToFavourite(String domain_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE `dkel_constituencies` SET `const_fav_status`=1 WHERE `const_name_mal`='"+name+"' OR `const_name_eng`='"+name+"'");
+        db.execSQL("INSERT INTO `dkel_favourites` (`fav_domain_name`) VALUES('"+domain_name+"')");
     }
 
     //Remove domain from favorite
-    public void removeFromFavourite(String name){
+    public void removeFromFavourite(String domain_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE `dkel_constituencies` SET `const_fav_status`=0 WHERE `const_name_mal`='"+name+"' OR `const_name_eng`='"+name+"'");
+        db.execSQL("DELETE FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'");
     }
 }
