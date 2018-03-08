@@ -118,21 +118,32 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    //To get constituencie names Malayalam/English
-    public ArrayList<String> getConstNames(String language) {
+    //To get Domain names Malayalam/English
+    public ArrayList<String> getDomainNames(String language) {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<String> const_names=new ArrayList<>();
+        ArrayList<String> domain_names=new ArrayList<>();
         Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`", null);
         while (cur.moveToNext()){
-            const_names.add(cur.getString(language.equals("eng") ? 1 : 2));
+            domain_names.add(cur.getString(language.equals("eng") ? 1 : 2));
         }
-        return const_names;
+        return domain_names;
+    }
+
+    //To get Favourite Domain names Malayalam/English
+    public ArrayList<String> getFavDomainNames(String language) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> domain_names=new ArrayList<>();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`,`dkel_favourites` WHERE `domain_name_eng`=`fav_domain_name` OR `domain_name_mal`=`fav_domain_name`", null);
+        while (cur.moveToNext()){
+            domain_names.add(cur.getString(language.equals("eng") ? 1 : 2));
+        }
+        return domain_names;
     }
 
     //To check favorite status
     public boolean getFavStatus(String domain_name){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'", null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`,`dkel_favourites` WHERE (`domain_name_eng`=`fav_domain_name` OR `domain_name_mal`=`fav_domain_name`) AND (`domain_name_eng`='"+domain_name+"' OR `domain_name_mal`='"+domain_name+"')", null);
         if (cur.getCount() > 0) {
             return true;
         } else {
@@ -146,9 +157,14 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO `dkel_favourites` (`fav_domain_name`) VALUES('"+domain_name+"')");
     }
 
+
     //Remove domain from favorite
     public void removeFromFavourite(String domain_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'");
+        ArrayList<String> domain_names=new ArrayList<>();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains` WHERE `domain_name_eng`='"+domain_name+"' OR `domain_name_mal`='"+domain_name+"'", null);
+        cur.moveToFirst();
+        db.execSQL("DELETE FROM `dkel_favourites` WHERE `fav_domain_name`='"+cur.getString(1)+"' OR `fav_domain_name`='"+cur.getString(2)+"'");
+
     }
 }

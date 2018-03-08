@@ -24,24 +24,24 @@ import java.util.List;
  * Created by mail on 06-03-2018.
  */
 
-public class CustomAdapter extends BaseAdapter {
+public class DomainsCustomAdapter extends BaseAdapter {
     private Activity activity;
-    ArrayList<String> const_names;
+    ArrayList<String> domain_names;
     TabDomains tabDomains;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
 
-    public CustomAdapter(TabDomains tabDomains, ArrayList<String> const_names){
+    public DomainsCustomAdapter(TabDomains tabDomains, ArrayList<String> domain_names){
         activity= tabDomains.getActivity();
         dbHelper=new DbHelper(activity);
-        this.const_names=const_names;
+        this.domain_names=domain_names;
         this.tabDomains = tabDomains;
         layoutInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return const_names.size();
+        return domain_names.size();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CustomAdapter extends BaseAdapter {
     String domain;
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
-        domain=const_names.get(position);
+        domain=domain_names.get(position);
         View rowView=layoutInflater.inflate(R.layout.list_tab_domains,null);
         TextView textView=(TextView)rowView.findViewById(R.id.result_text);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
@@ -72,12 +72,12 @@ public class CustomAdapter extends BaseAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getFavStatus(const_names.get(position))){
-                    dbHelper.removeFromFavourite(const_names.get(position));
+                if(dbHelper.getFavStatus(domain_names.get(position))){
+                    dbHelper.removeFromFavourite(domain_names.get(position));
                     ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
-                    dbHelper.addToFavourite(const_names.get(position));
+                    dbHelper.addToFavourite(domain_names.get(position));
                     ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }
