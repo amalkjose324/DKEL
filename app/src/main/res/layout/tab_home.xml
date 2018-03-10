@@ -43,7 +43,7 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="8dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -170,6 +170,12 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_result"
+                android:visibility="gone"
+                android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -213,7 +219,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:layout_weight="0.8"
+                            android:layout_weight="0.3"
                             android:background="#0F823F"
                             android:padding="7dp"
                             android:text="UDF"
@@ -225,7 +231,7 @@
                             android:id="@+id/ltvUcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.2"
+                            android:layout_weight="1"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -466,6 +472,7 @@
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
+        </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
