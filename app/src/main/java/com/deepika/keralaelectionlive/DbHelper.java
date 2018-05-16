@@ -122,9 +122,15 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<String> getDomainNames(String language) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<String> domain_names=new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`", null);
+        String order=(language.equals("eng") ? "domain_name_eng" : "domain_name_mal");
+        int lang=(language.equals("eng") ? 1 : 2);
+        Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_domains`,`dkel_favourites` WHERE `domain_name_eng`=`fav_domain_name` OR `domain_name_mal`=`fav_domain_name` ORDER BY "+order, null);
+        while (cur2.moveToNext()){
+            domain_names.add(cur2.getString(lang));
+        }
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains` WHERE `domain_name_eng` NOT IN (SELECT `fav_domain_name` FROM `dkel_favourites`) AND `domain_name_mal` NOT IN (SELECT `fav_domain_name` FROM `dkel_favourites`) ORDER BY "+order, null);
         while (cur.moveToNext()){
-            domain_names.add(cur.getString(language.equals("eng") ? 1 : 2));
+            domain_names.add(cur.getString(lang));
         }
         return domain_names;
     }

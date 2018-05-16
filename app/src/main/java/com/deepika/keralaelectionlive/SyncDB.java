@@ -47,7 +47,7 @@ public class SyncDB {
         dbHelper=new DbHelper(context);
         sync_date = dbHelper.getLastSyncDate();
         dateTimeFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String url = "http://keldeepika.ml/sync.php";
+        String url = "https://keldeepika.ml/sync.php";
         RequestQueue queue = Volley.newRequestQueue(context);
         StringRequest strRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

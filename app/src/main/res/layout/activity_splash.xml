@@ -22,32 +22,32 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:fitsSystemWindows="true">
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="metaButtonBarStyle"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="bottom|center"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:fitsSystemWindows="true">
 
-            <com.wang.avi.AVLoadingIndicatorView
-                android:id="@+id/avi"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                style="@style/AVLoadingIndicatorView.Large"
-                android:visibility="visible"
-                app:indicatorName="BallClipRotateMultipleIndicator"
-            />
+            <LinearLayout
+                android:id="@+id/fullscreen_content_controls"
+                style="metaButtonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="bottom|center"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
 
-        </LinearLayout>
-    </FrameLayout>
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    style="@style/AVLoadingIndicatorView.Large"
+                    android:visibility="visible"
+                    app:indicatorName="BallClipRotateMultipleIndicator"
+                />
+
+            </LinearLayout>
+        </FrameLayout>
 
 </FrameLayout>

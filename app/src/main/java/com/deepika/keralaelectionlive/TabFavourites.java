@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
 public class TabFavourites extends Fragment {
     ArrayList<String> domain_names,domain_names_mal,domain_names_eng=new ArrayList<>();
     //ArrayList<String> domain_names_eng=new ArrayList<>();
