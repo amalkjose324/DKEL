@@ -34,6 +34,12 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('sync_date','1111-11-11 11:11:11')");
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('pref_language',null)");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_name VARCHAR)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY AUTOINCREMENT,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domains(domain_id INTEGER PRIMARY KEY AUTOINCREMENT,domain_name_eng VARCHAR,domain_name_mal VARCHAR)");
+//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_labels(id INTEGER PRIMARY KEY AUTOINCREMENT,label_name VARCHAR)");
+//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_parties(id INTEGER PRIMARY KEY AUTOINCREMENT,party_name VARCHAR,party_image VARCHAR,party_label TINYINT)");
+
     }
 
     @Override
@@ -77,32 +83,15 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("UPDATE dkel_config SET config_value='" + language + "' WHERE config_key='pref_language'");
     }
 
-    //To create tables by sync (Automatic)
-    public void defineSchema(ArrayList<String> keys_list, String table) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String schema_def = "";
-        for (int x = 0; x < keys_list.size(); x++) {
-            if (keys_list.get(x).contains("id")) {
-                if (x == keys_list.size() - 1) {
-                    schema_def += keys_list.get(x) + " INTEGER ";
-                } else {
-                    schema_def += keys_list.get(x) + " INTEGER, ";
-                }
-            } else {
-                if (x == keys_list.size() - 1) {
-                    schema_def += keys_list.get(x) + " VARCHAR ";
-                } else {
-                    schema_def += keys_list.get(x) + " VARCHAR, ";
-                }
-            }
-        }
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + table + "(" + schema_def + ");");
-    }
-
     //To insert data to specified table
     public void insertData(String table,ContentValues values){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(table, null, values);
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.insert(table, null, values);
+        }catch (Exception e){
+            System.out.print(e.toString());
+        }
+
     }
 
     //To Update data to specified table

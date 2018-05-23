@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "390610518154-9op9uej094seibti8ag09ab5c091jddq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deepika.keralaelectionlive",
+            "certificate_hash": "42d36aca3ac9af02edc92f413d9b9d8d37ebacd9"
+          }
+        },
+        {
           "client_id": "390610518154-rfqvaockngr857a6f612gdb278gjambm.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390610518154-rfqvaockngr857a6f612gdb278gjambm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
