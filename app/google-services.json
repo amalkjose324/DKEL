@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "390610518154",
+    "firebase_url": "https://deepika-kerala-election-live.firebaseio.com",
+    "project_id": "deepika-kerala-election-live",
+    "storage_bucket": "deepika-kerala-election-live.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390610518154:android:e81682019afd5ddd",
+        "android_client_info": {
+          "package_name": "com.deepika.keralaelectionlive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390610518154-rfqvaockngr857a6f612gdb278gjambm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChO38uoMT9mBgy1vl8GqgZmoFxY8kRzwk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
