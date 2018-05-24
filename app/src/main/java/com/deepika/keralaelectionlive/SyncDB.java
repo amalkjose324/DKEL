@@ -86,6 +86,7 @@ public class SyncDB {
 
     // to retrive data from net
     public int getData(JSONObject jsresponse, final String table) {
+        Toast.makeText(context,table,Toast.LENGTH_SHORT).show();
         int sync_no = 0;
         try {
             Date on_create = dateTimeFormat.parse(defDate);
