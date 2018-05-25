@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +26,17 @@ import java.util.List;
  */
 
 public class DomainsCustomAdapter extends BaseAdapter {
-    private Activity activity;
+    private Context context;
     ArrayList<String> domain_names;
     TabDomains tabDomains;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
 
-    public DomainsCustomAdapter(TabDomains tabDomains, ArrayList<String> domain_names){
-        activity= tabDomains.getActivity();
-        dbHelper=new DbHelper(activity);
+    public DomainsCustomAdapter(Context context, ArrayList<String> domain_names){
+        this.context=context;
+        dbHelper=new DbHelper(context);
         this.domain_names=domain_names;
-        this.tabDomains = tabDomains;
-        layoutInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -74,11 +74,11 @@ public class DomainsCustomAdapter extends BaseAdapter {
             public void onClick(View view) {
                 if(dbHelper.getFavStatus(domain_names.get(position))){
                     dbHelper.removeFromFavourite(domain_names.get(position));
-                    ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
                     dbHelper.addToFavourite(domain_names.get(position));
-                    ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }
           //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
@@ -94,7 +94,7 @@ public class DomainsCustomAdapter extends BaseAdapter {
         return rowView;
     }
     public Fragment getVisibleFragment(){
-        FragmentManager fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
+        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         for(Fragment fragment : fragments){
             if(fragment != null && fragment.getUserVisibleHint())

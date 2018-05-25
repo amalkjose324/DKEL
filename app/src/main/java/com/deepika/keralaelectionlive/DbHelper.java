@@ -8,6 +8,9 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -132,24 +135,26 @@ public class DbHelper extends SQLiteOpenHelper {
     //To get Domain names
     ArrayList<String> domain_names=new ArrayList<>();
     public ArrayList<String> getDomainNames() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_favourites` ORDER BY `fav_domain_name`", null);
-        while (cur2.moveToNext()){
-            domain_names.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
-        }
+        final SQLiteDatabase db = this.getReadableDatabase();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("dkel_domains");
         database.keepSynced(true);
-        database.addValueEventListener(new ValueEventListener() {
+        database.orderByChild("dkel_domains");
+        database.orderByChild("domain_name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 domain_names.clear();
+                Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_favourites` ORDER BY `fav_domain_name`", null);
+                while (cur2.moveToNext()){
+                    domain_names.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
+                }
                 for(DataSnapshot value:dataSnapshot.getChildren()){
                     String domains=value.child("domain_name").getValue().toString();
                     if(!domain_names.contains(domains)){
                         domain_names.add(domains);
                     }
                 }
-
+                TabDomains tabDomains=new TabDomains();
+                tabDomains.setListValues(domain_names);
             }
             @Override
             public void onCancelled(DatabaseError error) {
@@ -191,29 +196,7 @@ public class DbHelper extends SQLiteOpenHelper {
     //Remove domain from favorite
     public void removeFromFavourite(String domain_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<String> domain_names=new ArrayList<>();
         db.execSQL("DELETE FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'");
 
     }
-    //Read data from firebase databse
-//    public void readData(final String table){
-//        try {
-//            database = FirebaseDatabase.getInstance();
-//            DatabaseReference myRef = database.getReference(table);
-//            myRef.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    for(DataSnapshot value:dataSnapshot.getChildren()){
-//                        Toast.makeText(context,value.child("domain_name").getValue().toString() ,Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                @Override
-//                public void onCancelled(DatabaseError error) {
-//                    Toast.makeText(context, error.toException().toString(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }catch (Exception e){
-//            Toast.makeText(context,e.toString(),Toast.LENGTH_SHORT).show();
-//        }
-//    }
 }

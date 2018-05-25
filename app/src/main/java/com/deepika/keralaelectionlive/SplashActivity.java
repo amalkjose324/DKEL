@@ -107,7 +107,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 getData();                //
             }
-        }, 3000);
+        }, 4000);
 
         final Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.anim);
         mContentView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
@@ -116,7 +116,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 // Do something after 5s = 5000ms
                 Animation a = new AlphaAnimation(1.00f, 0.00f);
-                a.setDuration(2000);
+                a.setDuration(3000);
                 a.setAnimationListener(new Animation.AnimationListener() {
                     public void onAnimationStart(Animation animation) {
                         // TODO Auto-generated method stub
@@ -134,7 +134,7 @@ public class SplashActivity extends AppCompatActivity {
                 });
                 mContentView.startAnimation(a);
             }
-        }, 1500);
+        }, 2000);
     }
     public void getData(){
         //dbHelper.getDomainNames();

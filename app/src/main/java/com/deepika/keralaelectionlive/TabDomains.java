@@ -22,21 +22,21 @@ import java.util.ArrayList;
 
 public class TabDomains extends Fragment {
     ArrayList<String> domain_names=new ArrayList<>();
-    //ArrayList<String> domain_names_eng=new ArrayList<>();
     DbHelper dbHelper;
-    Context context;
+    public static Context context;
     ListView listView;
+    public static View rootView;
     final Handler handler = new Handler();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.context=getActivity();
-        View rootView = inflater.inflate(R.layout.tab_domains, container, false);
+        rootView = inflater.inflate(R.layout.tab_domains, container, false);
         dbHelper=new DbHelper(getActivity());
         domain_names=dbHelper.getDomainNames();
         listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
-        listView.setAdapter(new DomainsCustomAdapter(this,domain_names));
+        listView.setAdapter(new DomainsCustomAdapter(context,domain_names));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,18 +60,16 @@ public class TabDomains extends Fragment {
                             temp.add(domain_names.get(i));
                     }
                 }
-                listView.setAdapter(new DomainsCustomAdapter(TabDomains.this,temp));
+                listView.setAdapter(new DomainsCustomAdapter(context,temp));
             }
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.setAdapter(new DomainsCustomAdapter(TabDomains.this,domain_names));             //
-            }
-        }, 300);
         return rootView;
+    }
+    public void setListValues(ArrayList<String> arrayList){
+        listView=(ListView)rootView.findViewById(R.id.list_results);
+        listView.setAdapter(new DomainsCustomAdapter(context,arrayList));
     }
 }
