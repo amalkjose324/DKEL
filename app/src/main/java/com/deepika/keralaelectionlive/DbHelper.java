@@ -7,9 +7,19 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.Inflater;
 
 /**
  * Created by Amal K Jose on 04-03-2018.
@@ -20,14 +30,15 @@ public class DbHelper extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "dkel_db";
+    HashMap<String,HashMap<String,String>> tbl_domains;
 
     // Contacts table name
     private static final String TABLE_CONFIG = "dkel_config";
-
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context=context;
+        tbl_domains=new HashMap<>();
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_config(config_id INTEGER PRIMARY KEY AUTOINCREMENT, config_key VARCHAR, config_value VARCHAR);");
@@ -35,17 +46,15 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('pref_language',null)");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_name VARCHAR)");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY AUTOINCREMENT,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domains(domain_id INTEGER PRIMARY KEY AUTOINCREMENT,domain_name_eng VARCHAR,domain_name_mal VARCHAR)");
+//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY AUTOINCREMENT,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
+//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domains(id INTEGER PRIMARY KEY AUTOINCREMENT,domain_name_eng VARCHAR,domain_name_mal VARCHAR)");
 //        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_labels(id INTEGER PRIMARY KEY AUTOINCREMENT,label_name VARCHAR)");
 //        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_parties(id INTEGER PRIMARY KEY AUTOINCREMENT,party_name VARCHAR,party_image VARCHAR,party_label TINYINT)");
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONFIG);
-
         onCreate(db);
     }
 
@@ -85,15 +94,29 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //To insert data to specified table
     public void insertData(String table,ContentValues values){
+        SQLiteDatabase db = this.getWritableDatabase();
         try{
-            SQLiteDatabase db = this.getWritableDatabase();
             db.insert(table, null, values);
         }catch (Exception e){
+            db.update(table,values,"id="+values.get("id"),null);
             System.out.print(e.toString());
         }
 
     }
-
+    //To insert data to Firebase sync  table
+    public void firebaseInsert(String table,ContentValues values,String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try{
+            Cursor cur = db.rawQuery("SELECT * FROM "+table+" WHERE `id`="+id, null);
+            if (cur.getCount() > 0) {
+                db.update(table,values,"id="+id,null);
+            } else {
+                db.insert(table, null, values);
+            }
+        }catch (Exception e){
+            System.out.print(e.toString());
+        }
+    }
     //To Update data to specified table
     public void updateData(String table,ContentValues values){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -106,31 +129,43 @@ public class DbHelper extends SQLiteOpenHelper {
         db.delete(table, "id=" + values.get("id"), null);
     }
 
-
-    //To get Domain names Malayalam/English
-    public ArrayList<String> getDomainNames(String language) {
+    //To get Domain names
+    ArrayList<String> domain_names=new ArrayList<>();
+    public ArrayList<String> getDomainNames() {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<String> domain_names=new ArrayList<>();
-        String order=(language.equals("eng") ? "domain_name_eng" : "domain_name_mal");
-        int lang=(language.equals("eng") ? 1 : 2);
-        Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_domains`,`dkel_favourites` WHERE `domain_name_eng`=`fav_domain_name` OR `domain_name_mal`=`fav_domain_name` ORDER BY "+order, null);
+        Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_favourites` ORDER BY `fav_domain_name`", null);
         while (cur2.moveToNext()){
-            domain_names.add(cur2.getString(lang));
+            domain_names.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
         }
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains` WHERE `domain_name_eng` NOT IN (SELECT `fav_domain_name` FROM `dkel_favourites`) AND `domain_name_mal` NOT IN (SELECT `fav_domain_name` FROM `dkel_favourites`) ORDER BY "+order, null);
-        while (cur.moveToNext()){
-            domain_names.add(cur.getString(lang));
-        }
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("dkel_domains");
+        database.keepSynced(true);
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                domain_names.clear();
+                for(DataSnapshot value:dataSnapshot.getChildren()){
+                    String domains=value.child("domain_name").getValue().toString();
+                    if(!domain_names.contains(domains)){
+                        domain_names.add(domains);
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(context, error.toException().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
         return domain_names;
     }
 
-    //To get Favourite Domain names Malayalam/English
-    public ArrayList<String> getFavDomainNames(String language) {
+    //To get Favourite Domain names
+    public ArrayList<String> getFavDomainNames() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<String> domain_names=new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`,`dkel_favourites` WHERE `domain_name_eng`=`fav_domain_name` OR `domain_name_mal`=`fav_domain_name`", null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_favourites` ", null);
         while (cur.moveToNext()){
-            domain_names.add(cur.getString(language.equals("eng") ? 1 : 2));
+            domain_names.add(cur.getString(cur.getColumnIndex("fav_domain_name")));
         }
         return domain_names;
     }
@@ -138,7 +173,7 @@ public class DbHelper extends SQLiteOpenHelper {
     //To check favorite status
     public boolean getFavStatus(String domain_name){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`,`dkel_favourites` WHERE (`domain_name_eng`=`fav_domain_name` OR `domain_name_mal`=`fav_domain_name`) AND (`domain_name_eng`='"+domain_name+"' OR `domain_name_mal`='"+domain_name+"')", null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'", null);
         if (cur.getCount() > 0) {
             return true;
         } else {
@@ -157,9 +192,28 @@ public class DbHelper extends SQLiteOpenHelper {
     public void removeFromFavourite(String domain_name){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<String> domain_names=new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains` WHERE `domain_name_eng`='"+domain_name+"' OR `domain_name_mal`='"+domain_name+"'", null);
-        cur.moveToFirst();
-        db.execSQL("DELETE FROM `dkel_favourites` WHERE `fav_domain_name`='"+cur.getString(1)+"' OR `fav_domain_name`='"+cur.getString(2)+"'");
+        db.execSQL("DELETE FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'");
 
     }
+    //Read data from firebase databse
+//    public void readData(final String table){
+//        try {
+//            database = FirebaseDatabase.getInstance();
+//            DatabaseReference myRef = database.getReference(table);
+//            myRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    for(DataSnapshot value:dataSnapshot.getChildren()){
+//                        Toast.makeText(context,value.child("domain_name").getValue().toString() ,Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                @Override
+//                public void onCancelled(DatabaseError error) {
+//                    Toast.makeText(context, error.toException().toString(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }catch (Exception e){
+//            Toast.makeText(context,e.toString(),Toast.LENGTH_SHORT).show();
+//        }
+//    }
 }

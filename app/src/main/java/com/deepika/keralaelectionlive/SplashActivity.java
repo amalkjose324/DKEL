@@ -1,6 +1,7 @@
 package com.deepika.keralaelectionlive;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class SplashActivity extends AppCompatActivity {
     DbHelper dbHelper=new DbHelper(this);
@@ -76,7 +79,6 @@ public class SplashActivity extends AppCompatActivity {
     public void onPermissionsGranted(int requestCode){
         String language =dbHelper.getLanguageSelected();
         if(language != null){
-            getData();
         }
         else {
             final AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
@@ -95,7 +97,6 @@ public class SplashActivity extends AppCompatActivity {
                     RadioButton radioButton = (RadioButton) dialogView.findViewById(selectedId);
                     dbHelper.setLanguageSelected(radioButton.getText().toString().equals("English") ? "eng" : "mal");
                     alertDialog.dismiss();
-                    getData();
                 }
             });
             alertDialog.show();
@@ -104,9 +105,9 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                //
+                getData();                //
             }
-        }, 10000);
+        }, 3000);
 
         final Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.anim);
         mContentView.startAnimation(myFadeInAnimation); //Set animation to your ImageView
@@ -115,7 +116,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 // Do something after 5s = 5000ms
                 Animation a = new AlphaAnimation(1.00f, 0.00f);
-                a.setDuration(8000);
+                a.setDuration(2000);
                 a.setAnimationListener(new Animation.AnimationListener() {
                     public void onAnimationStart(Animation animation) {
                         // TODO Auto-generated method stub
@@ -131,12 +132,15 @@ public class SplashActivity extends AppCompatActivity {
                         //mContentView.setVisibility(View.VISIBLE);
                     }
                 });
-
                 mContentView.startAnimation(a);
             }
-        }, 5000);
+        }, 1500);
     }
     public void getData(){
-        SyncDB syncDB=new SyncDB(this);
+        //dbHelper.getDomainNames();
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        this.startActivity(intent);
+        this.finish();
+
     }
 }

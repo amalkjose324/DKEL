@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class TabFavourites extends Fragment {
-    ArrayList<String> domain_names,domain_names_mal,domain_names_eng=new ArrayList<>();
+    ArrayList<String> domain_names=new ArrayList<>();
     //ArrayList<String> domain_names_eng=new ArrayList<>();
     DbHelper dbHelper;
     Context context;
@@ -26,9 +26,7 @@ public class TabFavourites extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_favourites, container, false);
         dbHelper=new DbHelper(getActivity());
-        domain_names=dbHelper.getFavDomainNames(dbHelper.getLanguageSelected());
-        domain_names_mal=dbHelper.getFavDomainNames("mal");
-        domain_names_eng=dbHelper.getFavDomainNames("eng");
+        domain_names=dbHelper.getFavDomainNames();
         final ListView listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
         listView.setAdapter(new FavouritesCustomAdapter(TabFavourites.this,domain_names));
@@ -50,7 +48,7 @@ public class TabFavourites extends Fragment {
                 temp.clear();
                 for (int i = 0; i < domain_names.size(); i++)
                 {
-                    if (domain_names_mal.get(i).toLowerCase().contains(text)||domain_names_eng.get(i).toLowerCase().contains(text))
+                    if (domain_names.get(i).toLowerCase().contains(text))
                     {
                         temp.add(domain_names.get(i));
                     }
@@ -61,6 +59,7 @@ public class TabFavourites extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
+
         return rootView;
     }
 }

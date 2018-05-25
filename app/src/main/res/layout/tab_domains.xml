@@ -35,6 +35,8 @@
                 android:id="@+id/search_result"
                 android:gravity="center"
                 android:hint="Search here"
+                android:inputType="text"
+                android:maxLines="1"
                 android:textColor="@color/dark_blue"/>
             <RelativeLayout
                 android:layout_width="match_parent"

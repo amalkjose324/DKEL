@@ -1,10 +1,14 @@
 package com.deepika.keralaelectionlive;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +21,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class TabDomains extends Fragment {
-    ArrayList<String> domain_names,domain_names_mal,domain_names_eng=new ArrayList<>();
+    ArrayList<String> domain_names=new ArrayList<>();
     //ArrayList<String> domain_names_eng=new ArrayList<>();
     DbHelper dbHelper;
     Context context;
+    ListView listView;
+    final Handler handler = new Handler();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.context=getActivity();
         View rootView = inflater.inflate(R.layout.tab_domains, container, false);
         dbHelper=new DbHelper(getActivity());
-        domain_names=dbHelper.getDomainNames(dbHelper.getLanguageSelected());
-        domain_names_mal=dbHelper.getDomainNames("mal");
-        domain_names_eng=dbHelper.getDomainNames("eng");
-        final ListView listView=(ListView)rootView.findViewById(R.id.list_results);
+        domain_names=dbHelper.getDomainNames();
+        listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
         listView.setAdapter(new DomainsCustomAdapter(this,domain_names));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -50,7 +55,7 @@ public class TabDomains extends Fragment {
                 temp.clear();
                 for (int i = 0; i < domain_names.size(); i++)
                 {
-                    if (domain_names_mal.get(i).toLowerCase().contains(text)||domain_names_eng.get(i).toLowerCase().contains(text))
+                    if (domain_names.get(i).toLowerCase().contains(text))
                     {
                             temp.add(domain_names.get(i));
                     }
@@ -61,6 +66,12 @@ public class TabDomains extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listView.setAdapter(new DomainsCustomAdapter(TabDomains.this,domain_names));             //
+            }
+        }, 300);
         return rootView;
     }
 }

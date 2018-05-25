@@ -141,33 +141,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-            String language = dbHelper.getLanguageSelected();
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
-            final View dialogView = inflater.inflate(R.layout.language_selector, null);
-            builder.setCancelable(false);
-            builder.setView(dialogView);
-            Button close = (Button) dialogView.findViewById(R.id.close);
-            final RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.language_radio_group);
-            RadioButton lang_mal = (RadioButton) dialogView.findViewById(R.id.lang_mal);
-            RadioButton lang_eng = (RadioButton) dialogView.findViewById(R.id.lang_eng);
-            if(language.equals("mal")){
-                lang_eng.setChecked(false);
-                lang_mal.setChecked(true);
-            }
-            final AlertDialog alertDialog = builder.create();
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int selectedId = radioGroup.getCheckedRadioButtonId();
-                    RadioButton radioButton = (RadioButton) dialogView.findViewById(selectedId);
-                    dbHelper.setLanguageSelected(radioButton.getText().toString().equals("English") ? "eng" : "mal");
-                    alertDialog.dismiss();
-                    getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
-                }
-            });
-            alertDialog.show();
-
+            // was language selector
         } else if (id == R.id.nav_share) {
             String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
             final Intent i = new Intent();
