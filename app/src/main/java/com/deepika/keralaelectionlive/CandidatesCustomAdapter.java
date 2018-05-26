@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -24,18 +23,18 @@ import java.util.List;
  * Created by mail on 06-03-2018.
  */
 
-public class FavouritesCustomAdapter extends BaseAdapter {
+public class CandidatesCustomAdapter extends BaseAdapter {
     private Activity activity;
     ArrayList<String> domain_names;
-    TabFavourites tabFavourites;
+    TabCandidates tabCandidates;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
 
-    public FavouritesCustomAdapter(TabFavourites tabFavourites, ArrayList<String> domain_names){
-        activity= tabFavourites.getActivity();
+    public CandidatesCustomAdapter(TabCandidates tabCandidates, ArrayList<String> domain_names){
+        activity= tabCandidates.getActivity();
         dbHelper=new DbHelper(activity);
         this.domain_names=domain_names;
-        this.tabFavourites = tabFavourites;
+        this.tabCandidates = tabCandidates;
         layoutInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -58,11 +57,11 @@ public class FavouritesCustomAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
         domain=domain_names.get(position);
-        View rowView=layoutInflater.inflate(R.layout.list_tab_domains,null);
+        View rowView=layoutInflater.inflate(R.layout.list_tab_candidates,null);
         TextView textView=(TextView)rowView.findViewById(R.id.result_text);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
-        if(dbHelper.getFavStatus(domain)){
+        if(dbHelper.getCandidateFavStatus(domain)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
         else {
@@ -72,12 +71,12 @@ public class FavouritesCustomAdapter extends BaseAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getFavStatus(domain_names.get(position))){
-                    dbHelper.removeFromFavourite(domain_names.get(position));
+                if(dbHelper.getCandidateFavStatus(domain_names.get(position))){
+                    dbHelper.removeCandidateFromFavourite(domain_names.get(position));
                     ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
-                    dbHelper.addToFavourite(domain_names.get(position));
+                    dbHelper.addCandidateToFavourite(domain_names.get(position));
                     ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }

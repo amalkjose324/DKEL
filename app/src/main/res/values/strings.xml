@@ -11,7 +11,7 @@
     <string name="title_activity_main_tab">Kerala Election Live</string>
     <string name="tab_text_1">DOMAINS</string>
     <string name="tab_text_2">HOME</string>
-    <string name="tab_text_3">FAVOURITES</string>
+    <string name="tab_text_3">CANDIDATES</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="runtime_permissions_txt">Please enable ALL permissions from app settings.</string>
 </resources>

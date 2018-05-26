@@ -62,7 +62,7 @@ public class DomainsCustomAdapter extends BaseAdapter {
         TextView textView=(TextView)rowView.findViewById(R.id.result_text);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
-        if(dbHelper.getFavStatus(domain)){
+        if(dbHelper.getDomainFavStatus(domain)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
         else {
@@ -72,12 +72,12 @@ public class DomainsCustomAdapter extends BaseAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getFavStatus(domain_names.get(position))){
-                    dbHelper.removeFromFavourite(domain_names.get(position));
+                if(dbHelper.getDomainFavStatus(domain_names.get(position))){
+                    dbHelper.removeDomainFromFavourite(domain_names.get(position));
                     ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
-                    dbHelper.addToFavourite(domain_names.get(position));
+                    dbHelper.addDomainToFavourite(domain_names.get(position));
                     ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }

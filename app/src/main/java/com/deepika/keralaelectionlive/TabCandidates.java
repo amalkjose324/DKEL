@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class TabFavourites extends Fragment {
+public class TabCandidates extends Fragment {
     ArrayList<String> domain_names=new ArrayList<>();
     //ArrayList<String> domain_names_eng=new ArrayList<>();
     DbHelper dbHelper;
@@ -24,12 +24,12 @@ public class TabFavourites extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_favourites, container, false);
+        View rootView = inflater.inflate(R.layout.tab_candidates, container, false);
         dbHelper=new DbHelper(getActivity());
         domain_names=dbHelper.getFavDomainNames();
         final ListView listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
-        listView.setAdapter(new FavouritesCustomAdapter(TabFavourites.this,domain_names));
+        listView.setAdapter(new CandidatesCustomAdapter(TabCandidates.this,domain_names));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,7 +53,7 @@ public class TabFavourites extends Fragment {
                         temp.add(domain_names.get(i));
                     }
                 }
-                listView.setAdapter(new FavouritesCustomAdapter(TabFavourites.this,temp));
+                listView.setAdapter(new CandidatesCustomAdapter(TabCandidates.this,temp));
             }
             @Override
             public void afterTextChanged(Editable editable) {

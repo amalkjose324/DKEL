@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_marginLeft="3dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginRight="3dp"
+    android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@+id/icon_result"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:padding="2dp"
+        android:layout_marginTop="1dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_gravity="center|start"
+            android:gravity="center|start"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:paddingLeft="75dp"
+            android:hint="Candidate Name"
+            android:id="@+id/candidate_name"
+            android:textColor="@color/dark_blue"
+            android:textSize="20sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="center|start"
+                android:gravity="center|start"
+                android:layout_width="0dp"
+                android:layout_weight=".50"
+                android:layout_height="30dp"
+                android:hint="Party"
+                android:paddingLeft="75dp"
+                android:id="@+id/candidate_party"
+                android:textColor="@color/dark_blue"
+                android:textSize="17sp"/>
+            <TextView
+                android:layout_gravity="center|start"
+                android:gravity="center|end"
+                android:layout_width="0dp"
+                android:layout_weight=".50"
+                android:layout_height="30dp"
+                android:hint="#Pos"
+                android:paddingRight="75dp"
+                android:id="@+id/candidate_pos"
+                android:textColor="@color/dark_blue"
+                android:textSize="17sp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:id="@+id/star"
+        android:padding="25dp">
+
+        <ImageButton
+            android:id="@+id/imgStar"
+            android:focusable="false"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_star_outline_gray_24dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -47,7 +47,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_config(config_id INTEGER PRIMARY KEY AUTOINCREMENT, config_key VARCHAR, config_value VARCHAR);");
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('sync_date','1111-11-11 11:11:11')");
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('pref_language',null)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_name VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domain_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_name VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidate_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_candidate_name VARCHAR)");
 
 //        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY AUTOINCREMENT,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
 //        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domains(id INTEGER PRIMARY KEY AUTOINCREMENT,domain_name_eng VARCHAR,domain_name_mal VARCHAR)");
@@ -145,7 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 domain_names.clear();
                 ArrayList<String> domain_temp=new ArrayList<>();
                 ArrayList<String> domain_fav=new ArrayList<>();
-                Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_favourites` ORDER BY `fav_domain_name`", null);
+                Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_domain_favourites` ORDER BY `fav_domain_name`", null);
                 while (cur2.moveToNext()){
                     domain_temp.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
                 }
@@ -173,17 +174,37 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<String> getFavDomainNames() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<String> domain_names=new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_favourites` ", null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domain_favourites` ", null);
         while (cur.moveToNext()){
             domain_names.add(cur.getString(cur.getColumnIndex("fav_domain_name")));
         }
         return domain_names;
     }
-
-    //To check favorite status
-    public boolean getFavStatus(String domain_name){
+    //To get Favourite Candidate names
+    public ArrayList<String> getFavCandidateNames() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'", null);
+        ArrayList<String> candidate_names=new ArrayList<>();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidate_favourites` ", null);
+        while (cur.moveToNext()){
+            candidate_names.add(cur.getString(cur.getColumnIndex("fav_candidate_name")));
+        }
+        return candidate_names;
+    }
+
+    //To check favorite status - domains
+    public boolean getDomainFavStatus(String domain_name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domain_favourites` WHERE `fav_domain_name`='"+domain_name+"'", null);
+        if (cur.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //To check favorite status - candidates
+    public boolean getCandidateFavStatus(String candidate_name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidate_favourites` WHERE `fav_candidate_name`='"+candidate_name+"'", null);
         if (cur.getCount() > 0) {
             return true;
         } else {
@@ -192,16 +213,24 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //Adding domain to favorite
-    public void addToFavourite(String domain_name){
+    public void addDomainToFavourite(String domain_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("INSERT INTO `dkel_favourites` (`fav_domain_name`) VALUES('"+domain_name+"')");
+        db.execSQL("INSERT INTO `dkel_domain_favourites` (`fav_domain_name`) VALUES('"+domain_name+"')");
+    }
+    //Adding candidate to favorite
+    public void addCandidateToFavourite(String candidate_name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO `dkel_candidate_favourites` (`fav_candidate_name`) VALUES('"+candidate_name+"')");
     }
 
-
     //Remove domain from favorite
-    public void removeFromFavourite(String domain_name){
+    public void removeDomainFromFavourite(String domain_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM `dkel_favourites` WHERE `fav_domain_name`='"+domain_name+"'");
-
+        db.execSQL("DELETE FROM `dkel_domain_favourites` WHERE `fav_domain_name`='"+domain_name+"'");
+    }
+    //Remove candidate from favorite
+    public void removeCandidateFromFavourite(String candidate_name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM `dkel_candidate_favourites` WHERE `fav_domain_name`='"+candidate_name+"'");
     }
 }
