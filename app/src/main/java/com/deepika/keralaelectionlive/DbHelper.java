@@ -137,6 +137,11 @@ public class DbHelper extends SQLiteOpenHelper {
     ArrayList<String> domain_names=new ArrayList<>();
     public ArrayList<String> getDomainNames() {
         final SQLiteDatabase db = this.getReadableDatabase();
+        final ArrayList<String> domain_temp=new ArrayList<>();
+        Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_domain_favourites` ORDER BY `fav_domain_name`", null);
+        while (cur2.moveToNext()){
+            domain_temp.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
+        }
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("dkel_domains");
         database.keepSynced(true);
         database.orderByChild("dkel_domains");
@@ -144,12 +149,8 @@ public class DbHelper extends SQLiteOpenHelper {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 domain_names.clear();
-                ArrayList<String> domain_temp=new ArrayList<>();
                 ArrayList<String> domain_fav=new ArrayList<>();
-                Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_domain_favourites` ORDER BY `fav_domain_name`", null);
-                while (cur2.moveToNext()){
-                    domain_temp.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
-                }
+
                 for(DataSnapshot value:dataSnapshot.getChildren()){
                     String domains=value.child("domain_name").getValue().toString();
                     if(!domain_temp.contains(domains)){
@@ -231,6 +232,6 @@ public class DbHelper extends SQLiteOpenHelper {
     //Remove candidate from favorite
     public void removeCandidateFromFavourite(String candidate_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM `dkel_candidate_favourites` WHERE `fav_domain_name`='"+candidate_name+"'");
+        db.execSQL("DELETE FROM `dkel_candidate_favourites` WHERE `fav_candidate_name`='"+candidate_name+"'");
     }
 }

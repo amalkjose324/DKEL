@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class TabDomains extends Fragment {
-    ArrayList<String> domain_names=new ArrayList<>();
+    public static ArrayList<String> domain_names=new ArrayList<>();
     DbHelper dbHelper;
     public static Context context;
     ListView listView;
@@ -33,10 +33,9 @@ public class TabDomains extends Fragment {
         this.context=getActivity();
         rootView = inflater.inflate(R.layout.tab_domains, container, false);
         dbHelper=new DbHelper(getActivity());
-        domain_names=dbHelper.getDomainNames();
+        dbHelper.getDomainNames();
         listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
-        listView.setAdapter(new DomainsCustomAdapter(context,domain_names));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,6 +68,7 @@ public class TabDomains extends Fragment {
         return rootView;
     }
     public void setListValues(ArrayList<String> arrayList){
+        domain_names=arrayList;
         listView=(ListView)rootView.findViewById(R.id.list_results);
         listView.setAdapter(new DomainsCustomAdapter(context,arrayList));
     }

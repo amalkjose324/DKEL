@@ -17,19 +17,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class TabCandidates extends Fragment {
-    ArrayList<String> domain_names=new ArrayList<>();
-    //ArrayList<String> domain_names_eng=new ArrayList<>();
+    ArrayList<String> candidate_names=new ArrayList<>();
     DbHelper dbHelper;
-    Context context;
+    public static Context context;
+    public  static View rootView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_candidates, container, false);
+        this.context=getActivity();
+        rootView = inflater.inflate(R.layout.tab_candidates, container, false);
         dbHelper=new DbHelper(getActivity());
-        domain_names=dbHelper.getFavDomainNames();
+       // candidate_names=dbHelper.getCandidateNames();
         final ListView listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
-        listView.setAdapter(new CandidatesCustomAdapter(TabCandidates.this,domain_names));
+        listView.setAdapter(new CandidatesCustomAdapter(TabCandidates.this,candidate_names));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -46,11 +47,11 @@ public class TabCandidates extends Fragment {
                 ArrayList<String> temp = new ArrayList<String>();
                 String  text = editText.getText().toString().toLowerCase().trim();
                 temp.clear();
-                for (int i = 0; i < domain_names.size(); i++)
+                for (int i = 0; i < candidate_names.size(); i++)
                 {
-                    if (domain_names.get(i).toLowerCase().contains(text))
+                    if (candidate_names.get(i).toLowerCase().contains(text))
                     {
-                        temp.add(domain_names.get(i));
+                        temp.add(candidate_names.get(i));
                     }
                 }
                 listView.setAdapter(new CandidatesCustomAdapter(TabCandidates.this,temp));
