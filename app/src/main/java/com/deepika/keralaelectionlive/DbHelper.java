@@ -143,18 +143,23 @@ public class DbHelper extends SQLiteOpenHelper {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 domain_names.clear();
+                ArrayList<String> domain_temp=new ArrayList<>();
+                ArrayList<String> domain_fav=new ArrayList<>();
                 Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_favourites` ORDER BY `fav_domain_name`", null);
                 while (cur2.moveToNext()){
-                    domain_names.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
+                    domain_temp.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
                 }
                 for(DataSnapshot value:dataSnapshot.getChildren()){
                     String domains=value.child("domain_name").getValue().toString();
-                    if(!domain_names.contains(domains)){
+                    if(!domain_temp.contains(domains)){
                         domain_names.add(domains);
+                    }else{
+                        domain_fav.add(domains);
                     }
                 }
                 TabDomains tabDomains=new TabDomains();
-                tabDomains.setListValues(domain_names);
+                domain_fav.addAll(domain_names);
+                tabDomains.setListValues(domain_fav);
             }
             @Override
             public void onCancelled(DatabaseError error) {
