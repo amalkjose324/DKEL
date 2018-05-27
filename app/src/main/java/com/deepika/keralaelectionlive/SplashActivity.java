@@ -41,7 +41,6 @@ public class SplashActivity extends AppCompatActivity {
                 R.string.runtime_permissions_txt,
                 REQUEST_PERMISSIONS);
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -56,7 +55,6 @@ public class SplashActivity extends AppCompatActivity {
             finish();
         }
     }
-
     public void requestAppPermissions(final String[] requestedPermissions,
                                       final int stringId, final int requestCode) {
         mErrorString.put(requestCode, stringId);
@@ -77,32 +75,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     public void onPermissionsGranted(int requestCode){
-        String language =dbHelper.getLanguageSelected();
-        if(language != null){
-        }
-        else {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
-            LayoutInflater inflater = (SplashActivity.this).getLayoutInflater();
-            final View dialogView=inflater.inflate(R.layout.language_selector, null);
-            builder.setCancelable(false);
-            builder.setView(dialogView);
-            Button close=(Button)dialogView.findViewById(R.id.close);
-            final RadioGroup radioGroup=(RadioGroup)dialogView.findViewById(R.id.language_radio_group);
-
-            final AlertDialog alertDialog = builder.create();
-            close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int selectedId = radioGroup.getCheckedRadioButtonId();
-                    RadioButton radioButton = (RadioButton) dialogView.findViewById(selectedId);
-                    dbHelper.setLanguageSelected(radioButton.getText().toString().equals("English") ? "eng" : "mal");
-                    alertDialog.dismiss();
-                }
-            });
-            alertDialog.show();
-        }
         handler.postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 getData();                //
@@ -137,7 +110,6 @@ public class SplashActivity extends AppCompatActivity {
         }, 2000);
     }
     public void getData(){
-        //dbHelper.getDomainNames();
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         this.startActivity(intent);
         this.finish();

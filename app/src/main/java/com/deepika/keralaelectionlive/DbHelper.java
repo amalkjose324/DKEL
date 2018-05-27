@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.zip.Inflater;
 
@@ -47,7 +48,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_config(config_id INTEGER PRIMARY KEY AUTOINCREMENT, config_key VARCHAR, config_value VARCHAR);");
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('sync_date','1111-11-11 11:11:11')");
         db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('pref_language',null)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domain_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_name VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domain_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_id INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidate_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_candidate_name VARCHAR)");
 
 //        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY AUTOINCREMENT,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
@@ -134,34 +135,35 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //To get Domain names
-    ArrayList<String> domain_names=new ArrayList<>();
-    public ArrayList<String> getDomainNames() {
+//    ArrayList<String> domain_names=new ArrayList<>();
+    LinkedHashMap<Integer,String> domain_names=new LinkedHashMap<Integer, String>();
+    public LinkedHashMap<Integer,String> getDomainNames() {
         final SQLiteDatabase db = this.getReadableDatabase();
-        final ArrayList<String> domain_temp=new ArrayList<>();
-        Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_domain_favourites` ORDER BY `fav_domain_name`", null);
-        while (cur2.moveToNext()){
-            domain_temp.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
-        }
+        final LinkedHashMap<Integer,String> domain_nonfav=new LinkedHashMap<Integer, String>();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("dkel_domains");
         database.keepSynced(true);
-        database.orderByChild("dkel_domains");
+        database.orderByChild("domain_name");
         database.orderByChild("domain_name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 domain_names.clear();
-                ArrayList<String> domain_fav=new ArrayList<>();
-
+                final ArrayList<Integer> fav_list=new ArrayList<>();
+                Cursor cur = db.rawQuery("SELECT * FROM `dkel_domain_favourites`", null);
+                while (cur.moveToNext()){
+                    fav_list.add(cur.getInt(cur.getColumnIndex("fav_domain_id")));
+                }
                 for(DataSnapshot value:dataSnapshot.getChildren()){
-                    String domains=value.child("domain_name").getValue().toString();
-                    if(!domain_temp.contains(domains)){
-                        domain_names.add(domains);
+                    Integer domains_id=Integer.parseInt(value.child("domain_id").getValue().toString());
+                    String domain_name=value.child("domain_name").getValue().toString();
+                    if(fav_list.contains(domains_id)){
+                        domain_names.put(domains_id,domain_name);
                     }else{
-                        domain_fav.add(domains);
+                        domain_nonfav.put(domains_id,domain_name);
                     }
                 }
+                domain_names.putAll(domain_nonfav);
                 TabDomains tabDomains=new TabDomains();
-                domain_fav.addAll(domain_names);
-                tabDomains.setListValues(domain_fav);
+                tabDomains.setListValues(domain_names);
             }
             @Override
             public void onCancelled(DatabaseError error) {
@@ -171,6 +173,43 @@ public class DbHelper extends SQLiteOpenHelper {
         return domain_names;
     }
 
+    //To get Candidate details names
+//    HashMap<String,HashMap<String,String>> candidate_details=new HashMap<>();
+//    public ArrayList<String> getCandidateDetails() {
+//        final SQLiteDatabase db = this.getReadableDatabase();
+//        final ArrayList<String> domain_temp=new ArrayList<>();
+//        Cursor cur2 = db.rawQuery("SELECT * FROM `dkel_candidate_favourites` ORDER BY `fav_candidate_name`", null);
+//        while (cur2.moveToNext()){
+//            domain_temp.add(cur2.getString(cur2.getColumnIndex("fav_domain_name")));
+//        }
+//        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("dkel_domains");
+//        database.keepSynced(true);
+//        database.orderByChild("dkel_domains");
+//        database.orderByChild("domain_name").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                domain_names.clear();
+//                ArrayList<String> domain_fav=new ArrayList<>();
+//
+//                for(DataSnapshot value:dataSnapshot.getChildren()){
+//                    String domains=value.child("domain_name").getValue().toString();
+//                    if(!domain_temp.contains(domains)){
+//                        domain_names.add(domains);
+//                    }else{
+//                        domain_fav.add(domains);
+//                    }
+//                }
+//                TabDomains tabDomains=new TabDomains();
+//                domain_fav.addAll(domain_names);
+//                tabDomains.setListValues(domain_fav);
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                Toast.makeText(context, error.toException().toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        return domain_names;
+//    }
     //To get Favourite Domain names
     public ArrayList<String> getFavDomainNames() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -193,9 +232,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //To check favorite status - domains
-    public boolean getDomainFavStatus(String domain_name){
+    public boolean getDomainFavStatus(Integer domain_id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domain_favourites` WHERE `fav_domain_name`='"+domain_name+"'", null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domain_favourites` WHERE `fav_domain_id`="+domain_id, null);
         if (cur.getCount() > 0) {
             return true;
         } else {
@@ -214,9 +253,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //Adding domain to favorite
-    public void addDomainToFavourite(String domain_name){
+    public void addDomainToFavourite(Integer domain_id){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("INSERT INTO `dkel_domain_favourites` (`fav_domain_name`) VALUES('"+domain_name+"')");
+        db.execSQL("INSERT INTO `dkel_domain_favourites` (`fav_domain_id`) VALUES("+domain_id+")");
     }
     //Adding candidate to favorite
     public void addCandidateToFavourite(String candidate_name){
@@ -225,9 +264,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //Remove domain from favorite
-    public void removeDomainFromFavourite(String domain_name){
+    public void removeDomainFromFavourite(Integer domain_id){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM `dkel_domain_favourites` WHERE `fav_domain_name`='"+domain_name+"'");
+        db.execSQL("DELETE FROM `dkel_domain_favourites` WHERE `fav_domain_id`="+domain_id);
     }
     //Remove candidate from favorite
     public void removeCandidateFromFavourite(String candidate_name){

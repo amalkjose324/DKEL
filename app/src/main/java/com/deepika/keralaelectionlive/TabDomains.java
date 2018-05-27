@@ -19,16 +19,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class TabDomains extends Fragment {
-    public static ArrayList<String> domain_names=new ArrayList<>();
+    public static LinkedHashMap<Integer,String> domain_names=new LinkedHashMap<>();
     DbHelper dbHelper;
     public static Context context;
     ListView listView;
     public static View rootView;
     final Handler handler = new Handler();
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         this.context=getActivity();
         rootView = inflater.inflate(R.layout.tab_domains, container, false);
@@ -49,14 +51,13 @@ public class TabDomains extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ArrayList<String> temp = new ArrayList<String>();
+//                ArrayList<String> temp = new ArrayList<String>();
+                LinkedHashMap<Integer,String>temp=new LinkedHashMap<>();
                 String  text = editText.getText().toString().toLowerCase().trim();
                 temp.clear();
-                for (int i = 0; i < domain_names.size(); i++)
-                {
-                    if (domain_names.get(i).toLowerCase().contains(text))
-                    {
-                            temp.add(domain_names.get(i));
+                for(Integer key:domain_names.keySet()){
+                    if(domain_names.get(key).toLowerCase().contains(text)){
+                        temp.put(key,domain_names.get(key));
                     }
                 }
                 listView.setAdapter(new DomainsCustomAdapter(context,temp));
@@ -67,9 +68,10 @@ public class TabDomains extends Fragment {
         });
         return rootView;
     }
-    public void setListValues(ArrayList<String> arrayList){
-        domain_names=arrayList;
+//    public void setListValues(ArrayList<String> arrayList){
+    public  void setListValues(LinkedHashMap<Integer,String> hashMap){
+        domain_names=hashMap;
         listView=(ListView)rootView.findViewById(R.id.list_results);
-        listView.setAdapter(new DomainsCustomAdapter(context,arrayList));
+        listView.setAdapter(new DomainsCustomAdapter(context,hashMap));
     }
 }
