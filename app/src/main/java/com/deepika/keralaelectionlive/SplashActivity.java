@@ -75,6 +75,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     public void onPermissionsGranted(int requestCode){
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -113,6 +114,5 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         this.startActivity(intent);
         this.finish();
-
     }
 }

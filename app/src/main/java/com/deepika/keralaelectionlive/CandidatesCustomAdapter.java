@@ -17,6 +17,8 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -24,23 +26,20 @@ import java.util.List;
  */
 
 public class CandidatesCustomAdapter extends BaseAdapter {
-    private Activity activity;
-    ArrayList<String> domain_names;
-    TabCandidates tabCandidates;
+    private Context context;
+    ArrayList<HashMap<String,String>> candidate_details;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
-
-    public CandidatesCustomAdapter(TabCandidates tabCandidates, ArrayList<String> domain_names){
-        activity= tabCandidates.getActivity();
-        dbHelper=new DbHelper(activity);
-        this.domain_names=domain_names;
-        this.tabCandidates = tabCandidates;
-        layoutInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public CandidatesCustomAdapter(Context context, ArrayList<HashMap<String,String>> candidate_details){
+        this.context=context;
+        dbHelper=new DbHelper(context);
+        this.candidate_details=candidate_details;
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return domain_names.size();
+        return candidate_details.size();
     }
 
     @Override
@@ -53,36 +52,41 @@ public class CandidatesCustomAdapter extends BaseAdapter {
         return position;
     }
     ImageButton imageButton;
-    String domain;
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
-        domain=domain_names.get(position);
+        final int candidate =Integer.parseInt(candidate_details.get(position).get("id"));
         View rowView=layoutInflater.inflate(R.layout.list_tab_candidates,null);
-        TextView textView=(TextView)rowView.findViewById(R.id.result_text);
+        TextView name=(TextView)rowView.findViewById(R.id.candidate_name);
+        TextView domain=(TextView)rowView.findViewById(R.id.candidate_domain);
+        TextView party=(TextView)rowView.findViewById(R.id.candidate_party);
+        TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
-        if(dbHelper.getCandidateFavStatus(domain)){
+        if(dbHelper.getCandidateFavStatus(candidate)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
         else {
             imageButton.setImageResource(R.drawable.ic_star_outline_gray_24dp);
         }
-        textView.setText(domain);
+        name.setText(candidate_details.get(position).get("name"));
+        domain.setText(candidate_details.get(position).get("domain"));
+        party.setText(candidate_details.get(position).get("party")+" ("+candidate_details.get(position).get("panel")+")");
+        votes.setText(candidate_details.get(position).get("votes"));
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getCandidateFavStatus(domain_names.get(position))){
-                    dbHelper.removeCandidateFromFavourite(domain_names.get(position));
-                    ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                if(dbHelper.getCandidateFavStatus(candidate)){
+                    dbHelper.removeCandidateFromFavourite(candidate);
+                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
-                    dbHelper.addCandidateToFavourite(domain_names.get(position));
-                    ((FragmentActivity)activity).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                    dbHelper.addCandidateToFavourite(candidate);
+                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }
-          //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+            //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
         });
-        String firstLetter =String.valueOf(domain.charAt(0));
+        String firstLetter =String.valueOf(candidate_details.get(position).get("domain").charAt(0));
         ColorGenerator generator = ColorGenerator.DEFAULT; // or use DEFAULT
         // generate random color
         int color = generator.getColor(getItem(position));
@@ -93,7 +97,7 @@ public class CandidatesCustomAdapter extends BaseAdapter {
         return rowView;
     }
     public Fragment getVisibleFragment(){
-        FragmentManager fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
+        FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         for(Fragment fragment : fragments){
             if(fragment != null && fragment.getUserVisibleHint())

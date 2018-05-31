@@ -19,11 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class TabDomains extends Fragment {
-    public static LinkedHashMap<Integer,String> domain_names=new LinkedHashMap<>();
+    public static ArrayList<String> domain_names=new ArrayList<>();
     DbHelper dbHelper;
     public static Context context;
     ListView listView;
@@ -34,10 +32,10 @@ public class TabDomains extends Fragment {
                              Bundle savedInstanceState) {
         this.context=getActivity();
         rootView = inflater.inflate(R.layout.tab_domains, container, false);
-        dbHelper=new DbHelper(getActivity());
-        dbHelper.getDomainNames();
         listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
+        dbHelper=new DbHelper(getActivity());
+        dbHelper.getFirebaseDetails();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -46,18 +44,20 @@ public class TabDomains extends Fragment {
             }
         });
         editText.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                ArrayList<String> temp = new ArrayList<String>();
-                LinkedHashMap<Integer,String>temp=new LinkedHashMap<>();
+                ArrayList<String> temp = new ArrayList<String>();
                 String  text = editText.getText().toString().toLowerCase().trim();
                 temp.clear();
-                for(Integer key:domain_names.keySet()){
-                    if(domain_names.get(key).toLowerCase().contains(text)){
-                        temp.put(key,domain_names.get(key));
+                for (int i = 0; i < domain_names.size(); i++)
+                {
+                    if (domain_names.get(i).toLowerCase().contains(text))
+                    {
+                        temp.add(domain_names.get(i));
                     }
                 }
                 listView.setAdapter(new DomainsCustomAdapter(context,temp));
@@ -68,10 +68,9 @@ public class TabDomains extends Fragment {
         });
         return rootView;
     }
-//    public void setListValues(ArrayList<String> arrayList){
-    public  void setListValues(LinkedHashMap<Integer,String> hashMap){
-        domain_names=hashMap;
+    public void setListValues(ArrayList<String> arrayList){
+        domain_names=arrayList;
         listView=(ListView)rootView.findViewById(R.id.list_results);
-        listView.setAdapter(new DomainsCustomAdapter(context,hashMap));
+        listView.setAdapter(new DomainsCustomAdapter(context,arrayList));
     }
 }

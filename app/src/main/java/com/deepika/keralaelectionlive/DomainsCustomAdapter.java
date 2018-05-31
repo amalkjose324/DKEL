@@ -30,17 +30,14 @@ import java.util.Map;
 
 public class DomainsCustomAdapter extends BaseAdapter {
     private Context context;
-    LinkedHashMap<Integer,String> domain_names;
-    TabDomains tabDomains;
+    ArrayList<String> domain_names;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
-    ArrayList<String> sort_order;
-    public DomainsCustomAdapter(Context context, LinkedHashMap<Integer,String> domain_names){
+    public DomainsCustomAdapter(Context context, ArrayList<String> domain_names){
         this.context=context;
         dbHelper=new DbHelper(context);
         this.domain_names=domain_names;
         layoutInflater = LayoutInflater.from(context);
-        this.sort_order=sort_order;
     }
 
     @Override
@@ -62,13 +59,12 @@ public class DomainsCustomAdapter extends BaseAdapter {
     int domain_id;
     @Override
     public View getView(final int position, View view, final ViewGroup parent) {
-        String domain = (new ArrayList<String>(domain_names.values())).get(position);
-       domain_id=getKey(position);
+        final String domain =domain_names.get (position);
         View rowView=layoutInflater.inflate(R.layout.list_tab_domains,null);
         TextView textView=(TextView)rowView.findViewById(R.id.result_text);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
-        if(dbHelper.getDomainFavStatus(domain_id)){
+        if(dbHelper.getDomainFavStatus(domain)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
         else {
@@ -78,12 +74,12 @@ public class DomainsCustomAdapter extends BaseAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getDomainFavStatus(getKey(position))){
-                    dbHelper.removeDomainFromFavourite(getKey(position));
+                if(dbHelper.getDomainFavStatus(domain)){
+                    dbHelper.removeDomainFromFavourite(domain);
                     ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
-                    dbHelper.addDomainToFavourite(getKey(position));
+                    dbHelper.addDomainToFavourite(domain);
                     ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }
@@ -107,14 +103,5 @@ public class DomainsCustomAdapter extends BaseAdapter {
                 return (Fragment) fragment;
         }
         return null;
-    }
-    public Integer getKey(Integer position){
-        String name = (new ArrayList<String>(domain_names.values())).get(position);
-        for(Map.Entry entry: domain_names.entrySet()){
-            if(name.equals(entry.getValue())){
-                return Integer.parseInt(entry.getKey().toString());
-            }
-        }
-        return 0;
     }
 }
