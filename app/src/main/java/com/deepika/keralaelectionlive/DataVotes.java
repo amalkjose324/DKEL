@@ -1,15 +1,15 @@
 package com.deepika.keralaelectionlive;
 
-public class CandidateVotes {
+public class DataVotes {
     int vote_candidate_id;
     int vote_candidate_vote;
 
-    public CandidateVotes(int vote_candidate_id, int vote_candidate_vote) {
+    public DataVotes(int vote_candidate_id, int vote_candidate_vote) {
         this.vote_candidate_id = vote_candidate_id;
         this.vote_candidate_vote = vote_candidate_vote;
     }
 
-    public CandidateVotes() {
+    public DataVotes() {
     }
 
     public int getVote_candidate_id() {
@@ -20,11 +20,11 @@ public class CandidateVotes {
         this.vote_candidate_id = vote_candidate_id;
     }
 
-    public int getVote_candidate_vote() {
+    public int getvote_candidate_vote() {
         return vote_candidate_vote;
     }
 
-    public void setVote_candidate_vote(int vote_candidate_vote) {
+    public void setvote_candidate_vote(int vote_candidate_vote) {
         this.vote_candidate_vote = vote_candidate_vote;
     }
 }

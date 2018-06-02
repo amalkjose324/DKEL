@@ -33,11 +33,13 @@ public class DomainsCustomAdapter extends BaseAdapter {
     ArrayList<String> domain_names;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
+    ArrayList<String> fav_list;
     public DomainsCustomAdapter(Context context, ArrayList<String> domain_names){
         this.context=context;
         dbHelper=new DbHelper(context);
         this.domain_names=domain_names;
         layoutInflater = LayoutInflater.from(context);
+        fav_list=dbHelper.getDomainFavList();
     }
 
     @Override
@@ -64,7 +66,7 @@ public class DomainsCustomAdapter extends BaseAdapter {
         TextView textView=(TextView)rowView.findViewById(R.id.result_text);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
-        if(dbHelper.getDomainFavStatus(domain)){
+        if(fav_list.contains(domain)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
         else {
@@ -74,13 +76,15 @@ public class DomainsCustomAdapter extends BaseAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getDomainFavStatus(domain)){
+                if(fav_list.contains(domain)){
                     dbHelper.removeDomainFromFavourite(domain);
-                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                    dbHelper.pushDomainList();
+//                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
                     dbHelper.addDomainToFavourite(domain);
-                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                    dbHelper.pushDomainList();
+//                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }
           //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();

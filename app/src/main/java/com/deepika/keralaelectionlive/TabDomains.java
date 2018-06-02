@@ -22,20 +22,19 @@ import java.util.ArrayList;
 
 public class TabDomains extends Fragment {
     public static ArrayList<String> domain_names=new ArrayList<>();
-    DbHelper dbHelper;
     public static Context context;
     ListView listView;
+    DbHelper dbHelper;
     public static View rootView;
     final Handler handler = new Handler();
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         this.context=getActivity();
+        dbHelper=new DbHelper(getActivity());
         rootView = inflater.inflate(R.layout.tab_domains, container, false);
         listView=(ListView)rootView.findViewById(R.id.list_results);
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
-        dbHelper=new DbHelper(getActivity());
-        dbHelper.getFirebaseDetails();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

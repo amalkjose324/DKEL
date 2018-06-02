@@ -24,9 +24,6 @@ import java.util.LinkedHashMap;
  */
 
 public class DbHelper extends SQLiteOpenHelper {
-    LinkedHashMap<Integer, HashMap<String, String>> candidate_details = new LinkedHashMap<Integer, HashMap<String, String>>();
-    LinkedHashMap<Integer, String> candidate_votes = new LinkedHashMap<Integer, String>();
-
     Context context;
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -50,10 +47,12 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domain_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_name VARCHAR)");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidate_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_candidate_id INTEGER)");
 
-//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY AUTOINCREMENT,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
-//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domains(id INTEGER PRIMARY KEY AUTOINCREMENT,domain_name_eng VARCHAR,domain_name_mal VARCHAR)");
-//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_panels(id INTEGER PRIMARY KEY AUTOINCREMENT,panel_name VARCHAR)");
-//        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_parties(id INTEGER PRIMARY KEY AUTOINCREMENT,party_name VARCHAR,party_image VARCHAR,party_panel TINYINT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY ,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domains(domain_id INTEGER PRIMARY KEY ,domain_name VARCHAR,domain_status TINYINT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_panels(panel_id INTEGER PRIMARY KEY,panel_name VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_parties(party_id INTEGER PRIMARY KEY,party_name VARCHAR,party_image VARCHAR,party_panel TINYINT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_votes(vote_id INTEGER PRIMARY KEY ,vote_votes INTEGER)");
+
     }
 
     @Override
@@ -99,139 +98,267 @@ public class DbHelper extends SQLiteOpenHelper {
     //To insert data to specified table
     public void insertData(String table, ContentValues values) {
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
-            db.insert(table, null, values);
-        } catch (Exception e) {
-            db.update(table, values, "id=" + values.get("id"), null);
-            System.out.print(e.toString());
-        }
+        db.insertWithOnConflict(table,null,values,SQLiteDatabase.CONFLICT_REPLACE);
 
     }
-
+    //To truncate table
+    public void truncateTable(String table,SQLiteDatabase db) {
+        db.delete(table,null,null);
+    }
     //To Update data to specified table
-    public void updateData(String table, ContentValues values) {
+    public void updateData(String table, ContentValues values,String condition) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.update(table, values, "id=" + values.get("id"), null);
+        db.update(table, values, condition, null);
     }
 
     //To Delete data to specified table
-    public void deleteData(String table, ContentValues values) {
+    public void deleteData(String table, String condition) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(table, "id=" + values.get("id"), null);
+        db.delete(table, condition, null);
     }
 
-    public void getFirebaseVotes() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("dkel_votes");
+    //====================================== READ DATA FROM FIREBASE DATABSE STARTS HERE =========================================
+
+    //TO GET CANDIDATE DETAILS TABLE
+    public void getDataCandidates(){
+        final String table="dkel_candidates";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(table);
         ref.keepSynced(true);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                HashMap<String, String> details = new HashMap<String, String>();
-                CandidateVotes votes = dataSnapshot.getValue(CandidateVotes.class);
-                candidate_votes.put(votes.vote_candidate_id, String.valueOf(votes.vote_candidate_vote));
-                details = candidate_details.get(votes.vote_candidate_id);
-                details.put("votes", String.valueOf(votes.vote_candidate_vote));
-                candidate_details.put(votes.vote_candidate_id, details);
+                ContentValues values=new ContentValues();
+                DataCandidates candidate = dataSnapshot.getValue(DataCandidates.class);
+                values.put("candidate_id", candidate.candidate_id);
+                values.put("candidate_name", candidate.candidate_name);
+                values.put("candidate_domain", candidate.candidate_domain);
+                values.put("candidate_party", candidate.candidate_party);
+                values.put("candidate_image", candidate.candidate_image);
+                insertData(table,values);
                 pushCandidateList();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                HashMap<String, String> details = new HashMap<String, String>();
-                CandidateVotes votes = dataSnapshot.getValue(CandidateVotes.class);
-                candidate_votes.put(votes.vote_candidate_id, String.valueOf(votes.vote_candidate_vote));
-                details = candidate_details.get(votes.vote_candidate_id);
-                details.put("votes", String.valueOf(votes.vote_candidate_vote));
-                candidate_details.put(votes.vote_candidate_id, details);
+                ContentValues values=new ContentValues();
+                DataCandidates candidate = dataSnapshot.getValue(DataCandidates.class);
+                values.put("candidate_id", candidate.candidate_id);
+                values.put("candidate_name", candidate.candidate_name);
+                values.put("candidate_domain", candidate.candidate_domain);
+                values.put("candidate_party", candidate.candidate_party);
+                values.put("candidate_image", candidate.candidate_image);
+                String condition="candidate_id= "+candidate.candidate_id;
+                updateData(table,values,condition);
                 pushCandidateList();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                HashMap<String, String> details = new HashMap<String, String>();
-                CandidateVotes votes = dataSnapshot.getValue(CandidateVotes.class);
-                candidate_votes.put(votes.vote_candidate_id, String.valueOf(votes.vote_candidate_vote));
-                details = candidate_details.get(votes.vote_candidate_id);
-                details.put("votes", "0");
-                candidate_details.put(votes.vote_candidate_id, details);
+                DataCandidates candidate = dataSnapshot.getValue(DataCandidates.class);
+                String condition="candidate_id= "+candidate.candidate_id;
+                deleteData(table,condition);
                 pushCandidateList();
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
-    public void getFirebaseDetails() {
-        getFirebaseVotes();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("dkel_candidates");
+    //TO GET DOMAIN DETAILS TABLE
+    public void getDataDomains(){
+        final String table="dkel_domains";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(table);
         ref.keepSynced(true);
-        ref.orderByChild("candidate_name");
-        ref.orderByChild("candidate_name").addChildEventListener(new ChildEventListener() {
+        ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                HashMap<String, String> details = new HashMap<String, String>();
-                CandidateDetails candidate = dataSnapshot.getValue(CandidateDetails.class);
-                details.put("id", String.valueOf(candidate.candidate_id));
-                details.put("name", candidate.candidate_name);
-                details.put("domain", candidate.candidate_domain);
-                details.put("party", candidate.candidate_party);
-                details.put("panel", candidate.candidate_panel);
-                details.put("image", candidate.candidate_image);
-                details.put("votes", candidate_votes.get(candidate.candidate_id) != null ? candidate_votes.get(candidate.candidate_id) : "0");
-                candidate_details.put(candidate.candidate_id, details);
-                pushDomainList();
+                ContentValues values=new ContentValues();
+                DataDomains domains = dataSnapshot.getValue(DataDomains.class);
+                values.put("domain_id", domains.domain_id);
+                values.put("domain_name", domains.domain_name);
+                values.put("domain_status", domains.domain_status);
+                insertData(table,values);
                 pushCandidateList();
+                pushDomainList();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                HashMap<String, String> details = new HashMap<String, String>();
-                CandidateDetails candidate = dataSnapshot.getValue(CandidateDetails.class);
-                details.put("id", String.valueOf(candidate.candidate_id));
-                details.put("name", candidate.candidate_name);
-                details.put("domain", candidate.candidate_domain);
-                details.put("party", candidate.candidate_party);
-                details.put("panel", candidate.candidate_panel);
-                details.put("image", candidate.candidate_image);
-                details.put("votes", candidate_votes.get(candidate.candidate_id) != null ? candidate_votes.get(candidate.candidate_id) : "0");
-                candidate_details.put(candidate.candidate_id, details);
+                ContentValues values=new ContentValues();
+                DataDomains domains = dataSnapshot.getValue(DataDomains.class);
+                values.put("domain_id", domains.domain_id);
+                values.put("domain_name", domains.domain_name);
+                values.put("domain_status", domains.domain_status);
+                String condition="domain_id= "+domains.domain_id;
+                updateData(table,values,condition);
+                pushCandidateList();
                 pushDomainList();
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                DataDomains domains = dataSnapshot.getValue(DataDomains.class);
+                String condition="domain_id= "+domains.domain_id;
+                deleteData(table,condition);
+                pushCandidateList();
+                pushDomainList();
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+    //TO GET PANEL DETAILS TABLE
+    public void getDataPanels(){
+        final String table="dkel_panels";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(table);
+        ref.keepSynced(true);
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+
+                ContentValues values=new ContentValues();
+                DataPanels panels = dataSnapshot.getValue(DataPanels.class);
+                values.put("panel_id", panels.panel_id);
+                values.put("panel_name", panels.panel_name);
+                insertData(table,values);
+                pushCandidateList();
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                ContentValues values=new ContentValues();
+                DataPanels panels = dataSnapshot.getValue(DataPanels.class);
+                values.put("panel_id", panels.panel_id);
+                values.put("panel_name", panels.panel_name);
+                String condition="panel_id= "+panels.panel_id;
+                updateData(table,values,condition);
                 pushCandidateList();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                CandidateDetails candidate = dataSnapshot.getValue(CandidateDetails.class);
-                candidate_details.remove(candidate.candidate_id);
-                pushDomainList();
+                DataPanels panels = dataSnapshot.getValue(DataPanels.class);
+                String condition="panel_id= "+panels.panel_id;
+                deleteData(table,condition);
                 pushCandidateList();
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
-
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
+    //TO GET PARTIES DETAILS TABLE
+    public void getDataParties(){
+        final String table="dkel_parties";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(table);
+        ref.keepSynced(true);
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+
+                ContentValues values=new ContentValues();
+                DataParties parties = dataSnapshot.getValue(DataParties.class);
+                values.put("party_id", parties.party_id);
+                values.put("party_name", parties.party_name);
+                values.put("party_image", parties.party_image);
+                values.put("party_panel", parties.party_panel);
+                insertData(table,values);
+                pushCandidateList();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                ContentValues values=new ContentValues();
+                DataParties parties = dataSnapshot.getValue(DataParties.class);
+                values.put("party_id", parties.party_id);
+                values.put("party_name", parties.party_name);
+                values.put("party_image", parties.party_image);
+                values.put("party_panel", parties.party_panel);
+                String condition="party_id= "+parties.party_id;
+                updateData(table,values,condition);
+                pushCandidateList();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                DataParties parties = dataSnapshot.getValue(DataParties.class);
+                String condition="party_id= "+parties.party_id;
+                deleteData(table,condition);
+                pushCandidateList();
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    //TO GET VOTE DETAILS TABLE
+    public void getDataVotes(){
+        final String table="dkel_votes";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(table);
+        ref.keepSynced(true);
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+
+                ContentValues values=new ContentValues();
+                DataVotes votes = dataSnapshot.getValue(DataVotes.class);
+                values.put("vote_id", votes.vote_candidate_id);
+                values.put("vote_votes", votes.vote_candidate_vote);
+                insertData(table,values);
+                pushCandidateList();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                ContentValues values=new ContentValues();
+                DataVotes votes = dataSnapshot.getValue(DataVotes.class);
+                values.put("vote_id", votes.vote_candidate_id);
+                values.put("vote_votes", votes.vote_candidate_vote);
+                String condition="vote_id= "+votes.vote_candidate_id;
+                updateData(table,values,condition);
+                pushCandidateList();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                DataVotes votes = dataSnapshot.getValue(DataVotes.class);
+                String condition="vote_id= "+votes.vote_candidate_id;
+                deleteData(table,condition);
+                pushCandidateList();
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    //====================================== READ DATA FROM FIREBASE DATABSE ENDS HERE =========================================
 
     //To push to domain list view
     public void pushDomainList() {
+        SQLiteDatabase db=this.getReadableDatabase();
         ArrayList<String> domain_names = new ArrayList<>();
         final ArrayList<String> domain_nonfav = new ArrayList<>();
+        ArrayList<String>fav_list=getDomainFavList();
         domain_names.clear();
-        for (Integer candidate : candidate_details.keySet()) {
-            String domain = candidate_details.get(candidate).get("domain");
-            if (getDomainFavStatus(domain) && !domain_names.contains(domain)) {
-                domain_names.add(domain);
-            } else if (!(domain_nonfav.contains(domain) || domain_names.contains(domain))) {
-                domain_nonfav.add(domain);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domains`", null);
+        while (cur.moveToNext()){
+            if (fav_list.contains(cur.getString(1)) && !domain_names.contains(cur.getString(1))) {
+                domain_names.add(cur.getString(1));
+            }
+            else if (!(domain_nonfav.contains(cur.getString(1)) || domain_names.contains(cur.getString(1)))) {
+                domain_nonfav.add(cur.getString(1));
             }
         }
+        cur.close();
         Collections.sort(domain_names,String.CASE_INSENSITIVE_ORDER);
         Collections.sort(domain_nonfav,String.CASE_INSENSITIVE_ORDER);
         domain_names.addAll(domain_nonfav);
@@ -241,41 +368,64 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //To push to candidate list view
     public void pushCandidateList() {
+        SQLiteDatabase db=this.getReadableDatabase();
         ArrayList<HashMap<String,String>> candidate_names=new ArrayList<>();
         ArrayList<HashMap<String,String>> candidate_nonfav=new ArrayList<>();
+        ArrayList<Integer>fav_list=getCandidateFavList();
         candidate_names.clear();
-        for (Integer candidate : candidate_details.keySet()) {
-            if (getCandidateFavStatus(candidate)) {
-                candidate_names.add(candidate_details.get(candidate));
-            }else{
-                candidate_nonfav.add(candidate_details.get(candidate));
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`", null);
+        while (cur.moveToNext()){
+            if (fav_list.contains(cur.getInt(0))) {
+                HashMap<String,String> details=new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            else  {
+                HashMap<String,String> details=new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_nonfav.add(details);
             }
         }
+        cur.close();
         candidate_names.addAll(candidate_nonfav);
         TabCandidates tabCandidates = new TabCandidates();
         tabCandidates.setListValues(candidate_names);
     }
 
     //To check favorite status - domains
-    public boolean getDomainFavStatus(String domain_name) {
+    public ArrayList<String> getDomainFavList() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domain_favourites` WHERE `fav_domain_name`='" + domain_name + "'", null);
-        if (cur.getCount() > 0) {
-            return true;
-        } else {
-            return false;
+        ArrayList<String> fav_domains=new ArrayList<String>();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_domain_favourites`", null);
+        while (cur.moveToNext()){
+            fav_domains.add(cur.getString(1));
         }
+        cur.close();
+        return fav_domains;
     }
 
     //To check favorite status - candidates
-    public boolean getCandidateFavStatus(Integer fav_candidate_id) {
+    public ArrayList<Integer> getCandidateFavList() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidate_favourites` WHERE `fav_candidate_id`='" + fav_candidate_id+"'", null);
-        if (cur.getCount() > 0) {
-            return true;
-        } else {
-            return false;
+        ArrayList<Integer> fav_candidates=new ArrayList<>();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidate_favourites`", null);
+        while (cur.moveToNext()){
+            fav_candidates.add(cur.getInt(1));
         }
+        cur.close();
+        return fav_candidates;
     }
 
     //Adding domain to favorite

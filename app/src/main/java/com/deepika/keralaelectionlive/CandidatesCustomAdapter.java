@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,11 +32,13 @@ public class CandidatesCustomAdapter extends BaseAdapter {
     ArrayList<HashMap<String,String>> candidate_details;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
+    ArrayList<Integer>fav_list;
     public CandidatesCustomAdapter(Context context, ArrayList<HashMap<String,String>> candidate_details){
         this.context=context;
         dbHelper=new DbHelper(context);
         this.candidate_details=candidate_details;
         layoutInflater = LayoutInflater.from(context);
+        fav_list=dbHelper.getCandidateFavList();
     }
 
     @Override
@@ -62,7 +66,7 @@ public class CandidatesCustomAdapter extends BaseAdapter {
         TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
-        if(dbHelper.getCandidateFavStatus(candidate)){
+        if(fav_list.contains(candidate)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
         else {
@@ -75,25 +79,20 @@ public class CandidatesCustomAdapter extends BaseAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dbHelper.getCandidateFavStatus(candidate)){
+                if(fav_list.contains(candidate)){
                     dbHelper.removeCandidateFromFavourite(candidate);
-                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                    dbHelper.pushCandidateList();
+//                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
                 else {
                     dbHelper.addCandidateToFavourite(candidate);
-                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
+                    dbHelper.pushCandidateList();
+//                    ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
                 }
             }
             //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
         });
-        String firstLetter =String.valueOf(candidate_details.get(position).get("domain").charAt(0));
-        ColorGenerator generator = ColorGenerator.DEFAULT; // or use DEFAULT
-        // generate random color
-        int color = generator.getColor(getItem(position));
-        //int color = generator.getRandomColor();
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRound(firstLetter, color); // radius in px
-        imageView.setImageDrawable(drawable);
+        Picasso.with(context).load(candidate_details.get(position).get("image")).into(imageView);
         return rowView;
     }
     public Fragment getVisibleFragment(){
