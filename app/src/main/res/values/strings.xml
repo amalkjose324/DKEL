@@ -12,6 +12,13 @@
     <string name="tab_text_1">DOMAINS</string>
     <string name="tab_text_2">HOME</string>
     <string name="tab_text_3">CANDIDATES</string>
+    <string name="domain_tab_text_1">RESULT</string>
+    <string name="domain_tab_text_2">ANALYSIS</string>
+
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="runtime_permissions_txt">Please enable ALL permissions from app settings.</string>
+    <string name="title_activity_domain_wise">DomainWiseActivity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
 </resources>

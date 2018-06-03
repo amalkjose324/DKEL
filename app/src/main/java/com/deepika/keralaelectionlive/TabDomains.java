@@ -2,6 +2,7 @@ package com.deepika.keralaelectionlive;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -19,9 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TabDomains extends Fragment {
-    public static ArrayList<String> domain_names=new ArrayList<>();
+    public static ArrayList<HashMap<String,String>> domain_names=new ArrayList<>();
     public static Context context;
     ListView listView;
     DbHelper dbHelper;
@@ -38,8 +40,10 @@ public class TabDomains extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv = (TextView) view.findViewById(R.id.result_text);
-                Toast.makeText(getContext(),tv.getText().toString(),Toast.LENGTH_SHORT).show();
+                TextView tv = (TextView) view.findViewById(R.id.result_id);
+                dbHelper.setSessionDomainId(Integer.parseInt(tv.getText().toString()));
+                Intent intent=new Intent(context,DomainWiseActivity.class);
+                context.startActivity(intent);
             }
         });
         editText.addTextChangedListener(new TextWatcher() {
@@ -49,12 +53,12 @@ public class TabDomains extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ArrayList<String> temp = new ArrayList<String>();
+                ArrayList<HashMap<String,String>> temp = new ArrayList<HashMap<String,String>>();
                 String  text = editText.getText().toString().toLowerCase().trim();
                 temp.clear();
                 for (int i = 0; i < domain_names.size(); i++)
                 {
-                    if (domain_names.get(i).toLowerCase().contains(text))
+                    if (domain_names.get(i).get("name").toLowerCase().contains(text))
                     {
                         temp.add(domain_names.get(i));
                     }
@@ -67,9 +71,11 @@ public class TabDomains extends Fragment {
         });
         return rootView;
     }
-    public void setListValues(ArrayList<String> arrayList){
+    public void setListValues(ArrayList<HashMap<String,String>> arrayList){
         domain_names=arrayList;
-        listView=(ListView)rootView.findViewById(R.id.list_results);
-        listView.setAdapter(new DomainsCustomAdapter(context,arrayList));
+        if(context!=null) {
+            listView = (ListView) rootView.findViewById(R.id.list_results);
+            listView.setAdapter(new DomainsCustomAdapter(context, arrayList));
+        }
     }
 }

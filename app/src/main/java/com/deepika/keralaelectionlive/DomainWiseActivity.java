@@ -2,6 +2,8 @@ package com.deepika.keralaelectionlive;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,51 +22,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class DomainWiseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DbHelper dbHelper;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that private ViewPager mViewPager;will host the section contents.
-     */
+    private DomainWiseActivity.SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_domain_wise);
+        dbHelper=new DbHelper(DomainWiseActivity.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        TextView tv=(TextView)findViewById(R.id.domain_name);
+        tv.setText(dbHelper.getSelectedDomainName());
+        mSectionsPagerAdapter = new DomainWiseActivity.SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        dbHelper=new DbHelper(MainActivity.this);
-        dbHelper.getDataCandidates();
-        dbHelper.getDataDomains();
-        dbHelper.getDataVotes();
-        dbHelper.getDataPanels();
-        dbHelper.getDataParties();
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(0);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,7 +59,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override
@@ -102,15 +87,15 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_share) {
-            String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
+            String data = "Deepika Election Live \n\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
             final Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_TEXT, data);
             startActivity(i);
         } else if (id == R.id.action_about) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+            final AlertDialog.Builder builder = new AlertDialog.Builder(DomainWiseActivity.this);
+            LayoutInflater inflater = (DomainWiseActivity.this).getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
@@ -127,6 +112,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -150,8 +136,8 @@ public class MainActivity extends AppCompatActivity
             i.putExtra(Intent.EXTRA_TEXT, data);
             startActivity(i);
         } else if (id == R.id.nav_about) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+            final AlertDialog.Builder builder = new AlertDialog.Builder(DomainWiseActivity.this);
+            LayoutInflater inflater = (DomainWiseActivity.this).getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
@@ -185,14 +171,11 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    TabDomains tabDomains = new TabDomains();
-                    return tabDomains;
+                    TabDomainWiseResult tabDomainWiseResult = new TabDomainWiseResult();
+                    return tabDomainWiseResult;
                 case 1:
-                    TabHome tabHome = new TabHome();
-                    return tabHome;
-                case 2:
-                    TabCandidates tabCandidates = new TabCandidates();
-                    return tabCandidates;
+                    TabDomainWiseAnalysis tabDomainWiseAnalysis = new TabDomainWiseAnalysis();
+                    return tabDomainWiseAnalysis;
                 default:
                     return null;
             }
@@ -201,11 +184,11 @@ public class MainActivity extends AppCompatActivity
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
     }
     public Fragment getVisibleFragment(){
-        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+        FragmentManager fragmentManager = DomainWiseActivity.this.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         for(Fragment fragment : fragments){
             if(fragment != null && fragment.getUserVisibleHint())

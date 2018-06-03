@@ -26,7 +26,6 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 public class SplashActivity extends AppCompatActivity {
-    DbHelper dbHelper=new DbHelper(this);
     ImageView mContentView;
     private SparseIntArray mErrorString;
     private static final int REQUEST_PERMISSIONS = 20;
