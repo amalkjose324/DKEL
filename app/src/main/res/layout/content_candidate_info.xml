@@ -11,5 +11,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/hellotest"
         android:text="Hello"/>
 </android.support.constraint.ConstraintLayout>

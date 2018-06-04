@@ -1,5 +1,6 @@
 package com.deepika.keralaelectionlive;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,17 +18,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CandidateInfoActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DbHelper dbHelper;
-
+    public static TextView hello;
+public static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.context=getApplicationContext();
         dbHelper = new DbHelper(CandidateInfoActivity.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -35,10 +42,12 @@ public class CandidateInfoActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        hello=(TextView)findViewById(R.id.hellotest);
         TextView tv=(TextView)findViewById(R.id.candidate_name);
         tv.setText(dbHelper.getSelectedCandidateName());
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        dbHelper.pushandidateDetails();
     }
 
     @Override
@@ -135,5 +144,14 @@ public class CandidateInfoActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void setCandidateValues(ArrayList<HashMap<String, String>> selected_candidate,ArrayList<HashMap<String, String>> other_candidate){
+        if(context!=null) {
+            Toast.makeText(context, other_candidate.toString(), Toast.LENGTH_SHORT).show();
+            for(HashMap h:other_candidate){
+                hello.setText(hello.getText()+"\n"+h.get("name"));
+            }
+
+        }
     }
 }

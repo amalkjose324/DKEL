@@ -141,6 +141,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 insertData(table, values);
                 pushCandidateList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -156,6 +157,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 updateData(table, values, condition);
                 pushCandidateList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -165,6 +167,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 deleteData(table, condition);
                 pushCandidateList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -192,6 +195,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -206,6 +210,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -216,6 +221,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -242,6 +248,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 insertData(table, values);
                 pushCandidateList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -253,6 +260,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 String condition = "panel_id= " + panels.panel_id;
                 updateData(table, values, condition);
                 pushCandidateList();
+                pushandidateDetails();
                 pushDomainWiseCandidateList();
             }
 
@@ -263,6 +271,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 deleteData(table, condition);
                 pushCandidateList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -290,6 +299,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 values.put("party_panel", parties.party_panel);
                 insertData(table, values);
                 pushCandidateList();
+                pushandidateDetails();
                 pushDomainWiseCandidateList();
             }
 
@@ -304,6 +314,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 String condition = "party_id= " + parties.party_id;
                 updateData(table, values, condition);
                 pushCandidateList();
+                pushandidateDetails();
                 pushDomainWiseCandidateList();
             }
 
@@ -314,6 +325,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 deleteData(table, condition);
                 pushCandidateList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -339,6 +351,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 values.put("vote_votes", votes.vote_candidate_vote);
                 insertData(table, values);
                 pushCandidateList();
+                pushandidateDetails();
                 pushDomainWiseCandidateList();
             }
 
@@ -352,6 +365,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 updateData(table, values, condition);
                 pushCandidateList();
                 pushDomainWiseCandidateList();
+                pushandidateDetails();
             }
 
             @Override
@@ -360,6 +374,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 String condition = "vote_id= " + votes.vote_candidate_id;
                 deleteData(table, condition);
                 pushCandidateList();
+                pushandidateDetails();
                 pushDomainWiseCandidateList();
             }
 
@@ -462,7 +477,48 @@ public class DbHelper extends SQLiteOpenHelper {
             tabDomainWiseResult.setListValues(candidate_names);
         }
     }
+    //To push to candidate details view
+    public void pushandidateDetails() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (session.getSelectedCandidate() != null) {
+            int candidate_id = session.getSelectedCandidate();
+            int domain_id=0;
+            Cursor cur;
+            ArrayList<HashMap<String, String>> selected_candidate = new ArrayList<>();
+            ArrayList<HashMap<String, String>> other_candidates = new ArrayList<>();
+            selected_candidate.clear();
+            cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `candidate_id`=" + candidate_id, null);
+            while (cur.moveToNext()) {
+                domain_id=cur.getInt(cur.getColumnIndex("candidate_domain"));
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                selected_candidate.add(details);
 
+            }
+            cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `candidate_domain`= "+domain_id+" AND `candidate_id`<>" + candidate_id, null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                other_candidates.add(details);
+
+            }
+            cur.close();
+            CandidateInfoActivity candidateInfoActivity=new CandidateInfoActivity();
+            candidateInfoActivity.setCandidateValues(selected_candidate,other_candidates);
+        }
+    }
     //To check favorite status - domains
     public ArrayList<Integer> getDomainFavList() {
         SQLiteDatabase db = this.getReadableDatabase();
