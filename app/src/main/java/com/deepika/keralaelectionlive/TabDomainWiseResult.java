@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 public class TabDomainWiseResult extends Fragment {
     public static ArrayList<HashMap<String,String>> candidate_names=new ArrayList<>();
     public static Context context;
-    public static ListView listView;
+    ListView listView;
     DbHelper dbHelper;
     public static View rootView;
 
@@ -37,10 +38,10 @@ public class TabDomainWiseResult extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv = (TextView) view.findViewById(R.id.result_text);
-                Toast.makeText(getContext(),tv.getText().toString(),Toast.LENGTH_SHORT).show();
-//                Intent intent=new Intent(context,DomainWiseActivity.class);
-//                context.startActivity(intent);
+               TextView tv = (TextView) view.findViewById(R.id.candidate_id);
+               dbHelper.setSessionCandidateId(Integer.parseInt(tv.getText().toString()));
+               Intent intent=new Intent(context,CandidateInfoActivity.class);
+               context.startActivity(intent);
             }
         });
         return rootView;

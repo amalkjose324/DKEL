@@ -29,6 +29,10 @@
         <activity
             android:name=".DomainWiseActivity"
             android:label="@string/title_activity_domain_wise"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CandidateInfoActivity"
+            android:label="@string/title_activity_candidate_info"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

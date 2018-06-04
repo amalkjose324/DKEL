@@ -19,4 +19,12 @@ public class Session {
         int domain_id = prefs.getInt("domain_id",0);
         return domain_id;
     }
+    public void setSelectedCandidate(Integer candidate_id) {
+        prefs.edit().putInt("candidate_id", candidate_id).apply();
+    }
+
+    public Integer getSelectedCandidate() {
+        int candidate_id = prefs.getInt("candidate_id",0);
+        return candidate_id;
+    }
 }

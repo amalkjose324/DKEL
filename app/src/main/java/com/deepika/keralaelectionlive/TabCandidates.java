@@ -1,6 +1,7 @@
 package com.deepika.keralaelectionlive;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -37,8 +38,10 @@ public class TabCandidates extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv = (TextView) view.findViewById(R.id.candidate_name);
-                Toast.makeText(getContext(),tv.getText().toString(),Toast.LENGTH_SHORT).show();
+                TextView tv = (TextView) view.findViewById(R.id.result_id);
+                dbHelper.setSessionCandidateId(Integer.parseInt(tv.getText().toString()));
+                Intent intent=new Intent(context,CandidateInfoActivity.class);
+                context.startActivity(intent);
             }
         });
         editText.addTextChangedListener(new TextWatcher() {

@@ -63,6 +63,7 @@ public class CandidatesCustomAdapter extends BaseAdapter {
         TextView name=(TextView)rowView.findViewById(R.id.candidate_name);
         TextView domain=(TextView)rowView.findViewById(R.id.candidate_domain);
         TextView party=(TextView)rowView.findViewById(R.id.candidate_party);
+        TextView idText=(TextView)rowView.findViewById(R.id.result_id);
         TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
@@ -73,6 +74,7 @@ public class CandidatesCustomAdapter extends BaseAdapter {
             imageButton.setImageResource(R.drawable.ic_star_outline_gray_24dp);
         }
         name.setText(candidate_details.get(position).get("name"));
+        idText.setText(candidate_details.get(position).get("id"));
         domain.setText(candidate_details.get(position).get("domain"));
         party.setText(candidate_details.get(position).get("party")+" ("+candidate_details.get(position).get("panel")+")");
         votes.setText(candidate_details.get(position).get("votes"));

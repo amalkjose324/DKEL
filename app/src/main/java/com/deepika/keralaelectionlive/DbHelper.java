@@ -524,4 +524,17 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return domain_name;
     }
+    public void setSessionCandidateId(int candidateId) {
+        session.setSelectedCandidate(candidateId);
+    }
+    public String getSelectedCandidateName(){
+        int candidate_id=session.getSelectedCandidate();
+        String candidate_name="";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates` WHERE `candidate_id`="+candidate_id, null);
+        if(cur.moveToNext()){
+            candidate_name=cur.getString(cur.getColumnIndex("candidate_name"));
+        }
+        return candidate_name;
+    }
 }
