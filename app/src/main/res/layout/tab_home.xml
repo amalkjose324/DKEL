@@ -197,6 +197,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
+                android:id="@+id/card_leading"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 card_view:cardBackgroundColor="#CCFFFFFF">

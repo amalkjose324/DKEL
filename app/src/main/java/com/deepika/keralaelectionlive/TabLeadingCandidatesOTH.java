@@ -14,13 +14,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
-public class TabCandidates extends Fragment {
+public class TabLeadingCandidatesOTH extends Fragment {
     public static ArrayList<HashMap<String,String>> candidate_names=new ArrayList<>();
     public static Context context;
     ListView listView;
@@ -32,8 +30,9 @@ public class TabCandidates extends Fragment {
                              Bundle savedInstanceState) {
         this.context=getActivity();
         dbHelper=new DbHelper(getActivity());
-        rootView = inflater.inflate(R.layout.tab_candidates, container, false);
+        rootView = inflater.inflate(R.layout.tab_leading_candidates, container, false);
         listView=(ListView)rootView.findViewById(R.id.list_results);
+        dbHelper.pushLeadingCandidateOTHList();
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -62,7 +61,7 @@ public class TabCandidates extends Fragment {
                     }
 
                 }
-                listView.setAdapter(new CandidatesCustomAdapter(context,temp));
+                listView.setAdapter(new LeadingCandidatesCustomAdapter(context,temp));
             }
             @Override
             public void afterTextChanged(Editable editable) {
@@ -74,7 +73,7 @@ public class TabCandidates extends Fragment {
         candidate_names=arrayList;
         if(context!=null) {
             listView = (ListView) rootView.findViewById(R.id.list_results);
-            listView.setAdapter(new CandidatesCustomAdapter(context, arrayList));
+            listView.setAdapter(new LeadingCandidatesCustomAdapter(context, arrayList));
         }
     }
 }

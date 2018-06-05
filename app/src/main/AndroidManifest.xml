@@ -33,6 +33,10 @@
         <activity
             android:name=".CandidateInfoActivity"
             android:label="@string/title_activity_candidate_info"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LeadingListActivity"
+            android:label="@string/title_activity_leading_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

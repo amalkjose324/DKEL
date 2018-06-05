@@ -22,4 +22,5 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="title_activity_candidate_info">CandidateInfoActivity</string>
+    <string name="title_activity_leading_list">LeadingListActivity</string>
 </resources>

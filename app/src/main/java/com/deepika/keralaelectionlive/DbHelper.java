@@ -142,6 +142,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -158,6 +163,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -168,6 +178,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -196,6 +211,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushDomainList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -211,6 +231,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushDomainList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -222,6 +247,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushDomainList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -249,6 +279,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -262,6 +297,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushandidateDetails();
                 pushDomainWiseCandidateList();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -272,6 +312,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -301,6 +346,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushandidateDetails();
                 pushDomainWiseCandidateList();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -316,6 +366,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushandidateDetails();
                 pushDomainWiseCandidateList();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -326,6 +381,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -353,6 +413,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushandidateDetails();
                 pushDomainWiseCandidateList();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -366,6 +431,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushDomainWiseCandidateList();
                 pushandidateDetails();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -376,6 +446,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushCandidateList();
                 pushandidateDetails();
                 pushDomainWiseCandidateList();
+                pushLeadingCandidateAllList();
+                pushLeadingCandidateUDFList();
+                pushLeadingCandidateLDFList();
+                pushLeadingCandidateNDAList();
+                pushLeadingCandidateOTHList();
             }
 
             @Override
@@ -518,6 +593,120 @@ public class DbHelper extends SQLiteOpenHelper {
             CandidateInfoActivity candidateInfoActivity=new CandidateInfoActivity();
             candidateInfoActivity.setCandidateValues(selected_candidate,other_candidates);
         }
+    }
+
+    //To push to all leading candidate list view
+    public void pushLeadingCandidateAllList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+            ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
+            candidate_names.clear();
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+
+            }
+            cur.close();
+            TabLeadingCandidatesAll tabLeadingCandidatesAll=new TabLeadingCandidatesAll();
+            tabLeadingCandidatesAll.setListValues(candidate_names);
+    }
+
+    //To push to udf leading candidate list view
+    public void pushLeadingCandidateUDFList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
+        candidate_names.clear();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=1 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        while (cur.moveToNext()) {
+            HashMap<String, String> details = new HashMap<>();
+            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+            candidate_names.add(details);
+
+        }
+        cur.close();
+        TabLeadingCandidatesUDF tabLeadingCandidatesUDF=new TabLeadingCandidatesUDF();
+        tabLeadingCandidatesUDF.setListValues(candidate_names);
+    }
+    //To push to ldf leading candidate list view
+    public void pushLeadingCandidateLDFList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
+        candidate_names.clear();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=2 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        while (cur.moveToNext()) {
+            HashMap<String, String> details = new HashMap<>();
+            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+            candidate_names.add(details);
+
+        }
+        cur.close();
+        TabLeadingCandidatesLDF tabLeadingCandidatesLDF=new TabLeadingCandidatesLDF();
+        tabLeadingCandidatesLDF.setListValues(candidate_names);
+    }
+
+    //To push to NDA leading candidate list view
+    public void pushLeadingCandidateNDAList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
+        candidate_names.clear();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=3 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        while (cur.moveToNext()) {
+            HashMap<String, String> details = new HashMap<>();
+            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+            candidate_names.add(details);
+
+        }
+        cur.close();
+        TabLeadingCandidatesNDA tabLeadingCandidatesNDA=new TabLeadingCandidatesNDA();
+        tabLeadingCandidatesNDA.setListValues(candidate_names);
+    }
+
+    //To push to OTH leading candidate list view
+    public void pushLeadingCandidateOTHList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
+        candidate_names.clear();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=4 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        while (cur.moveToNext()) {
+            HashMap<String, String> details = new HashMap<>();
+            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+            candidate_names.add(details);
+
+        }
+        cur.close();
+        TabLeadingCandidatesOTH tabLeadingCandidatesOTH=new TabLeadingCandidatesOTH();
+        tabLeadingCandidatesOTH.setListValues(candidate_names);
     }
     //To check favorite status - domains
     public ArrayList<Integer> getDomainFavList() {
