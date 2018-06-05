@@ -220,7 +220,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.5"
                             android:background="#0F823F"
                             android:padding="7dp"
                             android:text="UDF"
@@ -232,7 +232,7 @@
                             android:id="@+id/ltvUcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="0.5"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -249,7 +249,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
+                            android:layout_weight="0.2"
                             android:autoText="false"
                             android:background="#D62728"
                             android:padding="7dp"
@@ -262,20 +262,20 @@
                             android:id="@+id/ltvLcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
+                            android:layout_weight="0.8"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/lbjp"
+                        android:id="@+id/lnda"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/ltvBjp"
+                            android:id="@+id/ltvNda"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
@@ -288,10 +288,10 @@
                             android:textColor="#FFFFFF" />
 
                         <TextView
-                            android:id="@+id/ltvBcount"
+                            android:id="@+id/ltvNcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
+                            android:layout_weight="0.2"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
