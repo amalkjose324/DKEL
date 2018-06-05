@@ -1,5 +1,6 @@
 package com.deepika.keralaelectionlive;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -46,7 +47,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", 1);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(fragmentId);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -78,12 +83,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     @Override
@@ -134,14 +143,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-            // was language selector
+        if (id == R.id.nav_leading) {
+            Intent intent=new Intent(MainActivity.this,LeadingListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_won) {
+            Intent intent=new Intent(MainActivity.this,WonListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_home) {
+            mViewPager.setCurrentItem(1);
+        } else if (id == R.id.nav_domains) {
+            mViewPager.setCurrentItem(0);
+        } else if (id == R.id.nav_candidates) {
+            mViewPager.setCurrentItem(2);
         } else if (id == R.id.nav_share) {
             String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
             final Intent i = new Intent();

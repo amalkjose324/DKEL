@@ -3,24 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <item android:title="Navigations">
+        <menu>
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_leading"
+            android:icon="@drawable/ic_leading"
+            android:title="Leadings" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_won"
+            android:icon="@drawable/ic_trophy"
+            android:title="Winners" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_domains"
             android:icon="@drawable/ic_language"
-            android:title="Language" />
-    </group>
+            android:title="Domains" />
+        <item
+            android:id="@+id/nav_candidates"
+            android:icon="@drawable/ic_candidate"
+            android:title="Candidates" />
+        </menu>
+    </item>
 
     <item android:title="Communicate">
         <menu>

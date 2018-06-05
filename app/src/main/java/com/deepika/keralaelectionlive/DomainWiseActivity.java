@@ -1,5 +1,6 @@
 package com.deepika.keralaelectionlive;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -60,15 +62,29 @@ public class DomainWiseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
+    private static long back_pressed;
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+        if (!(back_pressed + 2000 > System.currentTimeMillis())) {
             super.onBackPressed();
         }
+        else{
+            new AlertDialog.Builder(this)
+                    .setMessage("Are you sure you want to exit?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+
+        }
+        back_pressed = System.currentTimeMillis();
     }
 
     @Override
@@ -120,14 +136,24 @@ public class DomainWiseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-            // was language selector
+        if (id == R.id.nav_leading) {
+            Intent intent=new Intent(DomainWiseActivity.this,LeadingListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_won) {
+            Intent intent=new Intent(DomainWiseActivity.this,WonListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_home) {
+            Intent intent=new Intent(DomainWiseActivity.this,MainActivity.class);
+            intent.putExtra("FRAGMENT_ID",1);
+            startActivity(intent);
+        } else if (id == R.id.nav_domains) {
+            Intent intent=new Intent(DomainWiseActivity.this,MainActivity.class);
+            intent.putExtra("FRAGMENT_ID",0);
+            startActivity(intent);
+        } else if (id == R.id.nav_candidates) {
+            Intent intent=new Intent(DomainWiseActivity.this,MainActivity.class);
+            intent.putExtra("FRAGMENT_ID",2);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
             String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
             final Intent i = new Intent();
