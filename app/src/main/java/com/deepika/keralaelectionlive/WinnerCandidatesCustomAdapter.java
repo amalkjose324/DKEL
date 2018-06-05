@@ -17,12 +17,12 @@ import java.util.HashMap;
  * Created by mail on 06-03-2018.
  */
 
-public class LeadingCandidatesCustomAdapter extends BaseAdapter {
+public class WinnerCandidatesCustomAdapter extends BaseAdapter {
     private Context context;
     ArrayList<HashMap<String,String>> candidate_details;
     LayoutInflater layoutInflater=null;
     DbHelper dbHelper;
-    public LeadingCandidatesCustomAdapter(Context context, ArrayList<HashMap<String,String>> candidate_details){
+    public WinnerCandidatesCustomAdapter(Context context, ArrayList<HashMap<String,String>> candidate_details){
         this.context=context;
         dbHelper=new DbHelper(context);
         layoutInflater = LayoutInflater.from(context);

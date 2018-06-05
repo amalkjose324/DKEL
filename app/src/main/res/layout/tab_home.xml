@@ -352,6 +352,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/wonCard"
                 android:layout_margin="8dp"
                 card_view:cardBackgroundColor="#CCFFFFFF">
 
@@ -369,7 +370,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvUdf"
+                            android:id="@+id/wtvUdf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
@@ -381,7 +382,7 @@
                             android:textColor="#FFFFFF" />
 
                         <TextView
-                            android:id="@+id/tvUcount"
+                            android:id="@+id/wtvUcount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
@@ -396,7 +397,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvLdf"
+                            android:id="@+id/wtvLdf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
@@ -423,7 +424,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvBjp"
+                            android:id="@+id/wtvNda"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
@@ -450,7 +451,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvOth"
+                            android:id="@+id/wtvOth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"

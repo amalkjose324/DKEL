@@ -30,7 +30,7 @@ public class TabLeadingCandidatesOTH extends Fragment {
                              Bundle savedInstanceState) {
         this.context=getActivity();
         dbHelper=new DbHelper(getActivity());
-        rootView = inflater.inflate(R.layout.tab_leading_candidates, container, false);
+        rootView = inflater.inflate(R.layout.tab_candidates, container, false);
         listView=(ListView)rootView.findViewById(R.id.list_results);
         dbHelper.pushLeadingCandidateOTHList();
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);

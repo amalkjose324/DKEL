@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TabLeadingCandidatesNDA extends Fragment {
+public class TabWinnerCandidatesAll extends Fragment {
     public static ArrayList<HashMap<String,String>> candidate_names=new ArrayList<>();
     public static Context context;
     ListView listView;
@@ -32,7 +32,7 @@ public class TabLeadingCandidatesNDA extends Fragment {
         dbHelper=new DbHelper(getActivity());
         rootView = inflater.inflate(R.layout.tab_candidates, container, false);
         listView=(ListView)rootView.findViewById(R.id.list_results);
-        dbHelper.pushLeadingCandidateNDAList();
+        dbHelper.pushWinnerCandidateAllList();
         final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,7 +44,6 @@ public class TabLeadingCandidatesNDA extends Fragment {
             }
         });
         editText.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -61,7 +60,7 @@ public class TabLeadingCandidatesNDA extends Fragment {
                     }
 
                 }
-                listView.setAdapter(new LeadingCandidatesCustomAdapter(context,temp));
+                listView.setAdapter(new WinnerCandidatesCustomAdapter(context,temp));
             }
             @Override
             public void afterTextChanged(Editable editable) {
@@ -71,9 +70,9 @@ public class TabLeadingCandidatesNDA extends Fragment {
     }
     public void setListValues(ArrayList<HashMap<String,String>> arrayList){
         candidate_names=arrayList;
-        if(context!=null) {
+        if(context!=null ) {
             listView = (ListView) rootView.findViewById(R.id.list_results);
-            listView.setAdapter(new LeadingCandidatesCustomAdapter(context, arrayList));
+            listView.setAdapter(new WinnerCandidatesCustomAdapter(context, arrayList));
         }
     }
 }

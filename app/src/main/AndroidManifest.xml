@@ -37,6 +37,10 @@
         <activity
             android:name=".LeadingListActivity"
             android:label="@string/title_activity_leading_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WonListActivity"
+            android:label="@string/title_activity_won_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
