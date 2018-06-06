@@ -63,7 +63,7 @@ public class DomainWiseResultCustomAdapter extends BaseAdapter {
         idText.setText(candidate_details.get(position).get("id"));
         party.setText(candidate_details.get(position).get("party")+" ("+candidate_details.get(position).get("panel")+")");
         votes.setText(candidate_details.get(position).get("votes") +"#");
-        Picasso.with(context).load(candidate_details.get(position).get("image")).into(imageView);
+        Picasso.with(context).load(candidate_details.get(position).get("image")).transform(new RoundedTransformation(360, 0)).into(imageView);
         return rowView;
     }
 }
