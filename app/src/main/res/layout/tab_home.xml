@@ -29,6 +29,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:gravity="center_horizontal">
 
                 <LinearLayout
@@ -174,6 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/layout_result"
+                android:layout_marginTop="15dp"
                 android:visibility="visible"
                 android:orientation="vertical">
 
@@ -214,16 +216,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.15"
+                            android:background="#0F823F"
+                            android:layout_marginRight="2dp"
+                            android:padding="7dp"
+                            android:text="UDF"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
                         <TextView
                             android:id="@+id/ltvUdf"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
                             android:layout_weight="0.5"
-                            android:background="#0F823F"
+                            android:background="@drawable/vote_bar_udf"
                             android:padding="7dp"
-                            android:text="UDF"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
@@ -232,7 +244,7 @@
                             android:id="@+id/ltvUcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -243,17 +255,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.15"
+                            android:background="#D62728"
+                            android:layout_marginRight="2dp"
+                            android:padding="7dp"
+                            android:text="LDF"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
                         <TextView
                             android:id="@+id/ltvLdf"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:layout_weight="0.2"
-                            android:autoText="false"
-                            android:background="#D62728"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/vote_bar_ldf"
                             android:padding="7dp"
-                            android:text="LDF"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
@@ -262,7 +283,7 @@
                             android:id="@+id/ltvLcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -273,16 +294,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.15"
+                            android:background="#F37022"
+                            android:layout_marginRight="2dp"
+                            android:padding="7dp"
+                            android:text="NDA"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
                         <TextView
                             android:id="@+id/ltvNda"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:layout_weight="0.8"
-                            android:background="#F37022"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/vote_bar_nda"
                             android:padding="7dp"
-                            android:text="NDA"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
@@ -291,7 +322,7 @@
                             android:id="@+id/ltvNcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.2"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -302,17 +333,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.15"
+                            android:background="#1f77B4"
+                            android:layout_marginRight="2dp"
+                            android:padding="7dp"
+                            android:text="OTH"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
                         <TextView
                             android:id="@+id/ltvOth"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity=""
                             android:layout_marginBottom="2dp"
-                            android:layout_weight="0.3"
-                            android:background="#1f77B4"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/vote_bar_oth"
                             android:padding="7dp"
-                            android:text="OTH"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
@@ -321,7 +362,7 @@
                             android:id="@+id/ltvOcount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.7"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -368,23 +409,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <TextView
-                            android:id="@+id/wtvUdf"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.15"
                             android:layout_marginBottom="2dp"
                             android:background="#0F823F"
                             android:padding="7dp"
                             android:text="UDF"
+                            android:layout_marginRight="2dp"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:id="@+id/wtvUdf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/vote_bar_udf"
+                            android:padding="7dp"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
 
                         <TextView
                             android:id="@+id/wtvUcount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -395,23 +448,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <TextView
-                            android:id="@+id/wtvLdf"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.15"
                             android:layout_marginBottom="2dp"
                             android:background="#D62728"
                             android:padding="7dp"
+                            android:layout_marginRight="2dp"
                             android:text="LDF"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:id="@+id/wtvLdf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/vote_bar_ldf"
+                            android:padding="7dp"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
 
                         <TextView
-                            android:id="@+id/tvLcount"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/wtvLcount"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -422,23 +487,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <TextView
-                            android:id="@+id/wtvNda"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.15"
                             android:layout_marginBottom="2dp"
                             android:background="#F37022"
+                            android:layout_marginRight="2dp"
                             android:padding="7dp"
                             android:text="NDA"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
+                        <TextView
+                            android:id="@+id/wtvNda"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/vote_bar_nda"
+                            android:padding="7dp"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
 
                         <TextView
-                            android:id="@+id/tvBcount"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/wtvNcount"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -449,23 +526,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <TextView
-                            android:id="@+id/wtvOth"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.15"
                             android:layout_marginBottom="2dp"
                             android:background="#1f77B4"
                             android:padding="7dp"
+                            android:layout_marginRight="2dp"
                             android:text="OTH"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFF" />
+                        <TextView
+                            android:id="@+id/wtvOth"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:layout_marginBottom="2dp"
+                            android:background="@drawable/vote_bar_oth"
+                            android:padding="7dp"
                             android:textAlignment="center"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="#FFFFFF" />
 
                         <TextView
-                            android:id="@+id/tvOcount"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/wtvOcount"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
                             android:paddingLeft="5dp"
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceSmall" />

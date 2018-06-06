@@ -465,7 +465,6 @@ public class DbHelper extends SQLiteOpenHelper {
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-
                 ContentValues values = new ContentValues();
                 DataVotes votes = dataSnapshot.getValue(DataVotes.class);
                 values.put("vote_id", votes.vote_candidate_id);
@@ -484,6 +483,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushVoteSummery();
             }
 
             @Override
@@ -507,6 +507,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushVoteSummery();
             }
 
             @Override
@@ -522,6 +523,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushLeadingCandidateLDFList();
                 pushLeadingCandidateNDAList();
                 pushLeadingCandidateOTHList();
+                pushVoteSummery();
             }
 
             @Override
@@ -671,7 +673,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
             ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
             candidate_names.clear();
-            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
             while (cur.moveToNext()) {
                 HashMap<String, String> details = new HashMap<>();
                 details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
@@ -694,7 +696,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=1 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=1 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
         while (cur.moveToNext()) {
             HashMap<String, String> details = new HashMap<>();
             details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
@@ -716,7 +718,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=2 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=2 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
         while (cur.moveToNext()) {
             HashMap<String, String> details = new HashMap<>();
             details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
@@ -739,7 +741,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=3 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=3 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
         while (cur.moveToNext()) {
             HashMap<String, String> details = new HashMap<>();
             details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
@@ -762,7 +764,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 AND `party_panel`=4 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=1 GROUP BY domain_id) ORDER BY `domain_name`",null);
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=4 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
         while (cur.moveToNext()) {
             HashMap<String, String> details = new HashMap<>();
             details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
@@ -893,6 +895,50 @@ public class DbHelper extends SQLiteOpenHelper {
         cur.close();
         TabWinnerCandidatesOTH tabWinnerCandidatesOTH=new TabWinnerCandidatesOTH();
         tabWinnerCandidatesOTH.setListValues(candidate_names);
+    }
+
+    //To push Vote summery to home tab
+    public void pushVoteSummery() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` GROUP BY domain_id) ORDER BY `domain_name`",null);
+        HashMap<String, Integer> details = new HashMap<>();
+        details.put("Lead_UDF",0);
+        details.put("Lead_LDF",0);
+        details.put("Lead_NDA",0);
+        details.put("Lead_OTH",0);
+        details.put("Won_UDF",0);
+        details.put("Won_LDF",0);
+        details.put("Won_NDA",0);
+        details.put("Won_OTH",0);
+        details.put("Total_Leads",0);
+        details.put("Total_Wons",0);
+        while (cur.moveToNext()) {
+            details.put("Total_Leads", details.get("Total_Leads") + 1);
+            if (cur.getInt(cur.getColumnIndex("domain_status")) == 0) {
+                details.put("Total_Wons", details.get("Total_Wons") + 1);
+                if (cur.getInt(cur.getColumnIndex("party_panel")) == 1) {
+                    details.put("Won_UDF", details.get("Won_UDF") + 1);
+                } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 2) {
+                    details.put("Won_LDF", details.get("Won_LDF") + 1);
+                } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 3) {
+                    details.put("Won_NDA", details.get("Won_NDA") + 1);
+                } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 4) {
+                    details.put("Won_OTH", details.get("Won_OTH") + 1);
+                }
+            }
+            if (cur.getInt(cur.getColumnIndex("party_panel")) == 1) {
+                details.put("Lead_UDF", details.get("Lead_UDF") + 1);
+            } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 2) {
+                details.put("Lead_LDF", details.get("Lead_LDF") + 1);
+            } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 3) {
+                details.put("Lead_NDA", details.get("Lead_NDA") + 1);
+            } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 4) {
+                details.put("Lead_OTH", details.get("Lead_OTH") + 1);
+            }
+        }
+        cur.close();
+        TabHome tabHome=new TabHome();
+        tabHome.setVoteSummery(details);
     }
     
     //To check favorite status - domains

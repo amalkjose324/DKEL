@@ -94,7 +94,9 @@ public class CandidatesCustomAdapter extends BaseAdapter {
             }
             //  getSupportFragmentManager().beginTransaction().detach(getVisibleFragment()).attach(getVisibleFragment()).commit();
         });
-        Picasso.with(context).load(candidate_details.get(position).get("image")).into(imageView);
+        Picasso.with(context).load(candidate_details.get(position).get("image"))
+                .transform(new RoundedTransformation(360, 0))
+                .into(imageView);
         return rowView;
     }
     public Fragment getVisibleFragment(){
