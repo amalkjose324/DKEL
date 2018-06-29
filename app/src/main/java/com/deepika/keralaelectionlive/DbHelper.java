@@ -237,6 +237,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushVoteSummery();
             }
 
             @Override
@@ -262,6 +263,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushVoteSummery();
             }
 
             @Override
@@ -283,6 +285,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushVoteSummery();
             }
 
             @Override

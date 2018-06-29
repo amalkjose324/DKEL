@@ -154,6 +154,7 @@ public class TabHome extends Fragment {
         }
     }
     public void setSize(TextView panel,TextView score,Float value,int count,int total){
+        value=value.isNaN()?0.0f:value;
         if(value==0.0){
             panel.setVisibility(View.GONE);
         }else{

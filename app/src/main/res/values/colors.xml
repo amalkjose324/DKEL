@@ -16,4 +16,9 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="transparent">#00ffffff</color>
+
+    <color name="ldf_red">#d62728</color>
+    <color name="udf_green">#0f823f</color>
+    <color name="nda_orange">#f37022</color>
+    <color name="oth_blue">#1f77b4</color>
 </resources>
