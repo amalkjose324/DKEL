@@ -92,7 +92,7 @@ public class CandidatesCustomAdapter extends BaseAdapter {
             party.setTextColor(Color.rgb(214,39,40));
             name.setTextColor(Color.rgb(214,39,40));
             candidate_layout.setBackgroundResource(R.drawable.bg_list_red);
-        }else if(candidate_details.get(position).get("panel").equals("UDF")){
+        }else if(candidate_details.get(position).get("panel").equals("NDA")){
             panel_code.setText("N\nD\nA");
             panel_code.setBackgroundColor(Color.rgb(243,112,34));
             party.setTextColor(Color.rgb(243,112,34));
