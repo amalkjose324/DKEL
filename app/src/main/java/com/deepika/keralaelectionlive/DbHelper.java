@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -147,7 +148,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushLeadingCandidateLDFList();
                 pushLeadingCandidateNDAList();
                 pushLeadingCandidateOTHList();
-
+                pushDomainWiseAnalysis();
                 pushWinnerCandidateAllList();
                 pushWinnerCandidateUDFList();
                 pushWinnerCandidateLDFList();
@@ -179,6 +180,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -199,6 +201,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -238,6 +241,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
                 pushVoteSummery();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -264,6 +268,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
                 pushVoteSummery();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -286,6 +291,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
                 pushVoteSummery();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -319,6 +325,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushLeadingCandidateNDAList();
                 pushLeadingCandidateOTHList();
                 pushWinnerCandidateAllList();
+                pushDomainWiseAnalysis();
                 pushWinnerCandidateUDFList();
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
@@ -346,6 +353,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -366,6 +374,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -405,6 +414,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -429,6 +439,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateUDFList();
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
+                pushDomainWiseAnalysis();
                 pushWinnerCandidateOTHList();
             }
 
@@ -450,6 +461,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateLDFList();
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -487,6 +499,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
                 pushVoteSummery();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -511,6 +524,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushWinnerCandidateNDAList();
                 pushWinnerCandidateOTHList();
                 pushVoteSummery();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -527,6 +541,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 pushLeadingCandidateNDAList();
                 pushLeadingCandidateOTHList();
                 pushVoteSummery();
+                pushDomainWiseAnalysis();
             }
 
             @Override
@@ -898,6 +913,26 @@ public class DbHelper extends SQLiteOpenHelper {
         cur.close();
         TabWinnerCandidatesOTH tabWinnerCandidatesOTH=new TabWinnerCandidatesOTH();
         tabWinnerCandidatesOTH.setListValues(candidate_names);
+    }
+
+    //To push to analysis summery
+    public void pushDomainWiseAnalysis() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (session.getSelectedDomain() != null) {
+            int domain_id = session.getSelectedDomain();
+            ArrayList<HashMap<String, String>> vote_details = new ArrayList<>();
+            vote_details.clear();
+            Cursor cur = db.rawQuery("SELECT `panel_name`,SUM(vote_votes) as `sum_votes` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `candidate_domain`=" + domain_id+" GROUP BY `panel_id`", null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("votes", cur.getString(cur.getColumnIndex("sum_votes")));
+                vote_details.add(details);
+            }
+            cur.close();
+            TabDomainWiseAnalysis tabDomainWiseAnalysis=new TabDomainWiseAnalysis();
+            tabDomainWiseAnalysis.setListValues(vote_details);
+        }
     }
 
     //To push Vote summery to home tab
