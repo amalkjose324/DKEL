@@ -691,7 +691,11 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
             ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
             candidate_names.clear();
-            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
             while (cur.moveToNext()) {
                 HashMap<String, String> details = new HashMap<>();
                 details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
@@ -702,9 +706,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
                 details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
                 candidate_names.add(details);
-
             }
             cur.close();
+        }
+        cursor.close();
             TabLeadingCandidatesAll tabLeadingCandidatesAll=new TabLeadingCandidatesAll();
             tabLeadingCandidatesAll.setListValues(candidate_names);
     }
@@ -714,20 +719,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=1 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `party_panel`=1 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabLeadingCandidatesUDF tabLeadingCandidatesUDF=new TabLeadingCandidatesUDF();
         tabLeadingCandidatesUDF.setListValues(candidate_names);
     }
@@ -736,20 +746,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=2 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `party_panel`=2 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabLeadingCandidatesLDF tabLeadingCandidatesLDF=new TabLeadingCandidatesLDF();
         tabLeadingCandidatesLDF.setListValues(candidate_names);
     }
@@ -759,20 +774,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=3 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `party_panel`=3 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabLeadingCandidatesNDA tabLeadingCandidatesNDA=new TabLeadingCandidatesNDA();
         tabLeadingCandidatesNDA.setListValues(candidate_names);
     }
@@ -782,20 +802,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  AND `party_panel`=4 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id`  GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `party_panel`=4 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabLeadingCandidatesOTH tabLeadingCandidatesOTH=new TabLeadingCandidatesOTH();
         tabLeadingCandidatesOTH.setListValues(candidate_names);
     }
@@ -806,20 +831,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `domain_status`=0 GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabWinnerCandidatesAll tabWinnerCandidatesAll=new TabWinnerCandidatesAll();
         tabWinnerCandidatesAll.setListValues(candidate_names);
     }
@@ -829,20 +859,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 AND `party_panel`=1 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `domain_status`=0 GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `panel_id`=1 AND `domain_status`=0 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabWinnerCandidatesUDF tabWinnerCandidatesUDF=new TabWinnerCandidatesUDF();
         tabWinnerCandidatesUDF.setListValues(candidate_names);
     }
@@ -851,20 +886,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 AND `party_panel`=2 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `domain_status`=0 GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `panel_id`=2 AND `domain_status`=0 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabWinnerCandidatesLDF tabWinnerCandidatesLDF=new TabWinnerCandidatesLDF();
         tabWinnerCandidatesLDF.setListValues(candidate_names);
     }
@@ -874,20 +914,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 AND `party_panel`=3 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `domain_status`=0 GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `panel_id`=3 AND `domain_status`=0 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabWinnerCandidatesNDA tabWinnerCandidatesNDA=new TabWinnerCandidatesNDA();
         tabWinnerCandidatesNDA.setListValues(candidate_names);
     }
@@ -897,20 +942,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
         candidate_names.clear();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 AND `party_panel`=4 AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_status`=0 GROUP BY domain_id) ORDER BY `domain_name`",null);
-        while (cur.moveToNext()) {
-            HashMap<String, String> details = new HashMap<>();
-            details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-            details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-            details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-            details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-            details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-            details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-            details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-            candidate_names.add(details);
-
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `domain_status`=0 GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid=cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes=cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `panel_id`=4 AND `domain_status`=0 AND `domain_id`="+domainid+" AND `vote_votes`="+votes,null);
+            while (cur.moveToNext()) {
+                HashMap<String, String> details = new HashMap<>();
+                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                candidate_names.add(details);
+            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabWinnerCandidatesOTH tabWinnerCandidatesOTH=new TabWinnerCandidatesOTH();
         tabWinnerCandidatesOTH.setListValues(candidate_names);
     }
@@ -938,7 +988,6 @@ public class DbHelper extends SQLiteOpenHelper {
     //To push Vote summery to home tab
     public void pushVoteSummery() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND (`vote_votes`) IN( SELECT MAX(vote_votes) FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` GROUP BY domain_id) ORDER BY `domain_name`",null);
         HashMap<String, Integer> details = new HashMap<>();
         details.put("Lead_UDF",0);
         details.put("Lead_LDF",0);
@@ -950,31 +999,38 @@ public class DbHelper extends SQLiteOpenHelper {
         details.put("Won_OTH",0);
         details.put("Total_Leads",0);
         details.put("Total_Wons",0);
-        while (cur.moveToNext()) {
-            details.put("Total_Leads", details.get("Total_Leads") + 1);
-            if (cur.getInt(cur.getColumnIndex("domain_status")) == 0) {
-                details.put("Total_Wons", details.get("Total_Wons") + 1);
+        Cursor cursor = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes`,`domain_id` FROM `dkel_candidates`,`dkel_domains`,`dkel_votes` WHERE `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` GROUP BY `domain_id` ORDER BY `domain_name`;",null);
+        while (cursor.moveToNext()) {
+            int domainid = cursor.getInt(cursor.getColumnIndex("domain_id"));
+            int votes = cursor.getInt(cursor.getColumnIndex("vote_votes"));
+            Cursor cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `domain_id`=" + domainid + " AND `vote_votes`=" + votes, null);
+            while (cur.moveToNext()) {
+                details.put("Total_Leads", details.get("Total_Leads") + 1);
+                if (cur.getInt(cur.getColumnIndex("domain_status")) == 0) {
+                    details.put("Total_Wons", details.get("Total_Wons") + 1);
+                    if (cur.getInt(cur.getColumnIndex("party_panel")) == 1) {
+                        details.put("Won_UDF", details.get("Won_UDF") + 1);
+                    } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 2) {
+                        details.put("Won_LDF", details.get("Won_LDF") + 1);
+                    } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 3) {
+                        details.put("Won_NDA", details.get("Won_NDA") + 1);
+                    } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 4) {
+                        details.put("Won_OTH", details.get("Won_OTH") + 1);
+                    }
+                }
                 if (cur.getInt(cur.getColumnIndex("party_panel")) == 1) {
-                    details.put("Won_UDF", details.get("Won_UDF") + 1);
+                    details.put("Lead_UDF", details.get("Lead_UDF") + 1);
                 } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 2) {
-                    details.put("Won_LDF", details.get("Won_LDF") + 1);
+                    details.put("Lead_LDF", details.get("Lead_LDF") + 1);
                 } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 3) {
-                    details.put("Won_NDA", details.get("Won_NDA") + 1);
+                    details.put("Lead_NDA", details.get("Lead_NDA") + 1);
                 } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 4) {
-                    details.put("Won_OTH", details.get("Won_OTH") + 1);
+                    details.put("Lead_OTH", details.get("Lead_OTH") + 1);
                 }
             }
-            if (cur.getInt(cur.getColumnIndex("party_panel")) == 1) {
-                details.put("Lead_UDF", details.get("Lead_UDF") + 1);
-            } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 2) {
-                details.put("Lead_LDF", details.get("Lead_LDF") + 1);
-            } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 3) {
-                details.put("Lead_NDA", details.get("Lead_NDA") + 1);
-            } else if (cur.getInt(cur.getColumnIndex("party_panel")) == 4) {
-                details.put("Lead_OTH", details.get("Lead_OTH") + 1);
-            }
+            cur.close();
         }
-        cur.close();
+        cursor.close();
         TabHome tabHome=new TabHome();
         tabHome.setVoteSummery(details);
     }
