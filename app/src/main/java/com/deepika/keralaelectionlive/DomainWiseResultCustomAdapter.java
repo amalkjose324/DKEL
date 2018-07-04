@@ -66,25 +66,25 @@ public class DomainWiseResultCustomAdapter extends BaseAdapter {
         panel_code.setTextSize(16f);
         if(candidate_details.get(position).get("panel").equals("UDF")){
             panel_code.setText("U\nD\nF");
-            panel_code.setBackgroundColor(Color.rgb(15,130,63));
+            panel_code.setBackgroundResource(R.drawable.bg_rect_green);
             name.setTextColor(Color.rgb(15,130,63));
             party.setTextColor(Color.rgb(15,130,63));
             candidate_layout.setBackgroundResource(R.drawable.bg_list_green);
         }else if(candidate_details.get(position).get("panel").equals("LDF")){
             panel_code.setText("L\nD\nF");
-            panel_code.setBackgroundColor(Color.rgb(214,39,40));
+            panel_code.setBackgroundResource(R.drawable.bg_rect_red);
             party.setTextColor(Color.rgb(214,39,40));
             name.setTextColor(Color.rgb(214,39,40));
             candidate_layout.setBackgroundResource(R.drawable.bg_list_red);
         }else if(candidate_details.get(position).get("panel").equals("NDA")){
             panel_code.setText("N\nD\nA");
-            panel_code.setBackgroundColor(Color.rgb(243,112,34));
+            panel_code.setBackgroundResource(R.drawable.bg_rect_orange);
             party.setTextColor(Color.rgb(243,112,34));
             name.setTextColor(Color.rgb(243,112,34));
             candidate_layout.setBackgroundResource(R.drawable.bg_list_orange);
         }else {
             panel_code.setText("O\nT\nH");
-            panel_code.setBackgroundColor(Color.rgb(31,119,180));
+            panel_code.setBackgroundResource(R.drawable.bg_rect_blue);
             party.setTextColor(Color.rgb(31,119,180));
             name.setTextColor(Color.rgb(31,119,180));
             candidate_layout.setBackgroundResource(R.drawable.bg_list_blue);

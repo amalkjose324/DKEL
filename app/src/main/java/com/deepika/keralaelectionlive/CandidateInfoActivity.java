@@ -46,6 +46,7 @@ public static Context context;
         hello=(TextView)findViewById(R.id.hellotest);
         TextView tv=(TextView)findViewById(R.id.candidate_name);
         tv.setText(dbHelper.getSelectedCandidateName());
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         dbHelper.pushandidateDetails();
@@ -74,7 +75,6 @@ public static Context context;
         }
         back_pressed = System.currentTimeMillis();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

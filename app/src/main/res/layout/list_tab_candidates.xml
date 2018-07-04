@@ -12,7 +12,7 @@
     <TextView
         android:id="@+id/panel_code"
         android:layout_width="35dp"
-        android:layout_height="60dp"
+        android:layout_height="61dp"
         android:paddingLeft="3dp"
         android:text="U     D     F"
         android:layout_marginTop="1dp"/>
