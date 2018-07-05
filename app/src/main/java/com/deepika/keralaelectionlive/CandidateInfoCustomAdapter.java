@@ -51,12 +51,13 @@ public class CandidateInfoCustomAdapter extends BaseAdapter {
         View rowView=layoutInflater.inflate(R.layout.list_candidate_info,null);
         TextView name=(TextView)rowView.findViewById(R.id.candidate_name);
         TextView domain=(TextView)rowView.findViewById(R.id.candidate_domain);
-        LinearLayout candidate_layout=(LinearLayout)rowView.findViewById(R.id.candidate_layout) ;
+        RelativeLayout candidate_layout=(RelativeLayout)rowView.findViewById(R.id.candidate_layout) ;
         TextView panel_code=(TextView)rowView.findViewById(R.id.panel_code);
         TextView idText=(TextView)rowView.findViewById(R.id.candidate_id);
         TextView party=(TextView)rowView.findViewById(R.id.candidate_party);
         TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) candidate_layout.getLayoutParams();
         panel_code.setTextColor(Color.rgb(255,255,255));
         panel_code.setTextSize(16f);
         if(candidate_details.get(position).get("panel").equals("UDF")){
@@ -91,8 +92,7 @@ public class CandidateInfoCustomAdapter extends BaseAdapter {
         votes.setText(candidate_details.get(position).get("votes") );
         Picasso.with(context).load(candidate_details.get(position).get("image")).transform(new RoundedTransformation(360, 0)).into(imageView);
         if(selected_candidate_id==Integer.parseInt(candidate_details.get(position).get("id"))){
-//            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) findViewById(R.id.candidate_layout).getLayoutParams();
-//            params.setMargins(0,0,0,0);
+            params.setMargins(0,0,0,0);
         }
         return rowView;
     }

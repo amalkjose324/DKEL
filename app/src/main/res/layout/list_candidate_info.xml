@@ -6,13 +6,13 @@
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     android:descendantFocusability="blocksDescendants">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/candidate_layout"
         android:background="@drawable/bg_list_blue"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="horizontal">
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_marginTop="1dp"/>
     <ImageView
         android:id="@+id/icon_result"
-        android:layout_marginLeft="-20dp"
+        android:layout_marginLeft="15dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:padding="3dp"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-7dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="80dp"
             android:hint="Candidate Name"
             android:id="@+id/candidate_name"
             android:textColor="@color/colorAccent"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:hint="Domain"
             android:layout_marginBottom="-7dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="80dp"
             android:id="@+id/candidate_party"
             android:textColor="@color/dark_blue"
             android:textSize="18sp"/>
@@ -69,7 +69,7 @@
                 android:gravity="center|start"
                 android:layout_width="0dp"
                 android:layout_weight=".75"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="80dp"
                 android:layout_height="wrap_content"
                 android:hint="Party"
                 android:id="@+id/candidate_domain"
@@ -89,5 +89,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
