@@ -26,16 +26,6 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/candidate_name"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:text="Selected Candidate"
-            android:textStyle="bold"
-            android:background="@color/colorAccent"
-            android:textColor="@color/white"/>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_candidate_info" />

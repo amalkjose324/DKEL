@@ -649,6 +649,9 @@ public class DbHelper extends SQLiteOpenHelper {
         if (session.getSelectedCandidate() != null) {
             int candidate_id = session.getSelectedCandidate();
             int domain_id=0;
+            int rank=0;
+            int max_vote=0,second_vote=0;
+            int max_cand_id=0;
             Cursor cur;
             ArrayList<HashMap<String, String>> selected_candidate = new ArrayList<>();
             ArrayList<HashMap<String, String>> other_candidates = new ArrayList<>();
@@ -656,27 +659,52 @@ public class DbHelper extends SQLiteOpenHelper {
             cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `candidate_id`=" + candidate_id, null);
             while (cur.moveToNext()) {
                 domain_id=cur.getInt(cur.getColumnIndex("candidate_domain"));
-                HashMap<String, String> details = new HashMap<>();
-                details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
-                details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
-                details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
-                details.put("party", cur.getString(cur.getColumnIndex("party_name")));
-                details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
-                details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
-                details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
-                selected_candidate.add(details);
-
             }
-            cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `candidate_domain`= "+domain_id+" AND `candidate_id`<>" + candidate_id, null);
+            cur.close();
+            cur = db.rawQuery("SELECT MAX(`vote_votes`)AS `vote_votes`,`candidate_id` FROM `dkel_candidates`,`dkel_votes` WHERE `candidate_id`=`vote_id` AND `candidate_domain`= "+domain_id, null);
             while (cur.moveToNext()) {
+                max_vote=cur.getInt(cur.getColumnIndex("vote_votes"));
+                max_cand_id=cur.getInt(cur.getColumnIndex("candidate_id"));
+            }
+            cur.close();
+            cur = db.rawQuery("SELECT MAX(`vote_votes`) AS `vote_votes` FROM `dkel_candidates`,`dkel_votes` WHERE `candidate_id`=`vote_id` AND `candidate_domain`= "+domain_id+" AND `candidate_id`<>"+max_cand_id, null);
+            while (cur.moveToNext()) {
+                second_vote=cur.getInt(cur.getColumnIndex("vote_votes"));
+            }
+            cur.close();
+            cur = db.rawQuery("SELECT * FROM `dkel_candidates`,`dkel_domains`,`dkel_votes`,`dkel_parties`,`dkel_panels` WHERE `candidate_party`=`party_id` AND `candidate_domain`=`domain_id` AND `candidate_id`=`vote_id` AND `party_panel`=`panel_id` AND `candidate_domain`= "+domain_id+" ORDER BY `vote_votes` DESC", null);
+            while (cur.moveToNext()) {
+                rank++;
+                if(candidate_id==cur.getInt(cur.getColumnIndex("candidate_id"))){
+                    HashMap<String, String> details = new HashMap<>();
+                    details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                    details.put("rank", String.valueOf(rank));
+                    details.put("second_vote", String.valueOf(second_vote));
+                    details.put("max_vote", String.valueOf(max_vote));
+                    details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
+                    details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
+                    details.put("party", cur.getString(cur.getColumnIndex("party_name")));
+                    details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
+                    details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
+                    details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                    details.put("party_image", cur.getString(cur.getColumnIndex("party_image")));
+                    details.put("domain_status", cur.getString(cur.getColumnIndex("domain_status")));
+
+                    selected_candidate.add(details);
+                }
+
                 HashMap<String, String> details = new HashMap<>();
                 details.put("id", cur.getString(cur.getColumnIndex("candidate_id")));
+                details.put("rank", String.valueOf(rank));
+                details.put("max_vote", String.valueOf(max_vote));
+                details.put("second_vote", String.valueOf(second_vote));
                 details.put("name", cur.getString(cur.getColumnIndex("candidate_name")));
                 details.put("domain", cur.getString(cur.getColumnIndex("domain_name")));
                 details.put("party", cur.getString(cur.getColumnIndex("party_name")));
                 details.put("panel", cur.getString(cur.getColumnIndex("panel_name")));
                 details.put("image", cur.getString(cur.getColumnIndex("candidate_image")));
                 details.put("votes", cur.getString(cur.getColumnIndex("vote_votes")));
+                details.put("domain_status", cur.getString(cur.getColumnIndex("domain_status")));
                 other_candidates.add(details);
 
             }
