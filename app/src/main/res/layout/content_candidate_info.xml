@@ -11,8 +11,8 @@
     tools:showIn="@layout/app_bar_candidate_info">
 
     <LinearLayout
-        android:layout_width="match_parent"
         android:id="@+id/candi_border"
+        android:layout_width="match_parent"
         android:layout_height="230dp"
         android:layout_margin="7dp"
         android:background="@drawable/bg_list_red"
@@ -156,21 +156,21 @@
             </LinearLayout>
 
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="-3dp"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="3dp"
-                    android:layout_marginTop="-3dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="10dp"
-                    app:cardElevation="2dp"
-                    app:cardUseCompatPadding="true">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
 
-                        android:orientation="horizontal">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/party_image"
@@ -196,6 +196,7 @@
                             android:textColor="@color/colorAccent"
                             android:textSize="20sp"
                             android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/candidate_party"
                             android:layout_width="match_parent"
@@ -206,6 +207,7 @@
                             android:text="Party"
                             android:textColor="@color/dark_blue"
                             android:textSize="18sp" />
+
                         <TextView
                             android:id="@+id/candidate_domain"
                             android:layout_width="match_parent"
@@ -216,12 +218,16 @@
                             android:text="Domain"
                             android:textColor="@color/dark_blue"
                             android:textSize="18sp" />
-
-
                     </LinearLayout>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:focusable="true"
+        android:id="@+id/list_results"/>
 </LinearLayout>

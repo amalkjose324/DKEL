@@ -18,9 +18,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ public class CandidateInfoActivity extends AppCompatActivity
     public static TextView candi_name,candi_domain,candi_party,v_status,candi_total_vote,vote_diff,candi_panel,candi_pos;
     public static ImageView candidate_image,party_image;
     public static  LinearLayout candi_border;
+    public static ListView listView;
 public static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public static Context context;
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        listView=(ListView)findViewById(R.id.list_results);
         candidate_image=(ImageView)findViewById(R.id.candidate_image);
         party_image=(ImageView)findViewById(R.id.party_image);
 
@@ -68,6 +71,14 @@ public static Context context;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         dbHelper.pushandidateDetails();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView) view.findViewById(R.id.candidate_id);
+                dbHelper.setSessionCandidateId(Integer.parseInt(tv.getText().toString()));
+                dbHelper.pushandidateDetails();
+            }
+        });
     }
     private static long back_pressed;
     @Override
@@ -196,7 +207,7 @@ public static Context context;
                 String panel=h.get("panel").toString();
                 int vote=Integer.parseInt(h.get("votes").toString());
                 short domain_status=Short.parseShort(h.get("domain_status").toString());
-
+                int candi_id=Integer.parseInt(h.get("id").toString());
                 candi_name.setText(h.get("name").toString());
                 candi_domain.setText(h.get("domain").toString());
                 candi_party.setText(h.get("party").toString());
@@ -241,7 +252,6 @@ public static Context context;
                             vote_diff.setText(String.valueOf(diff_vote));
                             candi_pos.setTextColor(Color.rgb(15,130,63));
                         }
-
                     }else{
                         v_status.setText("Low By Votes");
                         v_status.setTextColor(Color.RED);
@@ -280,6 +290,7 @@ public static Context context;
                         .transform(new RoundedTransformation(360, 0))
                         .into(party_image);
 
+                listView.setAdapter(new CandidateInfoCustomAdapter(context, other_candidate,candi_id));
             }
 
         }
