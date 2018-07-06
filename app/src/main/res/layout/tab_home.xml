@@ -29,8 +29,8 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/ll2"
@@ -171,399 +171,416 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/layout_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:visibility="visible"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                card_view:cardBackgroundColor="#73818181">
-
-                <TextView
-                    android:id="@+id/lead"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Leading"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/cardview_light_background" />
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:id="@+id/card_leading"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                card_view:cardBackgroundColor="#CCFFFFFF">
-
-                <LinearLayout
-                    android:id="@+id/leadChart"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    card_view:cardBackgroundColor="#73818181">
 
-                    <LinearLayout
-                        android:id="@+id/ludf"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/lead"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.15"
-                            android:background="#0F823F"
-                            android:layout_marginRight="2dp"
-                            android:padding="7dp"
-                            android:text="UDF"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/ltvUdf"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/vote_bar_udf"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
+                        android:layout_gravity="center"
+                        android:text="Leading"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/cardview_light_background" />
 
-                        <TextView
-                            android:id="@+id/ltvUcount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-                    <LinearLayout
-                        android:id="@+id/lldf"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.15"
-                            android:background="#D62728"
-                            android:layout_marginRight="2dp"
-                            android:padding="7dp"
-                            android:text="LDF"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/ltvLdf"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/vote_bar_ldf"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/ltvLcount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/lnda"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.15"
-                            android:background="#F37022"
-                            android:layout_marginRight="2dp"
-                            android:padding="7dp"
-                            android:text="NDA"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/ltvNda"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/vote_bar_nda"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/ltvNcount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/loth"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.15"
-                            android:background="#1f77B4"
-                            android:layout_marginRight="2dp"
-                            android:padding="7dp"
-                            android:text="OTH"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/ltvOth"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity=""
-                            android:layout_marginBottom="2dp"
-                            android:layout_weight="0.5"
-                            android:background="@drawable/vote_bar_oth"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/ltvOcount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                card_view:cardBackgroundColor="#73818181">
-
-                <TextView
-                    android:id="@+id/won"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Won"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/cardview_light_background" />
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/wonCard"
-                android:layout_margin="8dp"
-                card_view:cardBackgroundColor="#CCFFFFFF">
-
-                <LinearLayout
-                    android:id="@+id/wonChart"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_leading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:layout_margin="8dp"
+                    card_view:cardBackgroundColor="#CCFFFFFF">
 
                     <LinearLayout
-                        android:id="@+id/udf"
+                        android:id="@+id/leadChart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.15"
-                            android:layout_marginBottom="2dp"
-                            android:background="#0F823F"
-                            android:padding="7dp"
-                            android:text="UDF"
-                            android:layout_marginRight="2dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/wtvUdf"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:layout_marginBottom="2dp"
-                            android:background="@drawable/vote_bar_udf"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                        <TextView
-                            android:id="@+id/wtvUcount"
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:id="@+id/ludf"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#0F823F"
+                                android:padding="7dp"
+                                android:text="UDF"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvUdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_udf"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvUcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lldf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#D62728"
+                                android:padding="7dp"
+                                android:text="LDF"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvLdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_ldf"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvLcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lnda"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#F37022"
+                                android:padding="7dp"
+                                android:text="NDA"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvNda"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_nda"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvNcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/loth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#1f77B4"
+                                android:padding="7dp"
+                                android:text="OTH"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvOth"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity=""
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_oth"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/ltvOcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
                     </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    card_view:cardBackgroundColor="#73818181">
+
+                    <TextView
+                        android:id="@+id/won"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Won"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@color/cardview_light_background" />
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/wonCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    card_view:cardBackgroundColor="#CCFFFFFF">
 
                     <LinearLayout
-                        android:id="@+id/ldf"
+                        android:id="@+id/wonChart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.15"
-                            android:layout_marginBottom="2dp"
-                            android:background="#D62728"
-                            android:padding="7dp"
-                            android:layout_marginRight="2dp"
-                            android:text="LDF"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/wtvLdf"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:layout_marginBottom="2dp"
-                            android:background="@drawable/vote_bar_ldf"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                        <TextView
-                            android:id="@+id/wtvLcount"
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:id="@+id/udf"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#0F823F"
+                                android:padding="7dp"
+                                android:text="UDF"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvUdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_udf"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvUcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ldf"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#D62728"
+                                android:padding="7dp"
+                                android:text="LDF"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvLdf"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_ldf"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvLcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/bjp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#F37022"
+                                android:padding="7dp"
+                                android:text="NDA"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvNda"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_nda"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvNcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/oth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="0.15"
+                                android:background="#1f77B4"
+                                android:padding="7dp"
+                                android:text="OTH"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvOth"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.5"
+                                android:background="@drawable/vote_bar_oth"
+                                android:padding="7dp"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textColor="#FFFFFF" />
+
+                            <TextView
+                                android:id="@+id/wtvOcount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:paddingLeft="5dp"
+                                android:text="0"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/bjp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.15"
-                            android:layout_marginBottom="2dp"
-                            android:background="#F37022"
-                            android:layout_marginRight="2dp"
-                            android:padding="7dp"
-                            android:text="NDA"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/wtvNda"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:layout_marginBottom="2dp"
-                            android:background="@drawable/vote_bar_nda"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/wtvNcount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/oth"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.15"
-                            android:layout_marginBottom="2dp"
-                            android:background="#1f77B4"
-                            android:padding="7dp"
-                            android:layout_marginRight="2dp"
-                            android:text="OTH"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-                        <TextView
-                            android:id="@+id/wtvOth"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:layout_marginBottom="2dp"
-                            android:background="@drawable/vote_bar_oth"
-                            android:padding="7dp"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="#FFFFFF" />
-
-                        <TextView
-                            android:id="@+id/wtvOcount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.3"
-                            android:paddingLeft="5dp"
-                            android:text="0"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

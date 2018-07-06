@@ -44,12 +44,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_config(config_id INTEGER PRIMARY KEY AUTOINCREMENT, config_key VARCHAR, config_value VARCHAR);");
-        db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('sync_date','1111-11-11 11:11:11')");
-        db.execSQL("INSERT INTO dkel_config(config_key,config_value) VALUES('pref_language',null)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS dkel_config(config_id INTEGER PRIMARY KEY AUTOINCREMENT, config_key VARCHAR UNIQUE, config_value VARCHAR);");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domain_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_domain_id INTEGER)");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidate_favourites(fav_id INTEGER PRIMARY KEY AUTOINCREMENT,fav_candidate_id INTEGER)");
-
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_candidates(candidate_id INTEGER PRIMARY KEY ,candidate_name VARCHAR,candidate_domain SMALLINT,candidate_image VARCHAR,candidate_party SMALLINT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_domains(domain_id INTEGER PRIMARY KEY ,domain_name VARCHAR,domain_status TINYINT)");
         db.execSQL("CREATE TABLE IF NOT EXISTS dkel_panels(panel_id INTEGER PRIMARY KEY,panel_name VARCHAR)");
@@ -62,40 +59,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONFIG);
         onCreate(db);
-    }
-
-    //To update sync date in android database
-    public void updateSyncDate(String date) {
-        if (date != null) {
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL("UPDATE dkel_config SET config_value='" + date + "' WHERE config_key='sync_date'");
-        }
-    }
-
-    //To get last sync date
-    public String getLastSyncDate() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT `config_value` FROM `dkel_config` WHERE `config_key`='sync_date'", null);
-        cur.moveToFirst();
-        return cur.getString(0);
-    }
-
-    //To test langusge selected
-    public String getLanguageSelected() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT `config_value` FROM `dkel_config` WHERE `config_key`='pref_language'", null);
-        if (cur.getCount() > 0) {
-            cur.moveToFirst();
-            return cur.getString(0);
-        } else {
-            return null;
-        }
-    }
-
-    //To set langusge
-    public void setLanguageSelected(String language) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE dkel_config SET config_value='" + language + "' WHERE config_key='pref_language'");
     }
 
     //To insert data to specified table
@@ -552,6 +515,45 @@ public class DbHelper extends SQLiteOpenHelper {
         });
     }
 
+    //TO GET VOTE DETAILS TABLE
+    public void getDataConfig() {
+        final String table = "dkel_config";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(table);
+        ref.keepSynced(true);
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                ContentValues values = new ContentValues();
+                DataConfig config=dataSnapshot.getValue(DataConfig.class);
+                values.put("config_key", config.config_key);
+                values.put("config_value", config.config_value);
+                insertData(table, values);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                ContentValues values = new ContentValues();
+                DataConfig config=dataSnapshot.getValue(DataConfig.class);
+                values.put("config_key", config.config_key);
+                values.put("config_value", config.config_value);
+                String condition = "config_key= '" + config.config_key+"'";
+                updateData(table, values, condition);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                DataConfig config=dataSnapshot.getValue(DataConfig.class);
+                String condition = "config_key= '" + config.config_key+"'";
+                deleteData(table, condition);
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
     //====================================== READ DATA FROM FIREBASE DATABSE ENDS HERE =========================================
 
     //To push to domain list view
@@ -1136,5 +1138,14 @@ public class DbHelper extends SQLiteOpenHelper {
             candidate_name=cur.getString(cur.getColumnIndex("candidate_name"));
         }
         return candidate_name;
+    }
+    public String getShareText(){
+        String text="";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT * FROM `dkel_config` WHERE `config_key`='config_share_text'", null);
+        if(cur.moveToNext()){
+            text=cur.getString(cur.getColumnIndex("config_value"));
+        }
+        return text;
     }
 }

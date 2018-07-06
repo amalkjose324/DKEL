@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         dbHelper=new DbHelper(MainActivity.this);
+        dbHelper.getDataConfig();
         dbHelper.getDataCandidates();
         dbHelper.getDataDomains();
         dbHelper.getDataVotes();
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_share) {
-            String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
+            String data = dbHelper.getShareText();
             final Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.setType("text/plain");
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_candidates) {
             mViewPager.setCurrentItem(2);
         } else if (id == R.id.nav_share) {
-            String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
+            String data = dbHelper.getShareText();
             final Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.setType("text/plain");
