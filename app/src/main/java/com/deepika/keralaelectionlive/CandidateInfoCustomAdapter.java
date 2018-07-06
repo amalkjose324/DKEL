@@ -50,12 +50,12 @@ public class CandidateInfoCustomAdapter extends BaseAdapter {
         final int candidate =Integer.parseInt(candidate_details.get(position).get("id"));
         View rowView=layoutInflater.inflate(R.layout.list_candidate_info,null);
         TextView name=(TextView)rowView.findViewById(R.id.candidate_name);
-        TextView domain=(TextView)rowView.findViewById(R.id.candidate_domain);
         RelativeLayout candidate_layout=(RelativeLayout)rowView.findViewById(R.id.candidate_layout) ;
         TextView panel_code=(TextView)rowView.findViewById(R.id.panel_code);
         TextView idText=(TextView)rowView.findViewById(R.id.candidate_id);
         TextView party=(TextView)rowView.findViewById(R.id.candidate_party);
         TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
+        TextView vote_diff=(TextView)rowView.findViewById(R.id.candidate_vote_diff);
         ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) candidate_layout.getLayoutParams();
         panel_code.setTextColor(Color.rgb(255,255,255));
@@ -86,10 +86,26 @@ public class CandidateInfoCustomAdapter extends BaseAdapter {
             candidate_layout.setBackgroundResource(R.drawable.bg_list_blue);
         }
         name.setText(candidate_details.get(position).get("name"));
-        domain.setText(candidate_details.get(position).get("domain"));
         idText.setText(candidate_details.get(position).get("id"));
         party.setText(candidate_details.get(position).get("party"));
-        votes.setText(candidate_details.get(position).get("votes") );
+        int cur_vote=Integer.parseInt(candidate_details.get(position).get("votes"));
+        int max_vote=Integer.parseInt(candidate_details.get(position).get("max_vote"));
+        votes.setText("Votes : "+cur_vote );
+        if(cur_vote<max_vote){
+            int diff=max_vote-cur_vote;
+            vote_diff.setText("-"+diff);
+            vote_diff.setTextColor(Color.RED);
+        }else{
+            int sec_vote=Integer.parseInt(candidate_details.get(position).get("second_vote"));
+            if(sec_vote==cur_vote){
+                vote_diff.setText("N/A");
+                vote_diff.setTextColor(Color.rgb(15,130,63));
+            }else {
+                int diff=cur_vote-sec_vote;
+                vote_diff.setText("+"+diff);
+                vote_diff.setTextColor(Color.rgb(15,130,63));
+            }
+        }
         Picasso.with(context).load(candidate_details.get(position).get("image")).transform(new RoundedTransformation(360, 0)).into(imageView);
         if(selected_candidate_id==Integer.parseInt(candidate_details.get(position).get("id"))){
             params.setMargins(0,0,0,0);

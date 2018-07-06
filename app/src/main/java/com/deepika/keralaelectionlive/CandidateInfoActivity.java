@@ -245,7 +245,7 @@ public static Context context;
                         int diff_vote=vote-second_vote;
                         vote_diff.setTextColor(Color.rgb(15,130,63));
                         if(diff_vote==0){
-                            vote_diff.setText("No Result (Tie)");
+                            vote_diff.setText("N/A (Tie)");
                             candi_pos.setText("1");
                             candi_pos.setTextColor(Color.rgb(15,130,63));
                         }else{
@@ -267,7 +267,7 @@ public static Context context;
                         int diff_vote=vote-second_vote;
                         vote_diff.setTextColor(Color.rgb(15,130,63));
                         if(diff_vote==0){
-                            vote_diff.setText("No Result (Tie)");
+                            vote_diff.setText("N/A (Tie)");
                             candi_pos.setText("1");
                             candi_pos.setTextColor(Color.rgb(15,130,63));
                         }else{

@@ -13,8 +13,10 @@
     <LinearLayout
         android:id="@+id/candi_border"
         android:layout_width="match_parent"
+        android:animateLayoutChanges="true"
         android:layout_height="230dp"
         android:layout_margin="7dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/bg_list_red"
         android:orientation="horizontal">
 
@@ -128,9 +130,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         app:cardCornerRadius="3dp"
+                        android:visibility="gone"
                         app:cardElevation="2dp"
                         app:cardUseCompatPadding="true">
-
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -139,7 +141,6 @@
                             android:text="Candidate Rank"
                             android:textColor="@color/dark_blue"
                             android:textSize="16sp" />
-
                         <TextView
                             android:id="@+id/candidate_position"
                             android:layout_width="match_parent"
@@ -225,8 +226,9 @@
     </LinearLayout>
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
+        android:layout_gravity="bottom"
         android:layout_marginRight="7dp"
         android:focusable="true"
         android:id="@+id/list_results"/>

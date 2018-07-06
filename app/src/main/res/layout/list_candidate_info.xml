@@ -68,22 +68,22 @@
                 android:layout_gravity="center|start"
                 android:gravity="center|start"
                 android:layout_width="0dp"
-                android:layout_weight=".75"
-                android:layout_marginLeft="80dp"
+                android:layout_weight=".65"
                 android:layout_height="wrap_content"
                 android:hint="Party"
-                android:id="@+id/candidate_domain"
+                android:paddingLeft="80dp"
+                android:id="@+id/candidate_votes"
                 android:textColor="@color/dark_blue"
                 android:textSize="17sp"/>
             <TextView
                 android:layout_gravity="center|start"
                 android:gravity="center|end"
                 android:layout_width="0dp"
-                android:layout_weight=".25"
+                android:layout_weight=".35"
                 android:layout_height="wrap_content"
                 android:hint="#votes"
                 android:paddingRight="15dp"
-                android:id="@+id/candidate_votes"
+                android:id="@+id/candidate_vote_diff"
                 android:textColor="@color/dark_blue"
                 android:textSize="17sp"/>
         </LinearLayout>
