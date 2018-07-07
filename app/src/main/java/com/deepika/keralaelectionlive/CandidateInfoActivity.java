@@ -121,7 +121,7 @@ public static Context context;
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_share) {
-            String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
+            String data = dbHelper.getShareText();
             final Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.setType("text/plain");
@@ -172,7 +172,7 @@ public static Context context;
             intent.putExtra("FRAGMENT_ID",2);
             startActivity(intent);
         }else if (id == R.id.nav_share) {
-            String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
+            String data = dbHelper.getShareText();
             final Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.setType("text/plain");

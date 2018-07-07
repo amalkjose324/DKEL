@@ -28,12 +28,14 @@ public class LeadingListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    DbHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leading_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dbHelper=new DbHelper(LeadingListActivity.this);
         int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", 0);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
@@ -95,7 +97,7 @@ public class LeadingListActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_share) {
-            String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
+            String data = dbHelper.getShareText();
             final Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.setType("text/plain");
@@ -145,7 +147,7 @@ public class LeadingListActivity extends AppCompatActivity
             intent.putExtra("FRAGMENT_ID",2);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
-            String data = "Deepika Election Live \n\n2016 നിയമസഭ തെരഞ്ഞെടുപ്പ്   ഫലം നിങ്ങളുടെ വിരൽതുമ്പിൽ\nDownload Now : https://play.google.com/store/apps/details?id=com.deepika.keralaelectionlive";
+            String data = dbHelper.getShareText();
             final Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.setType("text/plain");
