@@ -25,6 +25,7 @@
             app:title="@string/app_name">
             <TextView
                 android:gravity="center_vertical|end"
+                android:id="@+id/online_status"
                 android:visibility="visible"
                 android:textAlignment="center"
                 android:background="@drawable/offlinebg"

@@ -1,5 +1,6 @@
 package com.deepika.keralaelectionlive;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,13 +23,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DbHelper dbHelper;
+    public static  Context context;
+    private static final String Job_Tag = "my_job_tag";
+    public static TextView online_text;
+    private FirebaseJobDispatcher jobDispatcher;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -48,19 +62,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context=getApplicationContext();
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
+        online_text=(TextView)findViewById(R.id.online_status);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", 1);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        dbHelper=new DbHelper(MainActivity.this);
+        dbHelper = new DbHelper(MainActivity.this);
         dbHelper.getDataConfig();
         dbHelper.getDataCandidates();
         dbHelper.getDataDomains();
@@ -80,7 +97,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        jobDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
+        startJob();
     }
 
     @Override
@@ -90,6 +108,7 @@ public class MainActivity extends AppCompatActivity
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        stopJob();
                         MainActivity.this.finish();
                     }
                 })
@@ -146,10 +165,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_leading) {
-            Intent intent=new Intent(MainActivity.this,LeadingListActivity.class);
+            Intent intent = new Intent(MainActivity.this, LeadingListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_won) {
-            Intent intent=new Intent(MainActivity.this,WonListActivity.class);
+            Intent intent = new Intent(MainActivity.this, WonListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_home) {
             mViewPager.setCurrentItem(1);
@@ -219,13 +238,40 @@ public class MainActivity extends AppCompatActivity
             return 3;
         }
     }
-    public Fragment getVisibleFragment(){
+
+    public Fragment getVisibleFragment() {
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
-        for(Fragment fragment : fragments){
-            if(fragment != null && fragment.getUserVisibleHint())
+        for (Fragment fragment : fragments) {
+            if (fragment != null && fragment.getUserVisibleHint())
                 return (Fragment) fragment;
         }
         return null;
     }
+
+    public void startJob() {
+        Job job = jobDispatcher.newJobBuilder().
+                setService(OnlineStatusService.class).
+                setTag(Job_Tag).
+                setTrigger(Trigger.NOW).
+                build();
+        jobDispatcher.mustSchedule(job);
+    }
+
+    public void stopJob() {
+        jobDispatcher.cancel(Job_Tag);
+    }
+    public void setOnlineStatus(Boolean isOnline){
+//        if(context!=null) {
+            if (isOnline) {
+                Log.d("dkel:","online");
+                online_text.setText("Online");
+                online_text.setBackgroundResource(R.drawable.onlinebg);
+            } else {
+                Log.d("dkel:","offline");
+                online_text.setText("Offline");
+                online_text.setBackgroundResource(R.drawable.offlinebg);
+            }
+        }
+//    }
 }
