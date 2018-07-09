@@ -9,14 +9,23 @@ import java.io.IOException;
 public class OnlineStatusAdapter {
     Handler handler;
     private MainActivity mainActivity;
+    private CandidateInfoActivity candidateInfoActivity;
+    private DomainWiseActivity domainWiseActivity;
+    private LeadingListActivity leadingListActivity;
+    private WonListActivity wonListActivity;
     private Runnable myRunnable;
 
     public Boolean isOnline(){
         return checkOnline();
     }
-    
+
     public void Start() {
         mainActivity=new MainActivity();
+        candidateInfoActivity=new CandidateInfoActivity();
+        domainWiseActivity=new DomainWiseActivity();
+        leadingListActivity=new LeadingListActivity();
+        wonListActivity=new WonListActivity();
+
         handler = new Handler();
         final int delay = 10000;
         myRunnable = new Runnable() {
@@ -57,6 +66,11 @@ public class OnlineStatusAdapter {
 
 
     public void pushOnlineStatus(Boolean status){
+        Log.d("Status:",status.toString());
         mainActivity.setOnlineStatus(status);
+        candidateInfoActivity.setOnlineStatus(status);
+        domainWiseActivity.setOnlineStatus(status);
+        leadingListActivity.setOnlineStatus(status);
+        wonListActivity.setOnlineStatus(status);
     }
 }

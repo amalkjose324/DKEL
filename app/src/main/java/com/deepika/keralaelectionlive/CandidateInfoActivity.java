@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -38,11 +39,14 @@ public class CandidateInfoActivity extends AppCompatActivity
     public static ImageView candidate_image,party_image;
     public static  LinearLayout candi_border;
     public static ListView listView;
-public static Context context;
+    public static Context context;
+    public static TextView online_text;
+    OnlineStatusAdapter onlineStatusAdapter = new OnlineStatusAdapter();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_info);
+        online_text = (TextView) findViewById(R.id.online_status);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.context=getApplicationContext();
@@ -79,6 +83,7 @@ public static Context context;
                 dbHelper.pushandidateDetails();
             }
         });
+        setOnlineStatus(onlineStatusAdapter.isOnline());
     }
     private static long back_pressed;
     @Override
@@ -92,6 +97,7 @@ public static Context context;
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            onlineStatusAdapter.Stop();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
@@ -293,6 +299,18 @@ public static Context context;
                 listView.setAdapter(new CandidateInfoCustomAdapter(context, other_candidate,candi_id));
             }
 
+        }
+    }
+    public void setOnlineStatus(Boolean status) {
+        Log.d("Status-cand:",status.toString());
+        if (context != null) {
+            if (status) {
+                online_text.setText("Online");
+                online_text.setBackgroundResource(R.drawable.onlinebg);
+            } else {
+                online_text.setText("Offline");
+                online_text.setBackgroundResource(R.drawable.offlinebg);
+            }
         }
     }
 }

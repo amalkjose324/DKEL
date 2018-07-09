@@ -1,5 +1,6 @@
 package com.deepika.keralaelectionlive;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -31,10 +33,15 @@ public class WonListActivity extends AppCompatActivity
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     DbHelper dbHelper;
+    public static Context context;
+    public static TextView online_text;
+    OnlineStatusAdapter onlineStatusAdapter = new OnlineStatusAdapter();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_won_list);
+        context = getApplicationContext();
+        online_text = (TextView) findViewById(R.id.online_status);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dbHelper=new DbHelper(WonListActivity.this);
@@ -57,6 +64,7 @@ public class WonListActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        setOnlineStatus(onlineStatusAdapter.isOnline());
     }
 
     private static long back_pressed;
@@ -71,6 +79,7 @@ public class WonListActivity extends AppCompatActivity
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            onlineStatusAdapter.Stop();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
@@ -225,5 +234,16 @@ public class WonListActivity extends AppCompatActivity
                 return (Fragment) fragment;
         }
         return null;
+    }
+    public void setOnlineStatus(Boolean status) {
+        if (context != null) {
+            if (status) {
+                online_text.setText("Online");
+                online_text.setBackgroundResource(R.drawable.onlinebg);
+            } else {
+                online_text.setText("Offline");
+                online_text.setBackgroundResource(R.drawable.offlinebg);
+            }
+        }
     }
 }

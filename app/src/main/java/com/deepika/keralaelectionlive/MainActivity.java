@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
+        online_text = (TextView) findViewById(R.id.online_status);
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
-        online_text = (TextView) findViewById(R.id.online_status);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", 1);
         setSupportActionBar(toolbar);
