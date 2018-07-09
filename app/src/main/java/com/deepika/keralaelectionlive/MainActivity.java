@@ -38,10 +38,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DbHelper dbHelper;
-    public static  Context context;
-    private static final String Job_Tag = "my_job_tag";
+    public static Context context;
     public static TextView online_text;
-    private FirebaseJobDispatcher jobDispatcher;
+    OnlineStatusAdapter onlineStatusAdapter = new OnlineStatusAdapter();
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context=getApplicationContext();
+        context = getApplicationContext();
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
-        online_text=(TextView)findViewById(R.id.online_status);
+        online_text = (TextView) findViewById(R.id.online_status);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", 1);
         setSupportActionBar(toolbar);
@@ -97,8 +97,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        jobDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
-        startJob();
+
+        setOnlineStatus(onlineStatusAdapter.isOnline());
+
     }
 
     @Override
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        stopJob();
+                        onlineStatusAdapter.Stop();
                         MainActivity.this.finish();
                     }
                 })
@@ -249,29 +250,15 @@ public class MainActivity extends AppCompatActivity
         return null;
     }
 
-    public void startJob() {
-        Job job = jobDispatcher.newJobBuilder().
-                setService(OnlineStatusService.class).
-                setTag(Job_Tag).
-                setTrigger(Trigger.NOW).
-                build();
-        jobDispatcher.mustSchedule(job);
-    }
-
-    public void stopJob() {
-        jobDispatcher.cancel(Job_Tag);
-    }
-    public void setOnlineStatus(Boolean isOnline){
-//        if(context!=null) {
-            if (isOnline) {
-                Log.d("dkel:","online");
+    public void setOnlineStatus(Boolean status) {
+        if (context != null) {
+            if (status) {
                 online_text.setText("Online");
                 online_text.setBackgroundResource(R.drawable.onlinebg);
             } else {
-                Log.d("dkel:","offline");
                 online_text.setText("Offline");
                 online_text.setBackgroundResource(R.drawable.offlinebg);
             }
         }
-//    }
+    }
 }

@@ -1148,15 +1148,4 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return text;
     }
-    public void setOnlineStatus(Boolean isOnline){
-        if(isOnline){
-            MainActivity mainActivity=new MainActivity();
-            mainActivity.setOnlineStatus(true);
-            Log.d("DKEL: ","Online");
-        }else {
-            MainActivity mainActivity=new MainActivity();
-            mainActivity.setOnlineStatus(false);
-            Log.d("DKEL: ","Offline");
-        }
-    }
 }

@@ -19,6 +19,7 @@ public class TabHome extends Fragment {
     public static Context context;
     public static TextView ludf,lldf,lnda,loth,wudf,wldf,wnda,woth,ludf_val,lldf_val,lnda_val,loth_val,wudf_val,wldf_val,wnda_val,woth_val;
     DbHelper dbHelper;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
