@@ -87,7 +87,6 @@
         android:layout_height="35dp"/>
 
     <ImageView
-        android:id="@+id/user_profile_photo"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_below="@+id/login_title"
