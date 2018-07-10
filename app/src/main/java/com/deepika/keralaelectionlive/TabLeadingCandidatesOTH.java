@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class TabLeadingCandidatesOTH extends Fragment {
     public static ArrayList<HashMap<String,String>> candidate_names=new ArrayList<>();
@@ -51,11 +52,11 @@ public class TabLeadingCandidatesOTH extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 ArrayList<HashMap<String,String>> temp = new ArrayList<>();
-                String  text = editText.getText().toString().toLowerCase().trim();
+                String  text = editText.getText().toString().toLowerCase(Locale.ENGLISH).trim();
                 temp.clear();
                 for (int i = 0; i < candidate_names.size(); i++)
                 {
-                    if (candidate_names.get(i).get("name").toLowerCase().contains(text) || candidate_names.get(i).get("domain").toLowerCase().contains(text))
+                    if (candidate_names.get(i).get("name").toLowerCase(Locale.ENGLISH).contains(text) || candidate_names.get(i).get("domain").toLowerCase(Locale.ENGLISH).contains(text))
                     {
                         temp.add(candidate_names.get(i));
                     }
