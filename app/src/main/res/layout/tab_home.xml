@@ -23,9 +23,11 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:scaleType="fitXY"
+                android:id="@+id/abc"
                 android:src="@drawable/title" />
 
             <LinearLayout
+                android:id="@+id/layout_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -40,6 +42,7 @@
                     card_view:cardBackgroundColor="#73818181">
 
                     <TextView
+                        android:id="@+id/lead"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -57,12 +60,14 @@
                     card_view:cardBackgroundColor="#CCFFFFFF">
 
                     <LinearLayout
+                        android:id="@+id/leadChart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="5dp">
 
                         <LinearLayout
+                            android:id="@+id/ludf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -103,6 +108,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/lldf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -143,6 +149,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/lnda"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -183,6 +190,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/loth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -235,6 +243,7 @@
                     card_view:cardBackgroundColor="#73818181">
 
                     <TextView
+                        android:id="@+id/won"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -252,12 +261,14 @@
                     card_view:cardBackgroundColor="#CCFFFFFF">
 
                     <LinearLayout
+                        android:id="@+id/wonChart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="5dp">
 
                         <LinearLayout
+                            android:id="@+id/udf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -298,6 +309,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ldf"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -338,6 +350,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/bjp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -378,6 +391,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/oth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">

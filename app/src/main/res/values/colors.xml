@@ -3,11 +3,19 @@
     <color name="colorPrimary">#FF11487E</color>
     <color name="colorPrimaryDark">#FF154A7D</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="black_overlay">#66000000</color>
 
     <color name="red">#ff0000</color>
+    <color name="blue">#0000ff</color>
     <color name="dark_blue">#121e6b</color>
+    <color name="yellow">#FFFF99</color>
+    <color name="orange">#ff6600</color>
     <color name="green">#00ba03</color>
+    <color name="sky_blue">#00bffe</color>
+    <color name="wa_bg">#104241</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00ffffff</color>
 
     <color name="ldf_red">#d62728</color>
     <color name="udf_green">#0f823f</color>
