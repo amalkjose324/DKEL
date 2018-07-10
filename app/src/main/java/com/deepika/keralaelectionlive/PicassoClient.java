@@ -5,11 +5,8 @@ import android.widget.ImageView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.squareup.picasso.Cache;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 public class PicassoClient {
     public  static  void setImage(final Context context, final String imageUri, final ImageView img,final String name)

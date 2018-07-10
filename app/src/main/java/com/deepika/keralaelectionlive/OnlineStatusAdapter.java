@@ -2,7 +2,6 @@ package com.deepika.keralaelectionlive;
 
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 
