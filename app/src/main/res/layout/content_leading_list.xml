@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/domain_name"
             android:gravity="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="Leading Candidates"
             android:textStyle="bold"
             android:background="@color/colorAccent"

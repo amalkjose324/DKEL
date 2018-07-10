@@ -1118,6 +1118,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if(cur.moveToNext()){
             domain_name=cur.getString(cur.getColumnIndex("domain_name"));
         }
+        cur.close();
         return domain_name;
     }
     public void setSessionCandidateId(int candidateId) {
@@ -1131,6 +1132,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if(cur.moveToNext()){
             candidate_name=cur.getString(cur.getColumnIndex("candidate_name"));
         }
+        cur.close();
         return candidate_name;
     }
     public String getShareText(){
@@ -1140,6 +1142,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if(cur.moveToNext()){
             text=cur.getString(cur.getColumnIndex("config_value"));
         }
+        cur.close();
         return text;
     }
 }

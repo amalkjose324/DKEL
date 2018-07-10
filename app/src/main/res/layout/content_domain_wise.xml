@@ -55,7 +55,7 @@
             android:id="@+id/domain_name"
             android:hint="Selected Domain"
             android:gravity="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="Selected Domain"
             android:textStyle="bold"
             android:background="@color/colorAccent"
