@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
+        onlineStatusAdapter.Start();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", 1);
         setSupportActionBar(toolbar);
@@ -98,8 +99,23 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setOnlineStatus(onlineStatusAdapter.isOnline());
+    }
 
+    Boolean isPause=false;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onlineStatusAdapter.Stop();
+        isPause=true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isPause) {
+            onlineStatusAdapter.Start();
+            isPause=false;
+        }
     }
 
     @Override

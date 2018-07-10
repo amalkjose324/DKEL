@@ -107,7 +107,6 @@ public class TabDomainWiseAnalysis extends Fragment {
                     o_percentage.setText(String.format(Locale.CANADA, "%.1f",vote/total_votes*100)+"%");
                 }
             }
-            Toast.makeText(context,vote_values.toString(),Toast.LENGTH_SHORT).show();
             PieDataSet dataSet = new PieDataSet(vote_values, "");
             PieData data = new PieData(xVals, dataSet);
             data.setValueFormatter(new PercentFormatter());

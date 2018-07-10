@@ -42,6 +42,7 @@ public class WonListActivity extends AppCompatActivity
         setContentView(R.layout.activity_won_list);
         context = getApplicationContext();
         online_text = (TextView) findViewById(R.id.online_status);
+        onlineStatusAdapter.Start();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dbHelper=new DbHelper(WonListActivity.this);
@@ -64,9 +65,24 @@ public class WonListActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setOnlineStatus(onlineStatusAdapter.isOnline());
+
+    }
+    Boolean isPause=false;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onlineStatusAdapter.Stop();
+        isPause=true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isPause) {
+            onlineStatusAdapter.Start();
+            isPause=false;
+        }
+    }
     private static long back_pressed;
     @Override
     public void onBackPressed() {

@@ -43,6 +43,7 @@ public class DomainWiseActivity extends AppCompatActivity
         setContentView(R.layout.activity_domain_wise);
         context = getApplicationContext();
         online_text = (TextView) findViewById(R.id.online_status);
+        onlineStatusAdapter.Start();
         dbHelper=new DbHelper(DomainWiseActivity.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,7 +68,23 @@ public class DomainWiseActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setOnlineStatus(onlineStatusAdapter.isOnline());
+
+    }
+    Boolean isPause=false;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onlineStatusAdapter.Stop();
+        isPause=true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isPause) {
+            onlineStatusAdapter.Start();
+            isPause=false;
+        }
     }
     private static long back_pressed;
     @Override

@@ -74,8 +74,6 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     public void onPermissionsGranted(int requestCode){
-        OnlineStatusAdapter onlineStatusAdapter=new OnlineStatusAdapter();
-        onlineStatusAdapter.Start();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

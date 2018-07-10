@@ -47,9 +47,10 @@ public class CandidateInfoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_info);
         online_text = (TextView) findViewById(R.id.online_status);
+        this.context=getApplicationContext();
+        onlineStatusAdapter.Start();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.context=getApplicationContext();
         dbHelper = new DbHelper(CandidateInfoActivity.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,7 +84,23 @@ public class CandidateInfoActivity extends AppCompatActivity
                 dbHelper.pushandidateDetails();
             }
         });
-        setOnlineStatus(onlineStatusAdapter.isOnline());
+
+    }
+    Boolean isPause=false;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onlineStatusAdapter.Stop();
+        isPause=true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isPause) {
+            onlineStatusAdapter.Start();
+            isPause=false;
+        }
     }
     private static long back_pressed;
     @Override
@@ -302,7 +319,6 @@ public class CandidateInfoActivity extends AppCompatActivity
         }
     }
     public void setOnlineStatus(Boolean status) {
-        Log.d("Status-cand:",status.toString());
         if (context != null) {
             if (status) {
                 online_text.setText("Online");

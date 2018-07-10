@@ -15,9 +15,9 @@ public class OnlineStatusAdapter {
     private WonListActivity wonListActivity;
     private Runnable myRunnable;
 
-    public Boolean isOnline(){
-        return checkOnline();
-    }
+//    public Boolean isOnline(){
+//        return checkOnline();
+//    }
 
     public void Start() {
         mainActivity=new MainActivity();
@@ -25,9 +25,14 @@ public class OnlineStatusAdapter {
         domainWiseActivity=new DomainWiseActivity();
         leadingListActivity=new LeadingListActivity();
         wonListActivity=new WonListActivity();
-
+        pushOnlineStatus(checkOnline());
         handler = new Handler();
         final int delay = 10000;
+        try{
+            handler.removeCallbacks(myRunnable);
+        }catch (Exception e){
+            Log.d("Status: error--",e.toString());
+        }
         myRunnable = new Runnable() {
             public void run() {
                 try {
