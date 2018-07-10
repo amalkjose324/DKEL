@@ -29,15 +29,15 @@ public class TabDomains extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        this.context=getActivity();
+        context=getActivity();
         dbHelper=new DbHelper(getActivity());
         rootView = inflater.inflate(R.layout.tab_domains, container, false);
-        listView=(ListView)rootView.findViewById(R.id.list_results);
-        final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
+        listView= rootView.findViewById(R.id.list_results);
+        final EditText editText= rootView.findViewById(R.id.search_result);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv = (TextView) view.findViewById(R.id.result_id);
+                TextView tv = view.findViewById(R.id.result_id);
                 dbHelper.setSessionDomainId(Integer.parseInt(tv.getText().toString()));
                 Intent intent=new Intent(context,DomainWiseActivity.class);
                 context.startActivity(intent);
@@ -71,7 +71,7 @@ public class TabDomains extends Fragment {
     public void setListValues(ArrayList<HashMap<String,String>> arrayList){
         domain_names=arrayList;
         if(context!=null) {
-            listView = (ListView) rootView.findViewById(R.id.list_results);
+            listView = rootView.findViewById(R.id.list_results);
             listView.setAdapter(new DomainsCustomAdapter(context, arrayList));
         }
     }

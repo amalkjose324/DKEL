@@ -39,31 +39,31 @@ public class DomainWiseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_domain_wise);
         context = getApplicationContext();
-        online_text = (TextView) findViewById(R.id.online_status);
+        online_text = findViewById(R.id.online_status);
         onlineStatusAdapter.Start();
         dbHelper=new DbHelper(DomainWiseActivity.this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView tv=(TextView)findViewById(R.id.domain_name);
+        TextView tv= findViewById(R.id.domain_name);
         tv.setText(dbHelper.getSelectedDomainName());
         mSectionsPagerAdapter = new DomainWiseActivity.SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mViewPager.setCurrentItem(0);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
@@ -137,7 +137,7 @@ public class DomainWiseActivity extends AppCompatActivity
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
-            ImageButton close = (ImageButton) dialogView.findViewById(R.id.close);
+            ImageButton close = dialogView.findViewById(R.id.close);
             final AlertDialog alertDialog = builder.create();
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -189,7 +189,7 @@ public class DomainWiseActivity extends AppCompatActivity
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
-            ImageButton close = (ImageButton) dialogView.findViewById(R.id.close);
+            ImageButton close = dialogView.findViewById(R.id.close);
             final AlertDialog alertDialog = builder.create();
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,7 +200,7 @@ public class DomainWiseActivity extends AppCompatActivity
             alertDialog.show();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -240,7 +240,7 @@ public class DomainWiseActivity extends AppCompatActivity
         List<Fragment> fragments = fragmentManager.getFragments();
         for(Fragment fragment : fragments){
             if(fragment != null && fragment.getUserVisibleHint())
-                return (Fragment) fragment;
+                return fragment;
         }
         return null;
     }

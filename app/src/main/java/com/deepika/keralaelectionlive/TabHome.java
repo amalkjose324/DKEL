@@ -21,28 +21,28 @@ public class TabHome extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        this.context=getActivity();
+        context=getActivity();
         View rootView = inflater.inflate(R.layout.tab_home, container, false);
         dbHelper=new DbHelper(getActivity());
-        CardView leadingCard=(CardView)rootView.findViewById(R.id.card_leading);
-        CardView wonCard=(CardView)rootView.findViewById(R.id.wonCard);
-        ludf=(TextView) rootView.findViewById(R.id.ltvUdf);
-        lldf=(TextView)rootView.findViewById(R.id.ltvLdf);
-        lnda=(TextView)rootView.findViewById(R.id.ltvNda);
-        loth=(TextView)rootView.findViewById(R.id.ltvOth);
-        wudf=(TextView) rootView.findViewById(R.id.wtvUdf);
-        wldf=(TextView)rootView.findViewById(R.id.wtvLdf);
-        wnda=(TextView)rootView.findViewById(R.id.wtvNda);
-        woth=(TextView)rootView.findViewById(R.id.wtvOth);
+        CardView leadingCard= rootView.findViewById(R.id.card_leading);
+        CardView wonCard= rootView.findViewById(R.id.wonCard);
+        ludf= rootView.findViewById(R.id.ltvUdf);
+        lldf= rootView.findViewById(R.id.ltvLdf);
+        lnda= rootView.findViewById(R.id.ltvNda);
+        loth= rootView.findViewById(R.id.ltvOth);
+        wudf= rootView.findViewById(R.id.wtvUdf);
+        wldf= rootView.findViewById(R.id.wtvLdf);
+        wnda= rootView.findViewById(R.id.wtvNda);
+        woth= rootView.findViewById(R.id.wtvOth);
 
-        ludf_val=(TextView) rootView.findViewById(R.id.ltvUcount);
-        lldf_val=(TextView)rootView.findViewById(R.id.ltvLcount);
-        lnda_val=(TextView)rootView.findViewById(R.id.ltvNcount);
-        loth_val=(TextView)rootView.findViewById(R.id.ltvOcount);
-        wudf_val=(TextView) rootView.findViewById(R.id.wtvUcount);
-        wldf_val=(TextView)rootView.findViewById(R.id.wtvLcount);
-        wnda_val=(TextView)rootView.findViewById(R.id.wtvNcount);
-        woth_val=(TextView)rootView.findViewById(R.id.wtvOcount);
+        ludf_val= rootView.findViewById(R.id.ltvUcount);
+        lldf_val= rootView.findViewById(R.id.ltvLcount);
+        lnda_val= rootView.findViewById(R.id.ltvNcount);
+        loth_val= rootView.findViewById(R.id.ltvOcount);
+        wudf_val= rootView.findViewById(R.id.wtvUcount);
+        wldf_val= rootView.findViewById(R.id.wtvLcount);
+        wnda_val= rootView.findViewById(R.id.wtvNcount);
+        woth_val= rootView.findViewById(R.id.wtvOcount);
 
         dbHelper.pushVoteSummery();
         leadingCard.setOnClickListener(new View.OnClickListener() {

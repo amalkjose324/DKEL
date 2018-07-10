@@ -24,15 +24,15 @@ public class TabDomainWiseResult extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        this.context=getActivity();
+        context=getActivity();
         dbHelper=new DbHelper(getActivity());
         rootView = inflater.inflate(R.layout.tab_domainwise_result, container, false);
-        listView=(ListView)rootView.findViewById(R.id.list_results);
+        listView= rootView.findViewById(R.id.list_results);
         dbHelper.pushDomainWiseCandidateList();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               TextView tv = (TextView) view.findViewById(R.id.candidate_id);
+               TextView tv = view.findViewById(R.id.candidate_id);
                dbHelper.setSessionCandidateId(Integer.parseInt(tv.getText().toString()));
                Intent intent=new Intent(context,CandidateInfoActivity.class);
                context.startActivity(intent);
@@ -43,7 +43,7 @@ public class TabDomainWiseResult extends Fragment {
     public void setListValues(ArrayList<HashMap<String,String>> arrayList){
         candidate_names=arrayList;
         if(context!=null) {
-            listView = (ListView) rootView.findViewById(R.id.list_results);
+            listView = rootView.findViewById(R.id.list_results);
             listView.setAdapter(new DomainWiseResultCustomAdapter(context, arrayList));
         }
     }

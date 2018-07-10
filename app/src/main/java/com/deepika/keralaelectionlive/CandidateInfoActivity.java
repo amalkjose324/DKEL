@@ -42,40 +42,40 @@ public class CandidateInfoActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_info);
-        online_text = (TextView) findViewById(R.id.online_status);
-        this.context=getApplicationContext();
+        online_text = findViewById(R.id.online_status);
+        context=getApplicationContext();
         onlineStatusAdapter.Start();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dbHelper = new DbHelper(CandidateInfoActivity.this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        listView=(ListView)findViewById(R.id.list_results);
-        candidate_image=(ImageView)findViewById(R.id.candidate_image);
-        party_image=(ImageView)findViewById(R.id.party_image);
+        listView= findViewById(R.id.list_results);
+        candidate_image= findViewById(R.id.candidate_image);
+        party_image= findViewById(R.id.party_image);
 
-        candi_panel=(TextView)findViewById(R.id.candidate_panel);
-        candi_name=(TextView) findViewById(R.id.card_candidate_name);
-        candi_domain=(TextView)findViewById(R.id.candidate_domain);
-        candi_party=(TextView)findViewById(R.id.candidate_party);
-        v_status=(TextView)findViewById(R.id.vote_status);
-        vote_diff=(TextView)findViewById(R.id.candidate_vote_diff);
-        candi_total_vote=(TextView)findViewById(R.id.candidate_total_votes);
-        candi_pos=(TextView)findViewById(R.id.candidate_position);
+        candi_panel= findViewById(R.id.candidate_panel);
+        candi_name= findViewById(R.id.card_candidate_name);
+        candi_domain= findViewById(R.id.candidate_domain);
+        candi_party= findViewById(R.id.candidate_party);
+        v_status= findViewById(R.id.vote_status);
+        vote_diff= findViewById(R.id.candidate_vote_diff);
+        candi_total_vote= findViewById(R.id.candidate_total_votes);
+        candi_pos= findViewById(R.id.candidate_position);
 
-        candi_border=(LinearLayout)findViewById(R.id.candi_border);
+        candi_border= findViewById(R.id.candi_border);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         dbHelper.pushandidateDetails();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv = (TextView) view.findViewById(R.id.candidate_id);
+                TextView tv = view.findViewById(R.id.candidate_id);
                 dbHelper.setSessionCandidateId(Integer.parseInt(tv.getText().toString()));
                 dbHelper.pushandidateDetails();
             }
@@ -152,7 +152,7 @@ public class CandidateInfoActivity extends AppCompatActivity
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
-            ImageButton close = (ImageButton) dialogView.findViewById(R.id.close);
+            ImageButton close = dialogView.findViewById(R.id.close);
             final AlertDialog alertDialog = builder.create();
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -203,7 +203,7 @@ public class CandidateInfoActivity extends AppCompatActivity
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
-            ImageButton close = (ImageButton) dialogView.findViewById(R.id.close);
+            ImageButton close = dialogView.findViewById(R.id.close);
             final AlertDialog alertDialog = builder.create();
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -214,7 +214,7 @@ public class CandidateInfoActivity extends AppCompatActivity
             alertDialog.show();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

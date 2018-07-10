@@ -49,14 +49,14 @@ public class WinnerCandidatesCustomAdapter extends BaseAdapter {
     public View getView(final int position, View view, final ViewGroup parent) {
         final int candidate =Integer.parseInt(candidate_details.get(position).get("id"));
         View rowView=layoutInflater.inflate(R.layout.list_tab_leading_won_candidates,null);
-        TextView name=(TextView)rowView.findViewById(R.id.candidate_name);
-        RelativeLayout candidate_layout=(RelativeLayout)rowView.findViewById(R.id.candidate_layout) ;
-        TextView domain=(TextView)rowView.findViewById(R.id.candidate_domain);
-        TextView party=(TextView)rowView.findViewById(R.id.candidate_party);
-        TextView idText=(TextView)rowView.findViewById(R.id.result_id);
-        TextView panel_code=(TextView)rowView.findViewById(R.id.panel_code);
-        TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
-        ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
+        TextView name= rowView.findViewById(R.id.candidate_name);
+        RelativeLayout candidate_layout= rowView.findViewById(R.id.candidate_layout);
+        TextView domain= rowView.findViewById(R.id.candidate_domain);
+        TextView party= rowView.findViewById(R.id.candidate_party);
+        TextView idText= rowView.findViewById(R.id.result_id);
+        TextView panel_code= rowView.findViewById(R.id.panel_code);
+        TextView votes= rowView.findViewById(R.id.candidate_votes);
+        ImageView imageView= rowView.findViewById(R.id.icon_result);
         panel_code.setTextColor(Color.rgb(255,255,255));
         panel_code.setTextSize(16f);
         if(candidate_details.get(position).get("panel").equals("UDF")){
@@ -79,7 +79,7 @@ public class WinnerCandidatesCustomAdapter extends BaseAdapter {
             candidate_layout.setBackgroundResource(R.drawable.bg_list_orange);
         }else {
             panel_code.setText("O\nT\nH");
-            panel_code.setBackgroundResource(R.drawable.bg_rect_blue);;
+            panel_code.setBackgroundResource(R.drawable.bg_rect_blue);
             party.setTextColor(Color.rgb(31,119,180));
             name.setTextColor(Color.rgb(31,119,180));
             candidate_layout.setBackgroundResource(R.drawable.bg_list_blue);

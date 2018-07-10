@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mErrorString = new SparseIntArray();
-        mContentView = (ImageView) findViewById(R.id.fullscreen_content);
+        mContentView = findViewById(R.id.fullscreen_content);
         requestAppPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 R.string.runtime_permissions_txt,
                 REQUEST_PERMISSIONS);

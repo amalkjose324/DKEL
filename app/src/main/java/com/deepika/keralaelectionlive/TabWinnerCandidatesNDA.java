@@ -29,16 +29,16 @@ public class TabWinnerCandidatesNDA extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        this.context=getActivity();
+        context=getActivity();
         dbHelper=new DbHelper(getActivity());
         rootView = inflater.inflate(R.layout.tab_candidates, container, false);
-        listView=(ListView)rootView.findViewById(R.id.list_results);
+        listView= rootView.findViewById(R.id.list_results);
         dbHelper.pushWinnerCandidateNDAList();
-        final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
+        final EditText editText= rootView.findViewById(R.id.search_result);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tv = (TextView) view.findViewById(R.id.result_id);
+                TextView tv = view.findViewById(R.id.result_id);
                 dbHelper.setSessionCandidateId(Integer.parseInt(tv.getText().toString()));
                 Intent intent=new Intent(context,CandidateInfoActivity.class);
                 context.startActivity(intent);
@@ -73,7 +73,7 @@ public class TabWinnerCandidatesNDA extends Fragment {
     public void setListValues(ArrayList<HashMap<String,String>> arrayList){
         candidate_names=arrayList;
         if(context!=null) {
-            listView = (ListView) rootView.findViewById(R.id.list_results);
+            listView = rootView.findViewById(R.id.list_results);
             listView.setAdapter(new WinnerCandidatesCustomAdapter(context, arrayList));
         }
     }

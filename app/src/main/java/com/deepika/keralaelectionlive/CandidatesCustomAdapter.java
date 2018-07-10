@@ -57,15 +57,15 @@ public class CandidatesCustomAdapter extends BaseAdapter {
     public View getView(final int position, View view, final ViewGroup parent) {
         final int candidate =Integer.parseInt(candidate_details.get(position).get("id"));
         View rowView=layoutInflater.inflate(R.layout.list_tab_candidates,null);
-        TextView name=(TextView)rowView.findViewById(R.id.candidate_name);
-        RelativeLayout candidate_layout=(RelativeLayout)rowView.findViewById(R.id.candidate_layout) ;
-        TextView panel_code=(TextView)rowView.findViewById(R.id.panel_code);
-        TextView domain=(TextView)rowView.findViewById(R.id.candidate_domain);
-        TextView party=(TextView)rowView.findViewById(R.id.candidate_party);
-        TextView idText=(TextView)rowView.findViewById(R.id.result_id);
-        TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
-        ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
-        imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
+        TextView name= rowView.findViewById(R.id.candidate_name);
+        RelativeLayout candidate_layout= rowView.findViewById(R.id.candidate_layout);
+        TextView panel_code= rowView.findViewById(R.id.panel_code);
+        TextView domain= rowView.findViewById(R.id.candidate_domain);
+        TextView party= rowView.findViewById(R.id.candidate_party);
+        TextView idText= rowView.findViewById(R.id.result_id);
+        TextView votes= rowView.findViewById(R.id.candidate_votes);
+        ImageView imageView= rowView.findViewById(R.id.icon_result);
+        imageButton= rowView.findViewById(R.id.imgStar);
         if(fav_list.contains(candidate)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
@@ -130,7 +130,7 @@ public class CandidatesCustomAdapter extends BaseAdapter {
         List<Fragment> fragments = fragmentManager.getFragments();
         for(Fragment fragment : fragments){
             if(fragment != null && fragment.getUserVisibleHint())
-                return (Fragment) fragment;
+                return fragment;
         }
         return null;
     }

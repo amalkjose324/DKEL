@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
-        online_text = (TextView) findViewById(R.id.online_status);
+        online_text = findViewById(R.id.online_status);
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
         onlineStatusAdapter.Start();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         int fragmentId = getIntent().getIntExtra("FRAGMENT_ID", 1);
         setSupportActionBar(toolbar);
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         dbHelper = new DbHelper(MainActivity.this);
         dbHelper.getDataConfig();
@@ -76,18 +76,18 @@ public class MainActivity extends AppCompatActivity
         dbHelper.getDataVotes();
         dbHelper.getDataPanels();
         dbHelper.getDataParties();
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mViewPager.setCurrentItem(fragmentId);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
-            ImageButton close = (ImageButton) dialogView.findViewById(R.id.close);
+            ImageButton close = dialogView.findViewById(R.id.close);
             final AlertDialog alertDialog = builder.create();
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity
             View dialogView = inflater.inflate(R.layout.about, null);
             builder.setCancelable(false);
             builder.setView(dialogView);
-            ImageButton close = (ImageButton) dialogView.findViewById(R.id.close);
+            ImageButton close = dialogView.findViewById(R.id.close);
             final AlertDialog alertDialog = builder.create();
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity
             alertDialog.show();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity
         List<Fragment> fragments = fragmentManager.getFragments();
         for (Fragment fragment : fragments) {
             if (fragment != null && fragment.getUserVisibleHint())
-                return (Fragment) fragment;
+                return fragment;
         }
         return null;
     }

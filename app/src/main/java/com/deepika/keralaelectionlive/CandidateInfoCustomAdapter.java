@@ -48,14 +48,14 @@ public class CandidateInfoCustomAdapter extends BaseAdapter {
     public View getView(final int position, View view, final ViewGroup parent) {
         final int candidate =Integer.parseInt(candidate_details.get(position).get("id"));
         View rowView=layoutInflater.inflate(R.layout.list_candidate_info,null);
-        TextView name=(TextView)rowView.findViewById(R.id.candidate_name);
-        RelativeLayout candidate_layout=(RelativeLayout)rowView.findViewById(R.id.candidate_layout) ;
-        TextView panel_code=(TextView)rowView.findViewById(R.id.panel_code);
-        TextView idText=(TextView)rowView.findViewById(R.id.candidate_id);
-        TextView party=(TextView)rowView.findViewById(R.id.candidate_party);
-        TextView votes=(TextView)rowView.findViewById(R.id.candidate_votes);
-        TextView vote_diff=(TextView)rowView.findViewById(R.id.candidate_vote_diff);
-        ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
+        TextView name= rowView.findViewById(R.id.candidate_name);
+        RelativeLayout candidate_layout= rowView.findViewById(R.id.candidate_layout);
+        TextView panel_code= rowView.findViewById(R.id.panel_code);
+        TextView idText= rowView.findViewById(R.id.candidate_id);
+        TextView party= rowView.findViewById(R.id.candidate_party);
+        TextView votes= rowView.findViewById(R.id.candidate_votes);
+        TextView vote_diff= rowView.findViewById(R.id.candidate_vote_diff);
+        ImageView imageView= rowView.findViewById(R.id.icon_result);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) candidate_layout.getLayoutParams();
         panel_code.setTextColor(Color.rgb(255,255,255));
         panel_code.setTextSize(16f);

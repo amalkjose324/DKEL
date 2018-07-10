@@ -31,7 +31,7 @@ public class TabDomainWiseAnalysis extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        this.context=getActivity();
+        context=getActivity();
         dbHelper=new DbHelper(getActivity());
         rootView = inflater.inflate(R.layout.tab_domainwise_analysis, container, false);
         dbHelper.pushDomainWiseAnalysis();
@@ -39,19 +39,19 @@ public class TabDomainWiseAnalysis extends Fragment {
     }
     public void setListValues(ArrayList<HashMap<String,String>> arrayList){
         if(context!=null && arrayList.size()>0) {
-            pieChart =(PieChart) rootView.findViewById(R.id.domainwise_analysis_pie);
+            pieChart = rootView.findViewById(R.id.domainwise_analysis_pie);
             pieChart.setUsePercentValues(true);
             pieChart.setTransparentCircleRadius(30f);
             pieChart.setHoleRadius(30f);
-            u_vote=(TextView) rootView.findViewById(R.id.udf_vote);
-            l_vote=(TextView) rootView.findViewById(R.id.ldf_vote);
-            n_vote=(TextView) rootView.findViewById(R.id.nda_vote);
-            o_vote=(TextView) rootView.findViewById(R.id.oth_vote);
-            t_vote=(TextView) rootView.findViewById(R.id.total_votes);
-            u_percentage=(TextView) rootView.findViewById(R.id.udf_percentage);
-            l_percentage=(TextView) rootView.findViewById(R.id.ldf_percentage);
-            n_percentage=(TextView) rootView.findViewById(R.id.nda_percentage);
-            o_percentage=(TextView) rootView.findViewById(R.id.oth_percentage);
+            u_vote= rootView.findViewById(R.id.udf_vote);
+            l_vote= rootView.findViewById(R.id.ldf_vote);
+            n_vote= rootView.findViewById(R.id.nda_vote);
+            o_vote= rootView.findViewById(R.id.oth_vote);
+            t_vote= rootView.findViewById(R.id.total_votes);
+            u_percentage= rootView.findViewById(R.id.udf_percentage);
+            l_percentage= rootView.findViewById(R.id.ldf_percentage);
+            n_percentage= rootView.findViewById(R.id.nda_percentage);
+            o_percentage= rootView.findViewById(R.id.oth_percentage);
             vote_values.clear();
             xVals.clear();
             colour.clear();

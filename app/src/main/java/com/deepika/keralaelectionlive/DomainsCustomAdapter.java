@@ -52,10 +52,10 @@ public class DomainsCustomAdapter extends BaseAdapter {
     public View getView(final int position, View view, final ViewGroup parent) {
         final int domain_id =Integer.parseInt(domain_names.get(position).get("id"));
         View rowView=layoutInflater.inflate(R.layout.list_tab_domains,null);
-        TextView textView=(TextView)rowView.findViewById(R.id.result_text);
-        TextView idText=(TextView)rowView.findViewById(R.id.result_id);
-        ImageView imageView=(ImageView)rowView.findViewById(R.id.icon_result);
-        imageButton=(ImageButton)rowView.findViewById(R.id.imgStar);
+        TextView textView= rowView.findViewById(R.id.result_text);
+        TextView idText= rowView.findViewById(R.id.result_id);
+        ImageView imageView= rowView.findViewById(R.id.icon_result);
+        imageButton= rowView.findViewById(R.id.imgStar);
         if(fav_list.contains(domain_id)){
             imageButton.setImageResource(R.drawable.ic_star_gray_24dp);
         }
