@@ -17,29 +17,31 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class TabLeadingCandidatesNDA extends Fragment {
-    public static ArrayList<HashMap<String,String>> candidate_names=new ArrayList<>();
+    public static ArrayList<HashMap<String, String>> candidate_names = new ArrayList<>();
     public static Context context;
     ListView listView;
     DbHelper dbHelper;
     public static View rootView;
     final Handler handler = new Handler();
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        this.context=getActivity();
-        dbHelper=new DbHelper(getActivity());
+        this.context = getActivity();
+        dbHelper = new DbHelper(getActivity());
         rootView = inflater.inflate(R.layout.tab_candidates, container, false);
-        listView=(ListView)rootView.findViewById(R.id.list_results);
+        listView = (ListView) rootView.findViewById(R.id.list_results);
         dbHelper.pushLeadingCandidateNDAList();
-        final EditText editText=(EditText)rootView.findViewById(R.id.search_result);
+        final EditText editText = (EditText) rootView.findViewById(R.id.search_result);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view.findViewById(R.id.result_id);
                 dbHelper.setSessionCandidateId(Integer.parseInt(tv.getText().toString()));
-                Intent intent=new Intent(context,CandidateInfoActivity.class);
+                Intent intent = new Intent(context, CandidateInfoActivity.class);
                 context.startActivity(intent);
             }
         });
@@ -48,30 +50,31 @@ public class TabLeadingCandidatesNDA extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ArrayList<HashMap<String,String>> temp = new ArrayList<>();
-                String  text = editText.getText().toString().toLowerCase().trim();
+                ArrayList<HashMap<String, String>> temp = new ArrayList<>();
+                String text = editText.getText().toString().toLowerCase(Locale.ENGLISH).trim();
                 temp.clear();
-                for (int i = 0; i < candidate_names.size(); i++)
-                {
-                    if (candidate_names.get(i).get("name").toLowerCase().contains(text) || candidate_names.get(i).get("domain").toLowerCase().contains(text))
-                    {
+                for (int i = 0; i < candidate_names.size(); i++) {
+                    if (candidate_names.get(i).get("name").toLowerCase(Locale.ENGLISH).contains(text) || candidate_names.get(i).get("domain").toLowerCase(Locale.ENGLISH).contains(text)) {
                         temp.add(candidate_names.get(i));
                     }
 
                 }
-                listView.setAdapter(new LeadingCandidatesCustomAdapter(context,temp));
+                listView.setAdapter(new LeadingCandidatesCustomAdapter(context, temp));
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
             }
         });
         return rootView;
     }
-    public void setListValues(ArrayList<HashMap<String,String>> arrayList){
-        candidate_names=arrayList;
-        if(context!=null) {
+
+    public void setListValues(ArrayList<HashMap<String, String>> arrayList) {
+        candidate_names = arrayList;
+        if (context != null) {
             listView = (ListView) rootView.findViewById(R.id.list_results);
             listView.setAdapter(new LeadingCandidatesCustomAdapter(context, arrayList));
         }

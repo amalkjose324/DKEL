@@ -30,7 +30,7 @@
             android:text="L     D     F"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="21dp"
+            android:textSize="21sp"
             android:textStyle="bold" />
 
         <LinearLayout

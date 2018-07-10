@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class TabDomains extends Fragment {
     public static ArrayList<HashMap<String,String>> domain_names=new ArrayList<>();
@@ -50,11 +51,11 @@ public class TabDomains extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 ArrayList<HashMap<String,String>> temp = new ArrayList<HashMap<String,String>>();
-                String  text = editText.getText().toString().toLowerCase().trim();
+                String  text = editText.getText().toString().toLowerCase(Locale.ENGLISH).trim();
                 temp.clear();
                 for (int i = 0; i < domain_names.size(); i++)
                 {
-                    if (domain_names.get(i).get("name").toLowerCase().contains(text))
+                    if (domain_names.get(i).get("name").toLowerCase(Locale.ENGLISH).contains(text))
                     {
                         temp.add(domain_names.get(i));
                     }
