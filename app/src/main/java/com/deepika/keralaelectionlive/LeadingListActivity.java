@@ -24,6 +24,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.deepika.keralaelectionlive.Adapters.OnlineStatusAdapter;
+import com.deepika.keralaelectionlive.DatabaseResources.DbHelper;
+import com.deepika.keralaelectionlive.TabActivities.TabLeadingCandidatesAll;
+import com.deepika.keralaelectionlive.TabActivities.TabLeadingCandidatesLDF;
+import com.deepika.keralaelectionlive.TabActivities.TabLeadingCandidatesNDA;
+import com.deepika.keralaelectionlive.TabActivities.TabLeadingCandidatesOTH;
+import com.deepika.keralaelectionlive.TabActivities.TabLeadingCandidatesUDF;
+
 import java.util.List;
 
 public class LeadingListActivity extends AppCompatActivity

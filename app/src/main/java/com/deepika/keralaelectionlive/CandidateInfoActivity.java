@@ -23,6 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.deepika.keralaelectionlive.Adapters.CandidateInfoCustomAdapter;
+import com.deepika.keralaelectionlive.Adapters.OnlineStatusAdapter;
+import com.deepika.keralaelectionlive.DatabaseResources.DbHelper;
+import com.deepika.keralaelectionlive.Extras.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -101,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
     }
     public void getData(){
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        this.startActivity(intent);
+        startActivity(intent);
         this.finish();
     }
 }

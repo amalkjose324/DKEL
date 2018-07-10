@@ -24,6 +24,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.deepika.keralaelectionlive.Adapters.OnlineStatusAdapter;
+import com.deepika.keralaelectionlive.DatabaseResources.DbHelper;
+import com.deepika.keralaelectionlive.TabActivities.TabCandidates;
+import com.deepika.keralaelectionlive.TabActivities.TabDomains;
+import com.deepika.keralaelectionlive.TabActivities.TabHome;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity

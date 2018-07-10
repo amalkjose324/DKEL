@@ -24,6 +24,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.deepika.keralaelectionlive.Adapters.OnlineStatusAdapter;
+import com.deepika.keralaelectionlive.DatabaseResources.DbHelper;
+import com.deepika.keralaelectionlive.TabActivities.TabDomainWiseAnalysis;
+import com.deepika.keralaelectionlive.TabActivities.TabDomainWiseResult;
+
 import java.util.List;
 
 public class DomainWiseActivity extends AppCompatActivity
