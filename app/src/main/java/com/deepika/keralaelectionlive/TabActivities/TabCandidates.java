@@ -50,6 +50,7 @@ public class TabCandidates extends Fragment {
                 context.startActivity(intent);
             }
         });
+
         editText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -75,7 +76,7 @@ public class TabCandidates extends Fragment {
             }
         });
 
-        final FloatingActionButton fab_open = (FloatingActionButton) rootView.findViewById(R.id.search_open_btn);
+        closeKeyBoard(); final FloatingActionButton fab_open = (FloatingActionButton) rootView.findViewById(R.id.search_open_btn);
         final FloatingActionButton fab_close = (FloatingActionButton) rootView.findViewById(R.id.search_close_btn);
         fab_open.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,7 @@ public class TabCandidates extends Fragment {
                 fab_close.setVisibility(View.VISIBLE);
                 try {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
                 } catch (Exception e) {
                 }
             }
@@ -97,13 +98,9 @@ public class TabCandidates extends Fragment {
             public void onClick(View view) {
                 fab_close.setVisibility(View.GONE);
                 editText.setVisibility(View.GONE);
-                editText.setEnabled(false);
+                editText.setEnabled(false);editText.setText("");
                 fab_open.setVisibility(View.VISIBLE);
-                try {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-                } catch (Exception e) {
-                }
+                closeKeyBoard();
             }
         });
 
@@ -114,6 +111,14 @@ public class TabCandidates extends Fragment {
         if(context!=null) {
             listView = rootView.findViewById(R.id.list_results);
             listView.setAdapter(new CandidatesCustomAdapter(context, arrayList));
+        }
+    }
+    public void closeKeyBoard(){
+        try {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            // TODO: handle exception
         }
     }
 }
