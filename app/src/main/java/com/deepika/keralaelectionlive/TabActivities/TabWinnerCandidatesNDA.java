@@ -75,8 +75,8 @@ public class TabWinnerCandidatesNDA extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-        closeKeyBoard(); final FloatingActionButton fab_open = (FloatingActionButton) rootView.findViewById(R.id.search_open_btn);
-        final FloatingActionButton fab_close = (FloatingActionButton) rootView.findViewById(R.id.search_close_btn);
+        closeKeyBoard(); final FloatingActionButton fab_open = rootView.findViewById(R.id.search_open_btn);
+        final FloatingActionButton fab_close = rootView.findViewById(R.id.search_close_btn);
         fab_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
