@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -71,6 +73,37 @@ public class TabWinnerCandidatesNDA extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable editable) {
+            }
+        });
+        final FloatingActionButton fab_open = (FloatingActionButton) rootView.findViewById(R.id.search_open_btn);
+        final FloatingActionButton fab_close = (FloatingActionButton) rootView.findViewById(R.id.search_close_btn);
+        fab_open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab_open.setVisibility(View.GONE);
+                editText.setVisibility(View.VISIBLE);
+                editText.setEnabled(true);
+                editText.requestFocus();
+                fab_close.setVisibility(View.VISIBLE);
+                try {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                } catch (Exception e) {
+                }
+            }
+        });
+        fab_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fab_close.setVisibility(View.GONE);
+                editText.setVisibility(View.GONE);
+                editText.setEnabled(false);
+                fab_open.setVisibility(View.VISIBLE);
+                try {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                }
             }
         });
         return rootView;

@@ -28,10 +28,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/search_result"
+                android:visibility="gone"
                 android:gravity="center"
                 android:hint="Search here"
                 android:inputType="textNoSuggestions"
@@ -46,6 +48,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </RelativeLayout>
+
         </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/search_open_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/colorAccent"
+            app:elevation="5dp"
+            app:srcCompat="@android:drawable/ic_menu_search" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/search_close_btn"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/colorAccent"
+            app:elevation="5dp"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
     </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>
